@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deepak Agency & Readymades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Mukta:wght@400;500;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a quiet warm-white wholesale storefront; the logo's triangle mosaic is the one loud element (hero panel), everything else is calm type and cards. */
+:root{
+  --red:#D42A2F;
+  --gold:#F2B51C;
+  --plum:#5A1E4E;
+  --orange:#EE7D1E;
+  --ink:#251B22;
+  --paper:#FFFCF8;
+  --card:#FFFFFF;
+  --muted:#6F6069;
+  --line:#ECE2DC;
+  --tint:#F8F1EC;
+  --ok:#1F8A4C;
+  --warn:#C46A00;
+  --display:"Fraunces","Rozha One",Georgia,serif;
+  --body:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --deva:"Rozha One","Mukta",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance;font-weight:700}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.brand img{width:34px;height:auto}
+.brand b{font-family:var(--display);font-weight:800;color:var(--red);font-size:24px;letter-spacing:-.01em;line-height:1}
+.brand small{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:600;margin-top:3px}
+nav.main{display:flex;gap:4px;margin-left:auto}
+nav.main a{text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:500;color:var(--muted)}
+nav.main a:hover{color:var(--ink);background:var(--tint)}
+nav.main a.on{color:var(--ink);background:var(--tint)}
+.cartlink{position:relative}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:700;margin-left:4px;vertical-align:1px}
+.badge[data-n="0"]{display:none}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--card);flex-shrink:0}
+.lang button{border:0;background:none;padding:4px 10px;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)}
+.lang button.on{background:var(--plum);color:#fff}
+
+/* views */
+[data-view]{display:none}
+[data-view].show{display:block}
+main{padding-bottom:40px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:56px 0 40px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum)}
+.kicker::before{content:"";width:22px;height:3px;background:var(--gold);border-radius:2px}
+.hero h1{font-size:clamp(38px,5.4vw,66px);font-weight:800;letter-spacing:-.025em;margin:16px 0 18px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p.sub{font-size:19px;color:var(--muted);max-width:52ch;margin:0 0 28px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 22px;font-weight:600;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--red);color:#fff}
+.btn.primary:hover{background:#B91F24}
+.btn.wa{background:#1F8A4C;color:#fff}
+.btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.btn.block{width:100%}
+.btn svg{width:18px;height:18px}
+.mosaic{position:relative;aspect-ratio:1/1.02;border-radius:28px;overflow:hidden;background:var(--plum);box-shadow:0 30px 60px -30px rgba(90,30,78,.55)}
+.mosaic canvas{position:absolute;inset:0;width:100%;height:100%}
+.mosaic .seal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--paper);border-radius:22px;padding:26px 30px 22px;text-align:center;width:min(76%,330px);box-shadow:0 20px 40px -20px rgba(0,0,0,.45)}
+.seal img{width:84px;margin:0 auto 10px}
+.seal .since{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.seal .motto{font-family:var(--deva);font-size:clamp(26px,3vw,34px);color:var(--plum);line-height:1.25;margin:6px 0 4px}
+.seal .motto-en{font-size:14px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:8px 0 0}
+.stat{padding:22px 18px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{display:block;font-family:var(--display);font-size:34px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:15px}
+
+/* sections */
+section.block{padding:56px 0 8px}
+.sechead{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sechead h2{font-size:clamp(28px,3.4vw,38px);letter-spacing:-.015em}
+.sechead p{margin:6px 0 0;color:var(--muted)}
+.link{color:var(--red);font-weight:600;text-decoration:none;cursor:pointer;background:none;border:0;padding:0}
+.link:hover{text-decoration:underline}
+
+/* departments */
+.depts{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.dept{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s}
+.dept:hover{border-color:var(--d);transform:translateY(-2px)}
+.dept .ico{aspect-ratio:1.25/1;border-radius:12px;background:color-mix(in srgb,var(--d) 13%,var(--paper));display:grid;place-items:center}
+.dept .ico svg{width:58%;height:auto}
+.dept b{font-weight:700;font-size:16.5px;line-height:1.2}
+.dept span{font-size:14px;color:var(--muted)}
+
+/* brands */
+.brands{display:flex;flex-wrap:wrap;gap:10px}
+.brandchip{border:1px solid var(--line);background:var(--card);padding:10px 18px;border-radius:999px;font-weight:600;cursor:pointer}
+.brandchip:hover{border-color:var(--plum);color:var(--plum)}
+
+/* how + why */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.how div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.how div::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:var(--display);font-weight:800;font-size:18px;margin-bottom:12px}
+.how p{margin:0}
+.band{background:var(--plum);color:#fff;border-radius:28px;padding:40px;display:grid;grid-template-columns:1fr 1.3fr;gap:32px;margin-top:56px}
+.band h2{font-size:clamp(28px,3.4vw,40px)}
+.band h2 span{color:var(--gold)}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:18px 26px}
+.why b{display:block;font-size:17px;margin-bottom:2px}
+.why p{margin:0;color:#E9D7E3;font-size:15.5px}
+
+/* catalogue */
+.notice{display:flex;gap:10px;align-items:center;background:color-mix(in srgb,var(--gold) 16%,var(--paper));border:1px solid color-mix(in srgb,var(--gold) 45%,var(--paper));padding:10px 14px;border-radius:12px;font-size:15px;margin-bottom:18px}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:13px;font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 12px;width:100%}
+.field textarea{min-height:84px;resize:vertical}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-weight:500;font-size:15px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.resultline{color:var(--muted);font-size:15px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0;transition:transform .15s,box-shadow .15s}
+.pcard:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(37,27,34,.35)}
+.pimg{position:relative;aspect-ratio:1/1;background:var(--pbg);display:grid;place-items:center}
+.pimg svg{width:56%;height:auto;filter:drop-shadow(0 8px 10px rgba(0,0,0,.12))}
+.pimg .tag{position:absolute;top:10px;left:10px;background:var(--card);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600}
+.pimg .tag.low{background:var(--warn);color:#fff}
+.pbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pbrand{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.pname{font-weight:600;font-size:16.5px;line-height:1.25}
+.pmeta{font-size:13.5px;color:var(--muted)}
+.prow{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:8px}
+.price{font-family:var(--display);font-weight:800;font-size:22px}
+.price small{font-family:var(--body);font-weight:500;font-size:13px;color:var(--muted)}
+.sizes{display:flex;flex-wrap:wrap;gap:4px}
+.sizes span{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:0 6px;color:var(--muted)}
+.empty{padding:50px 20px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
+
+/* sheet / modal */
+.scrim{position:fixed;inset:0;background:rgba(37,27,34,.5);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.scrim.open{display:flex}
+.sheet{background:var(--paper);border-radius:22px;width:min(860px,100%);max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1.1fr}
+.sheet .pimg{aspect-ratio:auto;min-height:100%}
+.sheet .pimg svg{width:62%}
+.sheetbody{padding:26px;display:flex;flex-direction:column;gap:12px;position:relative}
+.close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:22px;line-height:1}
+.sheetbody h3{font-size:28px;padding-right:40px}
+.sizetable{width:100%;border-collapse:collapse}
+.sizetable th{text-align:left;font-size:13px;color:var(--muted);font-weight:600;padding:6px 0;border-bottom:1px solid var(--line)}
+.sizetable td{padding:8px 0;border-bottom:1px solid var(--line)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.stepper button{width:34px;height:34px;border:0;background:none;cursor:pointer;font-size:18px;font-weight:600}
+.stepper input{width:46px;text-align:center;border:0;background:none;padding:0;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stock-ok{color:var(--ok);font-weight:600}
+.stock-low{color:var(--warn);font-weight:600}
+.sumline{display:flex;justify-content:space-between;font-weight:600}
+
+/* cart */
+.cartgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start}
+.cline{display:grid;grid-template-columns:72px 1fr auto;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
+.cline .thumb{border-radius:10px;background:var(--pbg);display:grid;place-items:center;aspect-ratio:1}
+.cline .thumb svg{width:66%}
+.cline .sz{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cline .sz span{background:var(--tint);border-radius:8px;padding:2px 8px;font-size:14px}
+.cline .amt{text-align:right;font-weight:700}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px;position:sticky;top:86px}
+.panel .tot{font-family:var(--display);font-size:30px;font-weight:800}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+pre.ordertext{white-space:pre-wrap;background:var(--tint);border-radius:12px;padding:12px;font-size:13.5px;max-height:220px;overflow:auto;margin:0;font-family:ui-monospace,Menlo,monospace}
+
+/* account / about / contact */
+.formcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;max-width:560px;display:grid;gap:14px}
+.welcomecard{background:var(--plum);color:#fff;border-radius:20px;padding:26px;max-width:560px;display:grid;gap:8px}
+.welcomecard .shop{font-family:var(--display);font-size:30px;font-weight:800}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:start}
+.prose p{margin:0 0 14px;max-width:62ch}
+.facts{display:grid;gap:12px}
+.fact{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.fact .i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--tint);color:var(--red);flex-shrink:0}
+.fact .i svg{width:22px;height:22px}
+.fact b{display:block}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:60}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* footer */
+footer{margin-top:64px;background:var(--ink);color:#E8DEE3;position:relative}
+footer::before{content:"";display:block;height:8px;background:repeating-linear-gradient(90deg,var(--red) 0 40px,var(--orange) 40px 80px,var(--gold) 80px 120px,var(--plum) 120px 160px)}
+footer .wrap{display:grid;grid-template-columns:auto 1fr 1fr;gap:36px;padding:40px 20px 110px}
+footer .flogo{background:var(--paper);border-radius:16px;padding:12px;width:132px}
+footer h4{margin:0 0 8px;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+footer p{margin:0 0 6px}
+footer a{color:#fff}
+
+/* floating WA + bottom nav */
+.fab{position:fixed;right:20px;bottom:20px;z-index:40;width:56px;height:56px;border-radius:50%;background:#1F8A4C;color:#fff;display:grid;place-items:center;box-shadow:0 12px 24px -10px rgba(0,0,0,.5)}
+.fab svg{width:28px;height:28px}
+nav.bottom{display:none}
+
+@media (max-width:1000px){
+  .depts{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .filters{grid-template-columns:1fr 1fr 1fr}
+  .filters .field:first-child{grid-column:1/-1}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  nav.main{display:none}
+  .lang{margin-left:auto}
+  .top .wrap{height:60px}
+  .brand b{font-size:21px}
+  .brand small{font-size:9.5px;letter-spacing:.16em}
+  .hero{grid-template-columns:1fr;gap:28px;padding:28px 0 24px}
+  .hero p.sub{font-size:17px}
+  .mosaic{aspect-ratio:1.25/1;border-radius:22px}
+  .seal{padding:16px 18px 14px}
+  .seal img{width:54px;margin-bottom:6px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:16px 12px}
+  .stat:nth-child(3){border-left:0;padding-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .stat b{font-size:28px}
+  .depts{grid-template-columns:repeat(2,1fr);gap:10px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .pname{font-size:15px}
+  .price{font-size:19px}
+  .filters{grid-template-columns:1fr 1fr}
+  .how{grid-template-columns:1fr}
+  .band{grid-template-columns:1fr;padding:26px;border-radius:22px}
+  .why{grid-template-columns:1fr}
+  .sheet{grid-template-columns:1fr;max-height:94vh;border-radius:20px 20px 0 0;align-self:flex-end}
+  .scrim{padding:0;align-items:flex-end}
+  .sheet .pimg{aspect-ratio:1.6/1;min-height:0}
+  .sheet .pimg svg{width:36%}
+  .cartgrid,.two{grid-template-columns:1fr}
+  .panel{position:static}
+  footer .wrap{grid-template-columns:1fr;gap:22px}
+  .fab{bottom:82px;right:14px;width:52px;height:52px}
+  nav.bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;font-size:11.5px;font-weight:600;color:var(--muted);padding:4px 0;position:relative}
+  nav.bottom a svg{width:22px;height:22px}
+  nav.bottom a.on{color:var(--red)}
+  nav.bottom .badge{position:absolute;top:0;left:calc(50% + 6px);margin:0;min-width:18px;height:18px;font-size:11px}
+  .toast{bottom:150px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Deepak Agency home">
+      <img src="mark.png" alt="">
+      <span><b>Deepak</b><small>Agency &amp; Readymades</small></span>
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="#home" data-nav="home" data-t="nav_home">Home</a>
+      <a href="#departments" data-nav="departments" data-t="nav_depts">Departments</a>
+      <a href="#catalogue" data-nav="catalogue" data-t="nav_catalogue">Catalogue</a>
+      <a href="#about" data-nav="about" data-t="nav_about">About</a>
+      <a href="#contact" data-nav="contact" data-t="nav_contact">Contact</a>
+      <a href="#order" data-nav="order" class="cartlink"><span data-t="nav_cart">Order</span><span class="badge num" data-cartn data-n="0">0</span></a>
+      <a href="#account" data-nav="account" data-t="nav_account">Account</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="hi">हिं</button>
+      <button type="button" data-lang="mr">मरा</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- HOME -->
+<div data-view="home">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <span class="kicker" data-t="hero_kicker">Wholesale readymade garments · Since 1995</span>
+        <h1 data-t="hero_title" data-html>Everything your shop sells, <em>under one roof.</em></h1>
+        <p class="sub" data-t="hero_sub">Men's, ladies' and kids' wear across a 40,000 sq ft showroom, for retailers in and around Ahilyanagar. Wholesale rates, new stock arriving regularly, and one number for every department.</p>
+        <div class="ctas">
+          <a class="btn primary" href="#catalogue" data-t="btn_browse">Browse catalogue</a>
+          <a class="btn wa" href="https://wa.me/919730538971" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg><span data-t="btn_whatsapp">WhatsApp us</span></a>
+        </div>
+      </div>
+      <div class="mosaic" aria-hidden="true">
+        <canvas id="mosaic"></canvas>
+        <div class="seal">
+          <img src="mark.png" alt="">
+          <div class="since">Since 1995</div>
+          <div class="motto">सचोटी व नाविन्य !</div>
+          <div class="motto-en" data-t="motto_en">Honesty &amp; innovation</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b class="num" id="yearsN">31</b><span data-t="stat_years">years of trust</span></div>
+      <div class="stat"><b class="num">40,000</b><span data-t="stat_area">sq ft showroom</span></div>
+      <div class="stat"><b class="num">10+</b><span data-t="stat_depts">departments</span></div>
+      <div class="stat"><b data-t="all_big">All</b><span data-t="stat_cat">categories except sarees</span></div>
+    </div>
+
+    <section class="block">
+      <div class="sechead">
+        <div><h2 data-t="sec_depts">Shop by department</h2></div>
+        <a class="link" href="#departments" data-t="see_all">See all departments →</a>
+      </div>
+      <div class="depts" id="homeDepts"></div>
+    </section>
+
+    <section class="block">
+      <div class="sechead">
+        <div><h2 data-t="sec_new">From the showroom floor</h2><p data-t="sec_new_sub">A few designs in stock right now.</p></div>
+        <a class="link" href="#catalogue" data-t="see_cat">Open full catalogue →</a>
+      </div>
+      <div class="grid" id="homeProducts"></div>
+    </section>
+
+    <section class="block">
+      <div class="sechead"><h2 data-t="sec_brands">Brands on our shelves</h2></div>
+      <div class="brands" id="brandChips"></div>
+    </section>
+
+    <section class="block">
+      <div class="sechead"><h2 data-t="sec_how">How ordering works</h2></div>
+      <div class="how">
+        <div><p data-t="how1">Register your shop once: name, shop name, phone and address.</p></div>
+        <div><p data-t="how2">Pick designs and size-wise quantities from the catalogue.</p></div>
+        <div><p data-t="how3">Send the order on WhatsApp. Our team confirms it and packs your parcel.</p></div>
+      </div>
+    </section>
+
+    <div class="band">
+      <div>
+        <h2 data-t="why_title" data-html>One visit. <span>Your whole season's stock.</span></h2>
+        <p style="margin:14px 0 22px;color:#E9D7E3" data-t="why_sub">Retailers come to Deepak Agency so they don't have to visit ten different wholesalers.</p>
+        <a class="btn primary" href="#account" data-t="btn_register">Register your shop</a>
+      </div>
+      <div class="why">
+        <div><b data-t="why1">Every category, one place</b><p data-t="why1p">Baba suits to jeans, hosiery to handloom. Everything except sarees.</p></div>
+        <div><b data-t="why2">Wholesale rates</b><p data-t="why2p">Rates set for retailers buying for their shops.</p></div>
+        <div><b data-t="why3">One number for everything</b><p data-t="why3p">Call or WhatsApp 97305 38971 for any department.</p></div>
+        <div><b data-t="why4">Trusted since 1995</b><p data-t="why4p">Three decades of supplying shops around Ahilyanagar.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPARTMENTS -->
+<div data-view="departments">
+  <div class="wrap">
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="nav_depts">Departments</h2><p data-t="dept_sub">Tap a department to see what's in stock.</p></div></div>
+      <div class="depts" id="allDepts"></div>
+    </section>
+  </div>
+</div>
+
+<!-- CATALOGUE -->
+<div data-view="catalogue">
+  <div class="wrap">
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="cat_title">Catalogue</h2><p data-t="cat_sub">Only items currently in stock are shown.</p></div></div>
+      <div class="notice"><span>ℹ︎</span><span data-t="demo_note">Sample catalogue. Live stock and photos will be connected from our system.</span></div>
+      <div class="filters">
+        <div class="field"><label for="q" data-t="f_search">Search</label><input id="q" type="search" data-tp="search_ph" placeholder="Search item, brand or design no."></div>
+        <div class="field"><label for="fBrand" data-t="f_brand">Brand</label><select id="fBrand"></select></div>
+        <div class="field"><label for="fSize" data-t="f_size">Size</label><select id="fSize"></select></div>
+        <div class="field"><label for="fPrice" data-t="f_price">Max rate</label><select id="fPrice"></select></div>
+        <div class="field"><label for="fSort" data-t="f_sort">Sort</label><select id="fSort"></select></div>
+      </div>
+      <div class="chips" id="deptChips" role="group" aria-label="Department"></div>
+      <div class="resultline num" id="resultLine"></div>
+      <div class="grid" id="catGrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ORDER -->
+<div data-view="order">
+  <div class="wrap">
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="cart_title">Your order</h2></div></div>
+      <div class="cartgrid">
+        <div id="cartLines"></div>
+        <div class="panel">
+          <div class="sumline"><span data-t="total_pcs">Total pieces</span><span class="num" id="totPcs">0</span></div>
+          <div><div class="muted small" data-t="total">Total</div><div class="tot num" id="totAmt">₹0</div></div>
+          <div class="muted small" id="shopLine"></div>
+          <a class="btn wa block" id="sendWA" href="#order" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg><span data-t="send_wa">Send order on WhatsApp</span></a>
+          <button class="btn ghost block" id="copyOrder" type="button" data-t="copy_order">Copy order text</button>
+          <div class="muted small" data-t="wa_note">WhatsApp opens with your order typed in. Press send there. Our number: 97305 38971</div>
+          <pre class="ordertext" id="orderPreview" hidden></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<div data-view="account">
+  <div class="wrap">
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="acc_title">Retailer registration</h2><p data-t="acc_sub">Fill this once. Your details are added to every order you send.</p></div></div>
+      <div id="accountBox"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div data-view="about">
+  <div class="wrap">
+    <section class="block">
+      <div class="two">
+        <div class="prose">
+          <span class="kicker">Since 1995</span>
+          <h2 style="font-size:clamp(30px,4vw,46px);margin:12px 0 18px" data-t="about_title">About Deepak Agency</h2>
+          <p data-t="about_p1">Deepak Agency and Readymades is a family-run wholesale garment business of the Kaswa parivar, supplying retailers, shops and organisations in and around Ahilyanagar since 1995.</p>
+          <p data-t="about_p2">We buy readymade garments from manufacturers across India, in every category except sarees, and stock them department by department in our 40,000 sq ft showroom on Link Road, Kedgaon.</p>
+          <p data-t="about_p3">Our motto is सचोटी व नाविन्य: honesty in every bill, and new ideas in how we serve our customers.</p>
+          <div class="ctas" style="margin-top:22px">
+            <a class="btn primary" href="#catalogue" data-t="btn_browse">Browse catalogue</a>
+            <a class="btn ghost" href="#contact" data-t="nav_contact">Contact</a>
+          </div>
+        </div>
+        <div class="mosaic" aria-hidden="true" style="aspect-ratio:1/1">
+          <canvas id="mosaic2"></canvas>
+          <div class="seal">
+            <img src="logo.png" alt="Deepak Agency logo" style="width:150px">
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div data-view="contact">
+  <div class="wrap">
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="contact_title">Visit us</h2><p data-t="contact_sub">One number for every department.</p></div></div>
+      <div class="two">
+        <div class="facts">
+          <div class="fact"><div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><b data-t="addr_lbl">Showroom</b>Deepak Agency, Link Road, Kedgaon, Ahilyanagar (Ahmednagar), Maharashtra<br><a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Deepak+Agency+Link+Road+Kedgaon+Ahmednagar" target="_blank" rel="noopener" data-t="open_maps">Open in Google Maps →</a></div></div>
+          <div class="fact"><div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div><div><b data-t="phone_lbl">Call / WhatsApp</b><span class="num">+91 97305 38971</span><br><a class="link" href="https://wa.me/919730538971" target="_blank" rel="noopener" data-t="btn_whatsapp">WhatsApp us</a></div></div>
+          <div class="fact"><div class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b data-t="time_lbl">Timings</b><span data-t="timings">10:00 AM – 8:30 PM</span></div></div>
+        </div>
+        <form class="formcard" id="enqForm">
+          <h3 style="font-size:24px" data-t="enq_title">Send an enquiry</h3>
+          <div class="field"><label for="eName" data-t="f_name">Your name</label><input id="eName" required></div>
+          <div class="field"><label for="ePhone" data-t="f_phone">Phone number</label><input id="ePhone" type="tel" inputmode="numeric" required></div>
+          <div class="field"><label for="eMsg" data-t="enq_msg">What are you looking for?</label><textarea id="eMsg" required></textarea></div>
+          <button class="btn wa" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg><span data-t="enq_send">Send on WhatsApp</span></button>
+          <a id="enqLink" class="link" href="#contact" target="_blank" rel="noopener" hidden data-t="enq_open">Open WhatsApp with your enquiry →</a>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="flogo" src="logo.png" alt="Deepak Agency logo">
+    <div>
+      <h4 data-t="addr_lbl">Showroom</h4>
+      <p>Deepak Agency, Link Road, Kedgaon,<br>Ahilyanagar, Maharashtra</p>
+      <p data-t="timings">10:00 AM – 8:30 PM</p>
+      <p class="num">+91 97305 38971</p>
+    </div>
+    <div>
+      <h4 data-t="quick">Quick links</h4>
+      <p><a href="#departments" data-t="nav_depts">Departments</a></p>
+      <p><a href="#catalogue" data-t="nav_catalogue">Catalogue</a></p>
+      <p><a href="#about" data-t="nav_about">About</a></p>
+      <p><a href="#contact" data-t="nav_contact">Contact</a></p>
+      <p><a href="#account" data-t="btn_register">Register your shop</a></p>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/919730538971" target="_blank" rel="noopener" aria-label="WhatsApp 97305 38971"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg></a>
+
+<nav class="bottom" aria-label="App">
+  <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span data-t="nav_home">Home</span></a>
+  <a href="#catalogue" data-nav="catalogue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span data-t="nav_catalogue">Catalogue</span></a>
+  <a href="#order" data-nav="order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span data-t="nav_cart">Order</span><span class="badge num" data-cartn data-n="0">0</span></a>
+  <a href="#account" data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span data-t="nav_account">Account</span></a>
+  <a href="#contact" data-nav="contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-t="nav_contact">Contact</span></a>
+</nav>
+
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const WA = "919730538971";
+const PALETTE = ["#D42A2F","#EE7D1E","#F2B51C","#5A1E4E","#8E2C62","#B8361F"];
+
+/* ---------- garment drawings ---------- */
+function shade(hex, amt){
+  const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;
+  r=Math.max(0,Math.min(255,r+amt));g=Math.max(0,Math.min(255,g+amt));b=Math.max(0,Math.min(255,b+amt));
+  return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+function garment(type, c){
+  const s=shade(c,-45), l=shade(c,35);
+  const st=`stroke="${s}" stroke-width="2" stroke-linejoin="round"`;
+  const P={
+    tshirt:`<path d="M30 18 L42 13 Q50 22 58 13 L70 18 L89 33 L79 45 L70 39 L70 88 L30 88 L30 39 L21 45 L11 33 Z" fill="${c}" ${st}/><path d="M42 13 Q50 22 58 13" fill="none" stroke="${l}" stroke-width="3"/>`,
+    polo:`<path d="M30 18 L42 13 L50 24 L58 13 L70 18 L89 33 L79 45 L70 39 L70 88 L30 88 L30 39 L21 45 L11 33 Z" fill="${c}" ${st}/><path d="M42 13 L50 24 L44 26 Z M58 13 L50 24 L56 26 Z" fill="${l}" ${st}/><path d="M50 24 L50 40" stroke="${s}" stroke-width="2"/><circle cx="50" cy="30" r="1.6" fill="${s}"/><circle cx="50" cy="36" r="1.6" fill="${s}"/>`,
+    shirt:`<path d="M30 16 L42 12 L50 20 L58 12 L70 16 L88 40 L80 46 L70 34 L70 90 L30 90 L30 34 L20 46 L12 40 Z" fill="${c}" ${st}/><path d="M42 12 L50 20 L45 25 L39 15 Z M58 12 L50 20 L55 25 L61 15 Z" fill="${l}" ${st}/><path d="M50 20 L50 90" stroke="${s}" stroke-width="1.6"/>${[32,44,56,68,80].map(y=>`<circle cx="53" cy="${y}" r="1.4" fill="${s}"/>`).join("")}<rect x="56" y="34" width="9" height="8" rx="1" fill="none" stroke="${s}" stroke-width="1.4"/>`,
+    jeans:`<path d="M29 10 L71 10 L75 90 L56 90 L50 38 L44 90 L25 90 Z" fill="${c}" ${st}/><path d="M29 18 L71 18" stroke="${s}" stroke-width="2"/><path d="M33 20 Q38 30 46 22 M67 20 Q62 30 54 22" fill="none" stroke="${l}" stroke-width="1.6" stroke-dasharray="2 2"/><path d="M50 18 L50 34" stroke="${s}" stroke-width="1.6"/>`,
+    pyjama:`<path d="M27 12 L73 12 L81 90 L59 90 L50 40 L41 90 L19 90 Z" fill="${c}" ${st}/><path d="M27 20 L73 20" stroke="${s}" stroke-width="2"/><path d="M47 20 Q45 30 42 32 M53 20 Q55 30 58 32" fill="none" stroke="${l}" stroke-width="2.2" stroke-linecap="round"/>${[30,44,58,72].map(y=>`<circle cx="31" cy="${y+4}" r="2" fill="${l}"/><circle cx="68" cy="${y}" r="2" fill="${l}"/>`).join("")}`,
+    shorts:`<path d="M24 14 L76 14 L82 66 L58 66 L50 36 L42 66 L18 66 Z" fill="${c}" ${st} transform="translate(0,12)"/><path d="M24 34 L76 34" stroke="${s}" stroke-width="2"/>`,
+    babasuit:`<path d="M34 10 L44 8 Q50 14 56 8 L66 10 L80 22 L73 30 L66 26 L66 50 L34 50 L34 26 L27 30 L20 22 Z" fill="${l}" ${st}/><path d="M50 12 L50 50" stroke="${s}" stroke-width="1.4"/><circle cx="52.5" cy="22" r="1.3" fill="${s}"/><circle cx="52.5" cy="32" r="1.3" fill="${s}"/><circle cx="52.5" cy="42" r="1.3" fill="${s}"/><path d="M33 54 L67 54 L71 88 L54 88 L50 68 L46 88 L29 88 Z" fill="${c}" ${st}/><path d="M33 60 L67 60" stroke="${s}" stroke-width="1.6"/>`,
+    frock:`<path d="M38 10 L44 10 Q50 19 56 10 L62 10 L65 34 L86 88 Q50 96 14 88 L35 34 Z" fill="${c}" ${st}/><path d="M35 34 L65 34" stroke="${l}" stroke-width="5"/><path d="M44 34 L50 30 L56 34 L50 38 Z" fill="${l}" ${st}/><path d="M22 80 Q50 88 78 80" fill="none" stroke="${l}" stroke-width="2" stroke-dasharray="3 3"/>`,
+    vest:`<path d="M36 10 L42 10 Q50 32 58 10 L64 10 L66 30 Q73 37 73 46 L73 90 L27 90 L27 46 Q27 37 34 30 Z" fill="${c}" ${st}/><path d="M42 10 Q50 32 58 10" fill="none" stroke="${l}" stroke-width="2.4"/>`,
+    brief:`<path d="M16 30 L84 30 L84 42 Q64 50 58 76 L42 76 Q36 50 16 42 Z" fill="${c}" ${st}/><path d="M16 36 L84 36" stroke="${l}" stroke-width="5"/><text x="50" y="38" text-anchor="middle" font-size="5" font-family="sans-serif" font-weight="700" fill="${s}" letter-spacing="1">ELASTIC</text>`,
+    kurti:`<path d="M36 8 L44 8 Q50 16 56 8 L64 8 L82 24 L74 34 L68 30 L73 92 L27 92 L32 30 L26 34 L18 24 Z" fill="${c}" ${st}/><path d="M50 13 L50 28" stroke="${s}" stroke-width="1.8"/><path d="M32 60 Q50 66 68 60" fill="none" stroke="${l}" stroke-width="2" stroke-dasharray="2 3"/><path d="M28 86 L72 86" stroke="${l}" stroke-width="3"/>`,
+    leggings:`<path d="M34 10 L66 10 L64 92 L53 92 L50 36 L47 92 L36 92 Z" fill="${c}" ${st}/><path d="M34 17 L66 17" stroke="${s}" stroke-width="2"/>`,
+    nighty:`<path d="M38 8 L45 8 Q50 16 55 8 L62 8 L72 20 L66 26 L64 22 L76 92 L24 92 L36 22 L34 26 L28 20 Z" fill="${c}" ${st}/>${[[40,40],[58,48],[46,62],[62,74],[36,80],[52,84]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="${l}"/>`).join("")}`,
+    dhoti:`<rect x="14" y="28" width="72" height="16" rx="2" fill="#FFFFFF" ${st}/><rect x="14" y="44" width="72" height="16" rx="2" fill="#FBF7EE" ${st}/><rect x="14" y="60" width="72" height="16" rx="2" fill="#FFFFFF" ${st}/><path d="M14 40 L86 40 M14 56 L86 56 M14 72 L86 72" stroke="${c}" stroke-width="3"/>`,
+    sheet:`<rect x="14" y="30" width="72" height="16" rx="3" fill="${c}" ${st}/><rect x="14" y="46" width="72" height="16" rx="3" fill="${l}" ${st}/><rect x="14" y="62" width="72" height="16" rx="3" fill="${c}" ${st}/>${[24,40,56,72].map(x=>`<path d="M${x} 34 l4 4 l-4 4 l-4 -4 Z M${x} 66 l4 4 l-4 4 l-4 -4 Z" fill="${l}"/>`).join("")}`,
+    towel:`<rect x="20" y="22" width="60" height="58" rx="4" fill="${c}" ${st}/><path d="M20 34 L80 34 M20 68 L80 68" stroke="${l}" stroke-width="4"/><path d="M24 80 L24 86 M30 80 L30 86 M36 80 L36 86 M42 80 L42 86 M48 80 L48 86 M54 80 L54 86 M60 80 L60 86 M66 80 L66 86 M72 80 L72 86 M76 80 L76 86" stroke="${s}" stroke-width="1.4"/>`,
+    set:`<path d="M34 8 L43 6 Q50 13 57 6 L66 8 L80 20 L73 28 L66 24 L66 48 L34 48 L34 24 L27 28 L20 20 Z" fill="${c}" ${st}/><path d="M36 52 L64 52 L68 90 L53 90 L50 66 L47 90 L32 90 Z" fill="${l}" ${st}/>`,
+    hoodie:`<path d="M30 22 Q50 2 70 22 L88 40 L80 50 L72 42 L72 90 L28 90 L28 42 L20 50 L12 40 Z" fill="${c}" ${st}/><path d="M38 22 Q50 10 62 22 Q50 34 38 22 Z" fill="${s}" opacity=".45"/><path d="M36 66 L64 66 L62 80 L38 80 Z" fill="none" stroke="${s}" stroke-width="1.8"/><path d="M46 30 L45 44 M54 30 L55 44" stroke="${l}" stroke-width="1.8"/>`,
+    track:`<path d="M30 10 L70 10 L76 90 L58 90 L50 36 L42 90 L24 90 Z" fill="${c}" ${st}/><path d="M30 17 L70 17" stroke="${s}" stroke-width="2"/><path d="M31 20 L26 88 M69 20 L74 88" stroke="${l}" stroke-width="3"/>`
+  };
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${P[type]||P.tshirt}</svg>`;
+}
+
+/* ---------- data (sample) ---------- */
+const DEPTS = [
+  {id:"tshirt", name:"T-Shirt", icon:"tshirt", c:"#D42A2F"},
+  {id:"jeans", name:"Jeans", icon:"jeans", c:"#2F4E8C"},
+  {id:"nightpant", name:"Night Pant", icon:"pyjama", c:"#5A1E4E"},
+  {id:"babasuit", name:"Baba Suit", icon:"babasuit", c:"#2E8BA0"},
+  {id:"frock", name:"Frock", icon:"frock", c:"#E0457B"},
+  {id:"hosiery", name:"Hosiery", icon:"vest", c:"#7B6A5E"},
+  {id:"ladies", name:"Ladies Wear", icon:"kurti", c:"#EE7D1E"},
+  {id:"handloom", name:"Handloom", icon:"dhoti", c:"#B8861B"},
+  {id:"kids", name:"Kids Wear", icon:"set", c:"#2A9D5B"},
+  {id:"mens", name:"Mens Wear", icon:"shirt", c:"#3E3A6E"}
+];
+const AD=["S","M","L","XL","XXL"], KD=["20","22","24","26","28","30"];
+// [id, dept, name, brand, design, icon, colour, rate, sizes, stock per size]
+const RAW = [
+ ["DA-TS-101","tshirt","Round Neck Cotton T-Shirt","Dixcy Scott","RN-Combed","tshirt","#1F3A68",185,AD,[24,40,52,38,18]],
+ ["DA-TS-104","tshirt","Polo Collar T-Shirt","Assorted","PL-2207","polo","#B32630",265,["M","L","XL","XXL"],[20,26,22,10]],
+ ["DA-TS-110","tshirt","Printed Oversize Tee","Assorted","OV-118","tshirt","#2B2B2B",225,["M","L","XL"],[14,18,4]],
+ ["DA-TS-118","tshirt","Dry-Fit Sports T-Shirt","Assorted","DF-09","tshirt","#0E8C84",199,AD,[12,22,30,24,8]],
+ ["DA-JN-201","jeans","Men's Slim Fit Denim","Assorted","SF-32B","jeans","#2F4E8C",545,["28","30","32","34","36"],[8,16,22,14,6]],
+ ["DA-JN-207","jeans","Ladies Stretchable Jeans","Assorted","LS-11","jeans","#5B7DB8",495,["26","28","30","32"],[10,18,14,5]],
+ ["DA-JN-212","jeans","Boys Denim Jeans","Assorted","BJ-04","jeans","#3B5A99",325,["20","22","24","26","28","30"],[12,14,16,12,10,6]],
+ ["DA-JN-220","jeans","Cotton Cargo Jogger","Assorted","CJ-21","track","#5C6B3C",420,["M","L","XL"],[12,16,9]],
+ ["DA-NP-301","nightpant","Men's Cotton Night Pant","Assorted","NP-Check","pyjama","#3D5A80",165,["M","L","XL","XXL"],[36,48,40,22]],
+ ["DA-NP-305","nightpant","Ladies Printed Pyjama","Assorted","LP-Floral","pyjama","#C2477A",175,["M","L","XL"],[24,30,18]],
+ ["DA-NP-309","nightpant","Kids Night Pant","Assorted","KN-Star","pyjama","#5A1E4E",95,["20","22","24","26","28"],[20,24,22,18,4]],
+ ["DA-BS-401","babasuit","Baby Boy Shirt & Shorts Set","Assorted","BB-Sailor","babasuit","#2E6FA0",235,["0-6M","6-12M","1-2Y","2-3Y"],[10,16,18,12]],
+ ["DA-BS-406","babasuit","Cotton Jhabla Set (Pack of 3)","Assorted","JB-Soft","babasuit","#E9A23B",145,["0-3M","3-6M","6-9M"],[30,26,20]],
+ ["DA-BS-412","babasuit","Party Wear Baba Suit","Assorted","PW-Waistcoat","babasuit","#7A1E3A",395,["1-2Y","2-3Y","3-4Y"],[6,8,3]],
+ ["DA-FR-501","frock","Daily Wear Cotton Frock","Assorted","CF-Polka","frock","#E0457B",185,["16","18","20","22","24"],[18,22,20,16,10]],
+ ["DA-FR-508","frock","Party Net Frock","Assorted","NF-Rose","frock","#9C3DA8",545,["18","20","22","24","26","28"],[6,8,10,8,5,3]],
+ ["DA-FR-514","frock","Frock with Legging Set","Assorted","FL-Bunny","frock","#F08A5D",325,["18","20","22","24"],[12,14,10,8]],
+ ["DA-HS-601","hosiery","Macho Vest RN","Macho","Hint RN","vest","#FFFFFF",78,["80","85","90","95","100"],[60,90,120,80,40]],
+ ["DA-HS-604","hosiery","Macho Brief","Macho","Sporto","brief","#2A3F6B",92,["80","85","90","95"],[50,80,70,30]],
+ ["DA-HS-610","hosiery","Dixcy Scott Vest","Dixcy Scott","Classic","vest","#F4F1EA",72,["75","80","85","90","95"],[40,70,90,60,30]],
+ ["DA-HS-615","hosiery","James & Harper Trunk","James & Harper","JH-Trunk","brief","#3B3B3B",118,["S","M","L","XL"],[20,40,40,20]],
+ ["DA-HS-620","hosiery","James & Harper Gym Vest","James & Harper","JH-Gym","vest","#5A1E4E",95,["S","M","L","XL"],[10,30,30,5]],
+ ["DA-LW-701","ladies","Cotton Straight Kurti","Assorted","SK-Block","kurti","#EE7D1E",345,["M","L","XL","XXL"],[14,20,18,10]],
+ ["DA-LW-706","ladies","Ankle Length Leggings","Assorted","AL-Lycra","leggings","#2B2B2B",155,["M","L","XL","XXL"],[40,50,44,30]],
+ ["DA-LW-711","ladies","Printed Cotton Nighty","Assorted","NT-Buta","nighty","#2E7D8C",265,["Free","XL","XXL"],[30,20,12]],
+ ["DA-LW-716","ladies","Rayon Palazzo","Assorted","PZ-Flow","leggings","#A23B5E",215,["M","L","XL"],[18,22,4]],
+ ["DA-HL-801","handloom","Ramraj Cotton Dhoti","Ramraj","Gold Jari","dhoti","#C99A2E",385,["Single","Double"],[30,24]],
+ ["DA-HL-805","handloom","Cotton Double Bedsheet","Assorted","BD-Jaipur","sheet","#B8361F",395,["Double","King"],[16,8]],
+ ["DA-HL-810","handloom","Cotton Bath Towel","Assorted","TW-Plain","towel","#2E8BA0",125,["Std","Large"],[40,22]],
+ ["DA-KW-901","kids","Boys T-Shirt & Shorts Set","Assorted","KS-Dino","set","#2A9D5B",245,KD,[10,14,16,14,10,6]],
+ ["DA-KW-906","kids","Girls Top & Capri Set","Assorted","GC-Heart","set","#E0457B",265,["20","22","24","26","28"],[8,12,14,10,4]],
+ ["DA-KW-912","kids","Kids Fleece Hoodie","Assorted","KH-Zip","hoodie","#D42A2F",385,["22","24","26","28","30"],[6,10,12,8,5]],
+ ["DA-MW-951","mens","Formal Cotton Shirt","Assorted","FS-Oxford","shirt","#BFD3EA",395,["38","40","42","44"],[12,20,18,10]],
+ ["DA-MW-955","mens","Ramraj White Cotton Shirt","Ramraj","RR-Classic","shirt","#FFFFFF",525,["38","40","42","44"],[10,16,14,8]],
+ ["DA-MW-960","mens","Men's Track Pant","Assorted","TP-Stripe","track","#22314F",265,["M","L","XL","XXL"],[24,30,26,14]],
+ ["DA-MW-964","mens","Cotton Bermuda Shorts","Assorted","BM-Twill","shorts","#8A7A5A",185,["30","32","34","36"],[16,22,18,6]]
+];
+const PRODUCTS = RAW.map(r=>({id:r[0],dept:r[1],name:r[2],brand:r[3],design:r[4],icon:r[5],color:r[6],rate:r[7],sizes:r[8].map((s,i)=>({s,q:r[9][i]}))}))
+  .map(p=>({...p,stock:p.sizes.reduce((a,b)=>a+b.q,0),low:p.sizes.some(x=>x.q<=5)}));
+const BRANDS = ["Dixcy Scott","Macho","James & Harper","Ramraj"];
+const deptOf = id => DEPTS.find(d=>d.id===id);
+const bgOf = p => `color-mix(in srgb, ${deptOf(p.dept).c} 12%, #FFFCF8)`;
+
+/* ---------- i18n ---------- */
+const T = {
+ en:{nav_home:"Home",nav_depts:"Departments",nav_catalogue:"Catalogue",nav_about:"About",nav_contact:"Contact",nav_cart:"Order",nav_account:"Account",
+  hero_kicker:"Wholesale readymade garments · Since 1995",hero_title:"Everything your shop sells, <em>under one roof.</em>",
+  hero_sub:"Men's, ladies' and kids' wear across a 40,000 sq ft showroom, for retailers in and around Ahilyanagar. Wholesale rates, new stock arriving regularly, and one number for every department.",
+  btn_browse:"Browse catalogue",btn_whatsapp:"WhatsApp us",motto_en:"Honesty & innovation",stat_years:"years of trust",stat_area:"sq ft showroom",stat_depts:"departments",stat_cat:"categories except sarees",
+  sec_depts:"Shop by department",see_all:"See all departments →",sec_new:"From the showroom floor",sec_new_sub:"A few designs in stock right now.",see_cat:"Open full catalogue →",
+  sec_brands:"Brands on our shelves",sec_how:"How ordering works",how1:"Register your shop once: name, shop name, phone and address.",how2:"Pick designs and size-wise quantities from the catalogue.",how3:"Send the order on WhatsApp. Our team confirms it and packs your parcel.",
+  why_title:"One visit. <span>Your whole season's stock.</span>",why_sub:"Retailers come to Deepak Agency so they don't have to visit ten different wholesalers.",btn_register:"Register your shop",
+  why1:"Every category, one place",why1p:"Baba suits to jeans, hosiery to handloom. Everything except sarees.",why2:"Wholesale rates",why2p:"Rates set for retailers buying for their shops.",why3:"One number for everything",why3p:"Call or WhatsApp 97305 38971 for any department.",why4:"Trusted since 1995",why4p:"Three decades of supplying shops around Ahilyanagar.",
+  dept_sub:"Tap a department to see what's in stock.",cat_title:"Catalogue",cat_sub:"Only items currently in stock are shown.",demo_note:"Sample catalogue. Live stock and photos will be connected from our system.",
+  f_search:"Search",search_ph:"Search item, brand or design no.",f_brand:"Brand",f_size:"Size",f_price:"Max rate",f_sort:"Sort",all:"All",any:"Any",
+  sort_pop:"Most stock",sort_low:"Rate: low to high",sort_high:"Rate: high to low",results:"designs",pcs:"pcs",in_stock:"pcs in stock",low_stock:"Low stock",per_pc:"/ pc",
+  design:"Design",size:"Size",stock:"Stock",qty:"Qty",add:"Add to order",added:"Added to your order",select_qty:"Enter a quantity for at least one size",
+  cart_title:"Your order",cart_empty:"No items yet. Add designs from the catalogue.",total_pcs:"Total pieces",total:"Total",send_wa:"Send order on WhatsApp",copy_order:"Copy order text",copied:"Order copied",copy_fail:"Copy blocked here. Select the text below and copy it.",
+  wa_note:"WhatsApp opens with your order typed in. Press send there. Our number: 97305 38971",need_reg:"Register your shop first, then send the order.",ordering_as:"Ordering as",remove:"Remove",edit:"Edit",
+  acc_title:"Retailer registration",acc_sub:"Fill this once. Your details are added to every order you send.",f_name:"Your name",f_shop:"Shop name",f_phone:"Phone number",f_addr:"Address",save:"Save details",saved:"Details saved",welcome:"Welcome",change:"Change details",go_cat:"Start ordering",phone_bad:"Enter a 10-digit mobile number",
+  about_title:"About Deepak Agency",about_p1:"Deepak Agency and Readymades is a family-run wholesale garment business of the Kaswa parivar, supplying retailers, shops and organisations in and around Ahilyanagar since 1995.",
+  about_p2:"We buy readymade garments from manufacturers across India, in every category except sarees, and stock them department by department in our 40,000 sq ft showroom on Link Road, Kedgaon.",
+  about_p3:"Our motto is सचोटी व नाविन्य: honesty in every bill, and new ideas in how we serve our customers.",
+  contact_title:"Visit us",contact_sub:"One number for every department.",addr_lbl:"Showroom",open_maps:"Open in Google Maps →",phone_lbl:"Call / WhatsApp",time_lbl:"Timings",timings:"10:00 AM – 8:30 PM",
+  enq_title:"Send an enquiry",enq_msg:"What are you looking for?",enq_send:"Send on WhatsApp",enq_open:"Open WhatsApp with your enquiry →",quick:"Quick links",items:"items",all_big:"All"},
+ hi:{nav_home:"होम",nav_depts:"विभाग",nav_catalogue:"कैटलॉग",nav_about:"हमारे बारे में",nav_contact:"संपर्क",nav_cart:"ऑर्डर",nav_account:"खाता",
+  hero_kicker:"होलसेल रेडीमेड गारमेंट्स · 1995 से",hero_title:"आपकी दुकान का हर कपड़ा, <em>एक ही छत के नीचे।</em>",
+  hero_sub:"40,000 sq ft के शोरूम में पुरुष, महिला और बच्चों के कपड़े, अहिल्यानगर और आसपास के रिटेलर्स के लिए। होलसेल रेट, लगातार नया माल, और हर विभाग के लिए एक ही नंबर।",
+  btn_browse:"कैटलॉग देखें",btn_whatsapp:"WhatsApp करें",motto_en:"ईमानदारी और नयापन",stat_years:"साल का भरोसा",stat_area:"sq ft शोरूम",stat_depts:"विभाग",stat_cat:"साड़ी छोड़कर हर कैटेगरी",
+  sec_depts:"विभाग के अनुसार देखें",see_all:"सभी विभाग देखें →",sec_new:"शोरूम से",sec_new_sub:"अभी स्टॉक में कुछ डिज़ाइन।",see_cat:"पूरा कैटलॉग खोलें →",
+  sec_brands:"हमारे यहाँ के ब्रांड",sec_how:"ऑर्डर कैसे करें",how1:"एक बार अपनी दुकान रजिस्टर करें: नाम, दुकान का नाम, फोन और पता।",how2:"कैटलॉग से डिज़ाइन और साइज़ के हिसाब से मात्रा चुनें।",how3:"ऑर्डर WhatsApp पर भेजें। हमारी टीम कन्फर्म करके पार्सल पैक करती है।",
+  why_title:"एक विज़िट। <span>पूरे सीज़न का माल।</span>",why_sub:"रिटेलर्स दीपक एजेंसी आते हैं ताकि उन्हें दस अलग होलसेलर्स के पास न जाना पड़े।",btn_register:"दुकान रजिस्टर करें",
+  why1:"हर कैटेगरी, एक जगह",why1p:"बाबा सूट से जींस, होज़री से हैंडलूम। साड़ी छोड़कर सब कुछ।",why2:"होलसेल रेट",why2p:"दुकान के लिए खरीदने वाले रिटेलर्स के हिसाब से रेट।",why3:"हर चीज़ के लिए एक नंबर",why3p:"किसी भी विभाग के लिए 97305 38971 पर कॉल या WhatsApp करें।",why4:"1995 से भरोसा",why4p:"तीन दशकों से अहिल्यानगर की दुकानों को सप्लाई।",
+  dept_sub:"स्टॉक देखने के लिए विभाग पर टैप करें।",cat_title:"कैटलॉग",cat_sub:"सिर्फ अभी स्टॉक में मौजूद आइटम दिखाए गए हैं।",demo_note:"नमूना कैटलॉग। लाइव स्टॉक और फोटो जल्द हमारे सिस्टम से जोड़े जाएंगे।",
+  f_search:"खोजें",search_ph:"आइटम, ब्रांड या डिज़ाइन नंबर खोजें",f_brand:"ब्रांड",f_size:"साइज़",f_price:"अधिकतम रेट",f_sort:"क्रम",all:"सभी",any:"कोई भी",
+  sort_pop:"सबसे ज़्यादा स्टॉक",sort_low:"रेट: कम से ज़्यादा",sort_high:"रेट: ज़्यादा से कम",results:"डिज़ाइन",pcs:"पीस",in_stock:"पीस स्टॉक में",low_stock:"कम स्टॉक",per_pc:"/ पीस",
+  design:"डिज़ाइन",size:"साइज़",stock:"स्टॉक",qty:"मात्रा",add:"ऑर्डर में जोड़ें",added:"ऑर्डर में जोड़ दिया",select_qty:"कम से कम एक साइज़ की मात्रा डालें",
+  cart_title:"आपका ऑर्डर",cart_empty:"अभी कोई आइटम नहीं। कैटलॉग से डिज़ाइन जोड़ें।",total_pcs:"कुल पीस",total:"कुल",send_wa:"ऑर्डर WhatsApp पर भेजें",copy_order:"ऑर्डर टेक्स्ट कॉपी करें",copied:"ऑर्डर कॉपी हो गया",copy_fail:"यहाँ कॉपी नहीं हुआ। नीचे का टेक्स्ट चुनकर कॉपी करें।",
+  wa_note:"WhatsApp में आपका ऑर्डर लिखा हुआ खुलेगा। वहाँ Send दबाएं। हमारा नंबर: 97305 38971",need_reg:"पहले अपनी दुकान रजिस्टर करें, फिर ऑर्डर भेजें।",ordering_as:"ऑर्डर करने वाले",remove:"हटाएं",edit:"बदलें",
+  acc_title:"रिटेलर रजिस्ट्रेशन",acc_sub:"इसे एक बार भरें। आपकी जानकारी हर ऑर्डर में जुड़ जाएगी।",f_name:"आपका नाम",f_shop:"दुकान का नाम",f_phone:"फोन नंबर",f_addr:"पता",save:"सेव करें",saved:"जानकारी सेव हो गई",welcome:"स्वागत है",change:"जानकारी बदलें",go_cat:"ऑर्डर शुरू करें",phone_bad:"10 अंकों का मोबाइल नंबर डालें",
+  about_title:"दीपक एजेंसी के बारे में",about_p1:"दीपक एजेंसी एंड रेडीमेड्स कासवा परिवार का होलसेल गारमेंट व्यवसाय है, जो 1995 से अहिल्यानगर और आसपास के रिटेलर्स, दुकानों और संस्थाओं को सप्लाई करता है।",
+  about_p2:"हम पूरे भारत के निर्माताओं से साड़ी छोड़कर हर कैटेगरी के रेडीमेड कपड़े खरीदते हैं, और उन्हें लिंक रोड, केडगाँव के 40,000 sq ft शोरूम में विभाग के अनुसार रखते हैं।",
+  about_p3:"हमारा मंत्र है सचोटी व नाविन्य: हर बिल में ईमानदारी, और ग्राहकों की सेवा में नए विचार।",
+  contact_title:"हमसे मिलें",contact_sub:"हर विभाग के लिए एक ही नंबर।",addr_lbl:"शोरूम",open_maps:"Google Maps में खोलें →",phone_lbl:"कॉल / WhatsApp",time_lbl:"समय",timings:"सुबह 10:00 – रात 8:30",
+  enq_title:"पूछताछ भेजें",enq_msg:"आप क्या ढूंढ रहे हैं?",enq_send:"WhatsApp पर भेजें",enq_open:"अपनी पूछताछ के साथ WhatsApp खोलें →",quick:"लिंक",items:"आइटम",all_big:"सभी"},
+ mr:{nav_home:"होम",nav_depts:"विभाग",nav_catalogue:"कॅटलॉग",nav_about:"आमच्याबद्दल",nav_contact:"संपर्क",nav_cart:"ऑर्डर",nav_account:"खाते",
+  hero_kicker:"घाऊक रेडिमेड कपडे · 1995 पासून",hero_title:"तुमच्या दुकानातील प्रत्येक कपडा, <em>एकाच छताखाली.</em>",
+  hero_sub:"40,000 sq ft शोरूममध्ये पुरुष, महिला आणि लहान मुलांचे कपडे, अहिल्यानगर आणि परिसरातील किरकोळ विक्रेत्यांसाठी. घाऊक दर, सतत नवीन माल, आणि प्रत्येक विभागासाठी एकच नंबर.",
+  btn_browse:"कॅटलॉग पहा",btn_whatsapp:"WhatsApp करा",motto_en:"प्रामाणिकपणा आणि नावीन्य",stat_years:"वर्षांचा विश्वास",stat_area:"sq ft शोरूम",stat_depts:"विभाग",stat_cat:"साडी सोडून सर्व प्रकार",
+  sec_depts:"विभागानुसार पहा",see_all:"सर्व विभाग पहा →",sec_new:"शोरूममधून",sec_new_sub:"सध्या स्टॉकमध्ये असलेली काही डिझाइन.",see_cat:"संपूर्ण कॅटलॉग उघडा →",
+  sec_brands:"आमच्याकडील ब्रँड",sec_how:"ऑर्डर कशी करावी",how1:"एकदा तुमचे दुकान नोंदवा: नाव, दुकानाचे नाव, फोन आणि पत्ता.",how2:"कॅटलॉगमधून डिझाइन आणि साईजनुसार नग निवडा.",how3:"ऑर्डर WhatsApp वर पाठवा. आमची टीम खात्री करून पार्सल पॅक करते.",
+  why_title:"एक भेट. <span>संपूर्ण सीझनचा माल.</span>",why_sub:"दहा वेगवेगळ्या घाऊक विक्रेत्यांकडे जावे लागू नये म्हणून किरकोळ विक्रेते दीपक एजन्सीमध्ये येतात.",btn_register:"दुकान नोंदवा",
+  why1:"सर्व प्रकार, एकाच ठिकाणी",why1p:"बाबा सूटपासून जीन्सपर्यंत, होजिअरीपासून हँडलूमपर्यंत. साडी सोडून सर्व काही.",why2:"घाऊक दर",why2p:"दुकानासाठी खरेदी करणाऱ्या विक्रेत्यांसाठी ठरवलेले दर.",why3:"सर्वांसाठी एकच नंबर",why3p:"कोणत्याही विभागासाठी 97305 38971 वर कॉल किंवा WhatsApp करा.",why4:"1995 पासून विश्वास",why4p:"तीन दशकांपासून अहिल्यानगरमधील दुकानांना पुरवठा.",
+  dept_sub:"स्टॉक पाहण्यासाठी विभागावर टॅप करा.",cat_title:"कॅटलॉग",cat_sub:"फक्त सध्या स्टॉकमध्ये असलेले आयटम दाखवले आहेत.",demo_note:"नमुना कॅटलॉग. लाइव्ह स्टॉक आणि फोटो लवकरच आमच्या सिस्टीमशी जोडले जातील.",
+  f_search:"शोधा",search_ph:"आयटम, ब्रँड किंवा डिझाइन नंबर शोधा",f_brand:"ब्रँड",f_size:"साईज",f_price:"कमाल दर",f_sort:"क्रम",all:"सर्व",any:"कोणताही",
+  sort_pop:"सर्वाधिक स्टॉक",sort_low:"दर: कमी ते जास्त",sort_high:"दर: जास्त ते कमी",results:"डिझाइन",pcs:"नग",in_stock:"नग स्टॉकमध्ये",low_stock:"कमी स्टॉक",per_pc:"/ नग",
+  design:"डिझाइन",size:"साईज",stock:"स्टॉक",qty:"नग",add:"ऑर्डरमध्ये जोडा",added:"ऑर्डरमध्ये जोडले",select_qty:"किमान एका साईजचे नग टाका",
+  cart_title:"तुमची ऑर्डर",cart_empty:"अजून आयटम नाहीत. कॅटलॉगमधून डिझाइन जोडा.",total_pcs:"एकूण नग",total:"एकूण",send_wa:"ऑर्डर WhatsApp वर पाठवा",copy_order:"ऑर्डर मजकूर कॉपी करा",copied:"ऑर्डर कॉपी झाली",copy_fail:"येथे कॉपी झाले नाही. खालील मजकूर निवडून कॉपी करा.",
+  wa_note:"WhatsApp मध्ये तुमची ऑर्डर लिहिलेली उघडेल. तिथे Send दाबा. आमचा नंबर: 97305 38971",need_reg:"आधी तुमचे दुकान नोंदवा, मग ऑर्डर पाठवा.",ordering_as:"ऑर्डर करणारे",remove:"काढा",edit:"बदला",
+  acc_title:"किरकोळ विक्रेता नोंदणी",acc_sub:"हे एकदाच भरा. तुमची माहिती प्रत्येक ऑर्डरमध्ये जोडली जाईल.",f_name:"तुमचे नाव",f_shop:"दुकानाचे नाव",f_phone:"फोन नंबर",f_addr:"पत्ता",save:"जतन करा",saved:"माहिती जतन झाली",welcome:"स्वागत आहे",change:"माहिती बदला",go_cat:"ऑर्डर सुरू करा",phone_bad:"10 अंकी मोबाईल नंबर टाका",
+  about_title:"दीपक एजन्सीबद्दल",about_p1:"दीपक एजन्सी अँड रेडिमेड्स हा कासवा परिवाराचा घाऊक कपड्यांचा व्यवसाय आहे, जो 1995 पासून अहिल्यानगर आणि परिसरातील किरकोळ विक्रेते, दुकाने आणि संस्थांना पुरवठा करतो.",
+  about_p2:"आम्ही संपूर्ण भारतातील उत्पादकांकडून साडी सोडून सर्व प्रकारचे रेडिमेड कपडे खरेदी करतो, आणि लिंक रोड, केडगाव येथील 40,000 sq ft शोरूममध्ये विभागानुसार ठेवतो.",
+  about_p3:"आमचे ब्रीदवाक्य आहे सचोटी व नाविन्य: प्रत्येक बिलात प्रामाणिकपणा, आणि ग्राहकसेवेत नव्या कल्पना.",
+  contact_title:"आम्हाला भेट द्या",contact_sub:"प्रत्येक विभागासाठी एकच नंबर.",addr_lbl:"शोरूम",open_maps:"Google Maps मध्ये उघडा →",phone_lbl:"कॉल / WhatsApp",time_lbl:"वेळ",timings:"सकाळी 10:00 – रात्री 8:30",
+  enq_title:"चौकशी पाठवा",enq_msg:"तुम्ही काय शोधत आहात?",enq_send:"WhatsApp वर पाठवा",enq_open:"तुमच्या चौकशीसह WhatsApp उघडा →",quick:"लिंक",items:"आयटम",all_big:"सर्व"}
+};
+
+/* ---------- state ---------- */
+const store = {
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+let lang = store.get("da_lang","en"); if(!T[lang]) lang="en";
+let cart = store.get("da_cart",{}); // {productId:{size:qty}}
+let user = store.get("da_user",null);
+const F = {q:"",dept:"all",brand:"all",size:"all",price:"all",sort:"pop"};
+const t = k => (T[lang][k] ?? T.en[k] ?? k);
+const rupee = n => "₹" + n.toLocaleString("en-IN");
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function applyLang(){
+  document.documentElement.lang = lang==="en"?"en":lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{
+    const v=t(el.dataset.t);
+    if(el.hasAttribute("data-html")) el.innerHTML=v; else el.textContent=v;
+  });
+  document.querySelectorAll("[data-tp]").forEach(el=>el.placeholder=t(el.dataset.tp));
+  document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===lang));
+  buildFilterOptions(); renderAll();
+}
+
+/* ---------- renderers ---------- */
+function deptCard(d){
+  const n = PRODUCTS.filter(p=>p.dept===d.id).length;
+  return `<button class="dept" type="button" style="--d:${d.c}" data-dept="${d.id}"><div class="ico">${garment(d.icon,d.c)}</div><b>${d.name}</b><span class="num">${n} ${t("results")}</span></button>`;
+}
+function productCard(p){
+  const sz = p.sizes.filter(x=>x.q>0).map(x=>`<span>${esc(x.s)}</span>`).join("");
+  return `<button class="pcard" type="button" data-pid="${p.id}" style="--pbg:${bgOf(p)}">
+    <div class="pimg">${garment(p.icon,p.color)}${p.low?`<span class="tag low">${t("low_stock")}</span>`:`<span class="tag num">${p.stock} ${t("pcs")}</span>`}</div>
+    <div class="pbody"><span class="pbrand">${esc(p.brand)}</span><span class="pname">${esc(p.name)}</span><span class="pmeta">${t("design")}: ${esc(p.design)}</span>
+    <div class="sizes">${sz}</div>
+    <div class="prow"><span class="price num">${rupee(p.rate)} <small>${t("per_pc")}</small></span></div></div></button>`;
+}
+function renderHome(){
+  $("#homeDepts").innerHTML = DEPTS.slice(0,10).map(deptCard).join("");
+  const picks=["DA-TS-101","DA-FR-508","DA-HS-601","DA-LW-701","DA-JN-201","DA-BS-401","DA-HL-801","DA-KW-901"];
+  $("#homeProducts").innerHTML = picks.map(id=>productCard(PRODUCTS.find(p=>p.id===id))).join("");
+  $("#brandChips").innerHTML = BRANDS.map(b=>`<button class="brandchip" type="button" data-brand="${esc(b)}">${esc(b)}</button>`).join("") + `<span class="brandchip" style="cursor:default;color:var(--muted)">+ ${lang==="en"?"many more":lang==="hi"?"और भी कई":"आणखी अनेक"}</span>`;
+}
+function renderDepts(){ $("#allDepts").innerHTML = DEPTS.map(deptCard).join(""); }
+function buildFilterOptions(){
+  const opt=(v,l,sel)=>`<option value="${esc(v)}"${sel===v?" selected":""}>${esc(l)}</option>`;
+  const brands=[...new Set(PRODUCTS.map(p=>p.brand))].sort();
+  $("#fBrand").innerHTML = opt("all",t("all"),F.brand)+brands.map(b=>opt(b,b,F.brand)).join("");
+  const order=["S","M","L","XL","XXL","Free"]; const sizes=[...new Set(PRODUCTS.flatMap(p=>p.sizes.map(s=>s.s)))];
+  sizes.sort((a,b)=>{const ia=order.indexOf(a),ib=order.indexOf(b);if(ia>-1&&ib>-1)return ia-ib;if(ia>-1)return -1;if(ib>-1)return 1;const na=parseFloat(a),nb=parseFloat(b);if(!isNaN(na)&&!isNaN(nb))return na-nb;return a.localeCompare(b)});
+  $("#fSize").innerHTML = opt("all",t("any"),F.size)+sizes.map(s=>opt(s,s,F.size)).join("");
+  $("#fPrice").innerHTML = opt("all",t("any"),F.price)+[100,200,300,400,600].map(v=>opt(String(v),"≤ "+rupee(v),F.price)).join("");
+  $("#fSort").innerHTML = opt("pop",t("sort_pop"),F.sort)+opt("low",t("sort_low"),F.sort)+opt("high",t("sort_high"),F.sort);
+}
+function renderCatalogue(){
+  $("#deptChips").innerHTML = [{id:"all",name:t("all")},...DEPTS].map(d=>`<button class="chip${F.dept===d.id?" on":""}" type="button" data-chip="${d.id}" aria-pressed="${F.dept===d.id}">${esc(d.name)}</button>`).join("");
+  const q=F.q.trim().toLowerCase();
+  let list=PRODUCTS.filter(p=>p.stock>0)
+    .filter(p=>F.dept==="all"||p.dept===F.dept)
+    .filter(p=>F.brand==="all"||p.brand===F.brand)
+    .filter(p=>F.size==="all"||p.sizes.some(s=>s.s===F.size&&s.q>0))
+    .filter(p=>F.price==="all"||p.rate<=+F.price)
+    .filter(p=>!q||[p.name,p.brand,p.design,p.id,deptOf(p.dept).name].join(" ").toLowerCase().includes(q));
+  list.sort(F.sort==="low"?(a,b)=>a.rate-b.rate:F.sort==="high"?(a,b)=>b.rate-a.rate:(a,b)=>b.stock-a.stock);
+  const pcs=list.reduce((a,p)=>a+p.stock,0);
+  $("#resultLine").textContent = `${list.length} ${t("results")} · ${pcs.toLocaleString("en-IN")} ${t("pcs")}`;
+  $("#catGrid").innerHTML = list.length?list.map(productCard).join(""):`<div class="empty" style="grid-column:1/-1">—</div>`;
+}
+function cartTotals(){
+  let pcs=0,amt=0;
+  for(const [id,sz] of Object.entries(cart)){const p=PRODUCTS.find(x=>x.id===id);if(!p)continue;for(const q of Object.values(sz)){pcs+=q;amt+=q*p.rate}}
+  return {pcs,amt};
+}
+function orderText(){
+  const {pcs,amt}=cartTotals(); const L=[];
+  L.push("*New Order – Deepak Agency*");
+  if(user){L.push(`Shop: ${user.shop}`,`Name: ${user.name}`,`Phone: ${user.phone}`,`Address: ${user.addr}`)}
+  L.push("------------------------------");
+  let i=1;
+  for(const [id,sz] of Object.entries(cart)){
+    const p=PRODUCTS.find(x=>x.id===id); if(!p)continue;
+    const q=Object.values(sz).reduce((a,b)=>a+b,0);
+    L.push(`${i++}. ${p.name} (${p.brand}) – ${p.design} [${p.id}]`);
+    L.push(`   ${Object.entries(sz).map(([s,n])=>`${s} × ${n}`).join(", ")}`);
+    L.push(`   ${q} pcs @ ₹${p.rate} = ${rupee(q*p.rate)}`);
+  }
+  L.push("------------------------------");
+  L.push(`Total: ${pcs} pcs | ${rupee(amt)}`);
+  return L.join("\n");
+}
+function renderCart(){
+  const {pcs,amt}=cartTotals(); const ids=Object.keys(cart);
+  document.querySelectorAll("[data-cartn]").forEach(b=>{b.textContent=pcs;b.dataset.n=pcs});
+  $("#totPcs").textContent=pcs.toLocaleString("en-IN"); $("#totAmt").textContent=rupee(amt);
+  $("#cartLines").innerHTML = ids.length? ids.map(id=>{
+    const p=PRODUCTS.find(x=>x.id===id); if(!p) return ""; const sz=cart[id]; const q=Object.values(sz).reduce((a,b)=>a+b,0);
+    return `<div class="cline" style="--pbg:${bgOf(p)}"><div class="thumb">${garment(p.icon,p.color)}</div>
+      <div><div class="pbrand">${esc(p.brand)}</div><div class="pname">${esc(p.name)}</div><div class="pmeta">${t("design")}: ${esc(p.design)} · ${rupee(p.rate)} ${t("per_pc")}</div>
+      <div class="sz">${Object.entries(sz).map(([s,n])=>`<span class="num">${esc(s)} × ${n}</span>`).join("")}</div>
+      <div style="margin-top:8px;display:flex;gap:14px"><button class="link" type="button" data-edit="${p.id}">${t("edit")}</button><button class="link" type="button" data-remove="${p.id}" style="color:var(--muted)">${t("remove")}</button></div></div>
+      <div class="amt num">${rupee(q*p.rate)}<div class="muted small">${q} ${t("pcs")}</div></div></div>`;
+  }).join("") : `<div class="empty">${t("cart_empty")}<div style="margin-top:14px"><a class="btn primary" href="#catalogue">${t("btn_browse")}</a></div></div>`;
+  $("#shopLine").innerHTML = user?`${t("ordering_as")}: <b>${esc(user.shop)}</b> (${esc(user.phone)})`:`<span style="color:var(--warn)">${t("need_reg")}</span>`;
+  $("#sendWA").href = "https://wa.me/"+WA+"?text="+encodeURIComponent(orderText());
+  const pv=$("#orderPreview"); pv.textContent=orderText();
+  const disabled=!ids.length; $("#sendWA").style.opacity=disabled?.45:1; $("#copyOrder").disabled=disabled;
+}
+function renderAccount(){
+  const box=$("#accountBox");
+  if(user){
+    box.innerHTML=`<div class="welcomecard"><div style="opacity:.8">${t("welcome")}</div><div class="shop">${esc(user.shop)}</div><div>${esc(user.name)} · <span class="num">${esc(user.phone)}</span></div><div style="opacity:.85">${esc(user.addr)}</div>
+    <div class="ctas" style="margin-top:12px"><a class="btn primary" href="#catalogue">${t("go_cat")}</a><button class="btn ghost" type="button" id="changeUser">${t("change")}</button></div></div>`;
+  } else {
+    const u=user||{};
+    box.innerHTML=`<form class="formcard" id="regForm" novalidate>
+      <div class="field"><label for="rName">${t("f_name")}</label><input id="rName" required value="${esc(u.name||"")}" autocomplete="name"></div>
+      <div class="field"><label for="rShop">${t("f_shop")}</label><input id="rShop" required value="${esc(u.shop||"")}" autocomplete="organization"></div>
+      <div class="field"><label for="rPhone">${t("f_phone")}</label><input id="rPhone" type="tel" inputmode="numeric" maxlength="10" required value="${esc(u.phone||"")}" autocomplete="tel"><span class="small" id="rPhoneErr" style="color:var(--red)" hidden>${t("phone_bad")}</span></div>
+      <div class="field"><label for="rAddr">${t("f_addr")}</label><textarea id="rAddr" required>${esc(u.addr||"")}</textarea></div>
+      <button class="btn primary" type="submit">${t("save")}</button></form>`;
+  }
+}
+function renderAll(){renderHome();renderDepts();renderCatalogue();renderCart();renderAccount();}
+
+/* ---------- product sheet ---------- */
+let sheetPid=null;
+function openSheet(pid){
+  const p=PRODUCTS.find(x=>x.id===pid); if(!p) return; sheetPid=pid;
+  const cur=cart[pid]||{};
+  $("#sheet").innerHTML=`<div class="pimg" style="--pbg:${bgOf(p)}">${garment(p.icon,p.color)}</div>
+   <div class="sheetbody"><button class="close" type="button" data-close aria-label="Close">×</button>
+   <span class="pbrand">${esc(p.brand)} · ${esc(deptOf(p.dept).name)}</span><h3 id="sheetTitle">${esc(p.name)}</h3>
+   <div class="pmeta">${t("design")}: ${esc(p.design)} · ${esc(p.id)}</div>
+   <div class="price num">${rupee(p.rate)} <small>${t("per_pc")}</small></div>
+   <table class="sizetable"><thead><tr><th>${t("size")}</th><th>${t("stock")}</th><th style="text-align:right">${t("qty")}</th></tr></thead><tbody>
+   ${p.sizes.map(s=>`<tr><td><b>${esc(s.s)}</b></td><td class="num ${s.q<=5?"stock-low":"stock-ok"}">${s.q} ${t("pcs")}</td>
+     <td style="text-align:right"><span class="stepper"><button type="button" data-step="-1" aria-label="Less ${esc(s.s)}">−</button><input type="number" min="0" max="${s.q}" value="${cur[s.s]||0}" data-size="${esc(s.s)}" id="q_${p.id}_${esc(s.s).replace(/[^a-z0-9]/gi,"")}" aria-label="${t("qty")} ${esc(s.s)}"><button type="button" data-step="1" aria-label="More ${esc(s.s)}">+</button></span></td></tr>`).join("")}
+   </tbody></table>
+   <div class="sumline num"><span id="sheetPcs">0 ${t("pcs")}</span><span id="sheetAmt">₹0</span></div>
+   <button class="btn primary block" type="button" id="addBtn">${t("add")}</button></div>`;
+  $("#scrim").classList.add("open"); document.body.style.overflow="hidden";
+  updateSheetSum(); setTimeout(()=>$("#sheet .close")?.focus(),30);
+}
+function updateSheetSum(){
+  const p=PRODUCTS.find(x=>x.id===sheetPid); if(!p) return;
+  let q=0; document.querySelectorAll("#sheet input[data-size]").forEach(i=>q+=Math.max(0,+i.value||0));
+  $("#sheetPcs").textContent=`${q} ${t("pcs")}`; $("#sheetAmt").textContent=rupee(q*p.rate);
+}
+function closeSheet(){$("#scrim").classList.remove("open");document.body.style.overflow="";sheetPid=null;}
+function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("show"),2200);}
+
+/* ---------- routing ---------- */
+const VIEWS=["home","departments","catalogue","order","account","about","contact"];
+function route(){
+  const h=(location.hash||"#home").slice(1); const v=VIEWS.includes(h)?h:"home";
+  document.querySelectorAll("[data-view]").forEach(el=>el.classList.toggle("show",el.dataset.view===v));
+  document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===v));
+  document.querySelector(".fab").style.display=(v==="order"||v==="contact")?"none":"";
+  if(VIEWS.includes(h)) window.scrollTo(0,0);
+}
+function goCatalogue(patch){Object.assign(F,patch);buildFilterOptions();renderCatalogue();if(location.hash==="#catalogue"){route()}else{location.hash="catalogue"}}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const L=e.target.closest("[data-lang]"); if(L){lang=L.dataset.lang;store.set("da_lang",lang);applyLang();return;}
+  const d=e.target.closest("[data-dept]"); if(d){goCatalogue({dept:d.dataset.dept,brand:"all",q:""});$("#q").value="";return;}
+  const b=e.target.closest("[data-brand]"); if(b){goCatalogue({brand:b.dataset.brand,dept:"all"});return;}
+  const c=e.target.closest("[data-chip]"); if(c){F.dept=c.dataset.chip;renderCatalogue();return;}
+  const pc=e.target.closest("[data-pid]"); if(pc){openSheet(pc.dataset.pid);return;}
+  const ed=e.target.closest("[data-edit]"); if(ed){openSheet(ed.dataset.edit);return;}
+  const rm=e.target.closest("[data-remove]"); if(rm){delete cart[rm.dataset.remove];store.set("da_cart",cart);renderCart();return;}
+  if(e.target.closest("[data-close]")||e.target.id==="scrim"){closeSheet();return;}
+  const st=e.target.closest("[data-step]"); if(st){const i=st.parentElement.querySelector("input");const max=+i.max;i.value=Math.min(max,Math.max(0,(+i.value||0)+(+st.dataset.step)));updateSheetSum();return;}
+  if(e.target.closest("#addBtn")){
+    const sz={}; document.querySelectorAll("#sheet input[data-size]").forEach(i=>{const v=Math.min(+i.max,Math.max(0,Math.floor(+i.value||0)));if(v>0)sz[i.dataset.size]=v;});
+    if(!Object.keys(sz).length){toast(t("select_qty"));return;}
+    cart[sheetPid]=sz; store.set("da_cart",cart); renderCart(); closeSheet(); toast(t("added"));return;
+  }
+  if(e.target.closest("#changeUser")){const u=user;user=null;renderAccount();user=null;const f=$("#regForm");if(f&&u){$("#rName").value=u.name;$("#rShop").value=u.shop;$("#rPhone").value=u.phone;$("#rAddr").value=u.addr;}store.set("da_user",null);renderCart();return;}
+  const sw=e.target.closest("#sendWA");
+  if(sw){ if(!Object.keys(cart).length){e.preventDefault();location.hash="catalogue";return;} if(!user){e.preventDefault();toast(t("need_reg"));location.hash="account";return;} }
+  if(e.target.closest("#copyOrder")){
+    const txt=orderText(); const pv=$("#orderPreview");
+    try{ navigator.clipboard.writeText(txt).then(()=>toast(t("copied")),()=>{pv.hidden=false;toast(t("copy_fail"))}); }catch(err){pv.hidden=false;toast(t("copy_fail"));}
+    return;
+  }
+});
+document.addEventListener("input",e=>{
+  if(e.target.matches("#sheet input[data-size]")) updateSheetSum();
+  if(e.target.id==="q"){F.q=e.target.value;renderCatalogue();}
+});
+document.addEventListener("change",e=>{
+  const m={fBrand:"brand",fSize:"size",fPrice:"price",fSort:"sort"}[e.target.id];
+  if(m){F[m]=e.target.value;renderCatalogue();}
+});
+document.addEventListener("submit",e=>{
+  if(e.target.id==="regForm"){
+    e.preventDefault();
+    const u={name:$("#rName").value.trim(),shop:$("#rShop").value.trim(),phone:$("#rPhone").value.replace(/\D/g,""),addr:$("#rAddr").value.trim()};
+    const okPhone=/^[6-9]\d{9}$/.test(u.phone); $("#rPhoneErr").hidden=okPhone;
+    const f=e.target; let bad=false; ["rName","rShop","rAddr"].forEach(id=>{const el=$("#"+id);const empty=!el.value.trim();el.style.borderColor=empty?"var(--red)":"";bad=bad||empty;});
+    if(bad||!okPhone) return;
+    user=u; store.set("da_user",u); renderAccount(); renderCart(); toast(t("saved"));
+  }
+  if(e.target.id==="enqForm"){
+    e.preventDefault();
+    const msg=`*Enquiry – Deepak Agency*\nName: ${$("#eName").value.trim()}\nPhone: ${$("#ePhone").value.trim()}\n${$("#eMsg").value.trim()}`;
+    const a=$("#enqLink"); a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg); a.hidden=false; a.focus();
+  }
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#scrim").classList.contains("open"))closeSheet();});
+window.addEventListener("hashchange",route);
+
+/* ---------- mosaic (logo motif) ---------- */
+function drawMosaic(cv, seed){
+  const box=cv.getBoundingClientRect(); const dpr=Math.min(2,window.devicePixelRatio||1);
+  const W=Math.max(1,box.width), H=Math.max(1,box.height); cv.width=W*dpr; cv.height=H*dpr;
+  const g=cv.getContext("2d"); g.scale(dpr,dpr);
+  let s=seed; const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
+  const cols=W<420?6:8; const size=W/cols; const rows=Math.ceil(H/size);
+  const tiles=[];
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const x=c*size,y=r*size,dir=rnd()>.5;
+    tiles.push({x,y,dir,a:PALETTE[Math.floor(rnd()*PALETTE.length)],b:PALETTE[Math.floor(rnd()*PALETTE.length)]});
+  }
+  const paint=()=>{
+    for(const t of tiles){
+      g.fillStyle=t.a; g.beginPath();
+      if(t.dir){g.moveTo(t.x,t.y);g.lineTo(t.x+size,t.y);g.lineTo(t.x,t.y+size)}else{g.moveTo(t.x,t.y);g.lineTo(t.x+size,t.y);g.lineTo(t.x+size,t.y+size)}
+      g.closePath();g.fill();
+      g.fillStyle=t.b; g.beginPath();
+      if(t.dir){g.moveTo(t.x+size,t.y);g.lineTo(t.x+size,t.y+size);g.lineTo(t.x,t.y+size)}else{g.moveTo(t.x,t.y);g.lineTo(t.x,t.y+size);g.lineTo(t.x+size,t.y+size)}
+      g.closePath();g.fill();
+    }
+  };
+  paint();
+  cv._st={tiles,paint,rnd};
+  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!reduce&&!cv._anim){
+    cv._anim=true;
+    const tick=()=>{
+      const st=cv._st;
+      if(st&&cv.offsetParent){
+        const k=Math.floor(st.rnd()*st.tiles.length); const tt=st.tiles[k];
+        const col=PALETTE[Math.floor(st.rnd()*PALETTE.length)];
+        if(st.rnd()>.5) tt.a=col; else tt.b=col;
+        st.paint();
+      }
+      setTimeout(tick, 900);
+    };
+    setTimeout(tick,1200);
+  }
+}
+function drawAllMosaics(){
+  const a=$("#mosaic"); if(a&&a.offsetParent) drawMosaic(a,7);
+  const b=$("#mosaic2"); if(b&&b.offsetParent) drawMosaic(b,19);
+}
+window.addEventListener("resize",()=>{clearTimeout(drawAllMosaics._t);drawAllMosaics._t=setTimeout(drawAllMosaics,150)});
+window.addEventListener("hashchange",()=>setTimeout(drawAllMosaics,0));
+
+/* ---------- boot ---------- */
+$("#yearsN").textContent = String(new Date().getFullYear()-1995);
+route(); applyLang(); drawAllMosaics();
+</script>
+</body>
+</html>
