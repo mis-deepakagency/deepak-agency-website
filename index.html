@@ -1352,7 +1352,13 @@ async function loadSheet(){
   try{
     const [departments,products,brands]=await Promise.all([get("Departments"),get("Products"),get("Brands")]);
     const d=buildData({departments,products,brands});
-    return d.vars.length?d:null;
+    if(!d.vars.length) return null;
+    /* Sheet me Photo khaali ho to website ki built-in photo use karo */
+    const base=buildData(SAMPLE), key=v=>v.dept+"|"+v.name.trim().toLowerCase();
+    const bd=new Map(base.depts.map(x=>[x.id,x])), bv=new Map(base.vars.map(v=>[key(v),v]));
+    d.depts.forEach(x=>{ if(!x.photo&&bd.get(x.id)) x.photo=bd.get(x.id).photo; });
+    d.vars.forEach(v=>{ const b=bv.get(key(v)); if(b){ if(!v.photos.length) v.photos=b.photos; if(!v.backs.length) v.backs=b.backs; } });
+    return d;
   }catch(e){ return null; }
 }
 
