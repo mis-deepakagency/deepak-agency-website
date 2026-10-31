@@ -262,10 +262,156 @@ nav.bottom{display:none}
   nav.bottom .badge{position:absolute;top:0;left:calc(50% + 6px);margin:0;min-width:18px;height:18px;font-size:11px}
   .toast{bottom:150px}
 }
+
+/* ===== motion & micro-interactions ===== */
+html{scroll-behavior:smooth}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--red),var(--orange),var(--gold),var(--plum));z-index:70;pointer-events:none}
+/* scroll reveal (only when JS + motion allowed) */
+.rv-on .rv{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*70ms)}
+.rv-on .rv.rv-l{transform:translateX(-46px)}
+.rv-on .rv.rv-r{transform:translateX(46px)}
+.rv-on .rv.rv-s{transform:scale(.94)}
+.rv-on .rv.in{opacity:1;transform:none}
+.sechead h2::after{content:"";display:block;height:4px;width:56px;background:var(--gold);border-radius:2px;margin-top:10px;transition:width .9s .25s cubic-bezier(.2,.7,.2,1)}
+.rv-on .sechead.rv:not(.in) h2::after{width:0}
+.band h2::after{display:none}
+/* hero load sequence */
+.hero-copy > *{animation:heroIn .85s cubic-bezier(.2,.7,.2,1) backwards}
+.hero-copy > :nth-child(2){animation-delay:.12s}
+.hero-copy > :nth-child(3){animation-delay:.24s}
+.hero-copy > :nth-child(4){animation-delay:.36s}
+@keyframes heroIn{from{opacity:0;transform:translateY(26px)}}
+.mosaic{animation:mosaicIn 1s .1s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes mosaicIn{from{opacity:0;transform:scale(.94) rotate(-1.5deg)}}
+.mosaic .seal{animation:sealIn .9s .45s cubic-bezier(.34,1.56,.64,1) backwards;transition:transform .25s ease-out}
+@keyframes sealIn{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
+/* view switch */
+[data-view].enter{animation:viewIn .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}}
+/* buttons: press, ripple, nudge */
+.btn,.chip,.brandchip{position:relative;overflow:hidden}
+.btn:active,.chip:active,.brandchip:active{transform:scale(.95)}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);background:currentColor;opacity:.28;animation:rip .65s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.btn.nudge{animation:nudge 4.5s 2s ease-in-out infinite}
+.btn.nudge:hover{animation:none}
+@keyframes nudge{0%,82%,100%{transform:none}86%{transform:translateY(-7px)}90%{transform:translateY(0)}94%{transform:translateY(-3px)}97%{transform:translateY(0)}}
+.btn .arrow{display:inline-block;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.btn:hover .arrow{transform:translateX(5px)}
+.link{display:inline-block;transition:transform .25s}
+.link:hover{transform:translateX(3px)}
+/* whatsapp fab */
+.fab{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.fab:hover{transform:scale(1.1) rotate(-8deg)}
+.fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #1F8A4C;animation:ring 2.4s ease-out infinite;pointer-events:none}
+@keyframes ring{from{transform:scale(1);opacity:.75}to{transform:scale(1.75);opacity:0}}
+/* cards */
+.dept{position:relative;overflow:hidden;transition:border-color .2s,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.dept:hover{box-shadow:0 18px 34px -22px var(--d)}
+.dept::before{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--d);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.dept:hover::before{transform:scaleX(1)}
+.dept:hover .ico svg{animation:hop .65s cubic-bezier(.34,1.56,.64,1)}
+@keyframes hop{0%{transform:none}35%{transform:translateY(-12px) rotate(-5deg)}65%{transform:translateY(0) rotate(3deg) scaleY(.96)}100%{transform:none}}
+.pcard{position:relative;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.pcard .pimg svg{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.pcard:hover .pimg svg{transform:scale(1.1) rotate(-5deg)}
+.pcard .pimg .tag{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.pcard:hover .pimg .tag{transform:translateY(-2px) scale(1.05)}
+.pcard .price{transition:color .2s}
+.pcard:hover .price{color:var(--red)}
+.pop{animation:popIn .5s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes popIn{from{opacity:0;transform:translateY(16px) scale(.96)}}
+.why > div{transition:transform .25s}
+.why > div:hover{transform:translateX(4px)}
+.stat b{transition:color .3s}
+.stat:hover b{color:var(--red)}
+/* cart fly + bump */
+.flydot{position:fixed;left:0;top:0;width:20px;height:20px;border-radius:50%;background:var(--red);z-index:80;pointer-events:none;box-shadow:0 0 0 5px rgba(212,42,47,.22)}
+.badge.bump{animation:bump .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bump{40%{transform:scale(1.6)}}
+
+/* ===== infographic: range at a glance ===== */
+.glance{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px}
+.donutwrap{position:relative;max-width:360px;width:100%;margin:0 auto}
+.donutwrap svg{width:100%;height:auto;display:block;overflow:visible}
+.slice{fill:none;stroke-width:26;cursor:pointer;transition:stroke-dasharray 1.1s cubic-bezier(.2,.7,.2,1),stroke-width .3s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.slice.sel{stroke-width:36}
+.glance .slice:not(.sel){opacity:.42}
+.dcenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.dcenter b{font-family:var(--display);font-size:clamp(30px,4vw,42px);font-weight:800;line-height:1}
+.dcenter span{color:var(--muted);font-size:14px;max-width:12ch;line-height:1.2;margin-top:4px}
+.gcard{border-radius:18px;padding:18px 20px;background:color-mix(in srgb,var(--gc) 11%,var(--paper));border:1px solid color-mix(in srgb,var(--gc) 30%,var(--paper));transition:background .3s,border-color .3s;margin-bottom:14px}
+.gcard h3{font-size:26px;display:flex;align-items:center;gap:10px}
+.gcard h3 svg{width:34px;height:34px;flex-shrink:0}
+.gstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.gstats div{background:var(--card);border-radius:12px;padding:10px 12px}
+.gstats b{display:block;font-size:20px;font-weight:700}
+.gstats span{font-size:13px;color:var(--muted)}
+.gbar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin:4px 0 14px}
+.gbar i{display:block;height:100%;background:var(--gc);border-radius:6px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.glegend{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.glegend button{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:none;border-radius:10px;padding:6px 8px;cursor:pointer;text-align:left;font-size:14.5px;transition:background .2s,border-color .2s}
+.glegend button:hover,.glegend button.sel{background:var(--tint);border-color:var(--line)}
+.glegend i{width:12px;height:12px;border-radius:4px;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.glegend button.sel i{transform:scale(1.35) rotate(45deg)}
+.glegend small{margin-left:auto;color:var(--muted)}
+.samplenote{font-size:13px;color:var(--muted);margin-top:10px}
+
+/* ===== infographic: order journey ===== */
+.journey{position:relative;--p:0;padding-top:40px}
+.jtrack{position:absolute;left:10%;right:10%;top:62px;height:4px;background:var(--line);border-radius:4px}
+.jfill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p)*100%);background:linear-gradient(90deg,var(--red),var(--orange),var(--gold));border-radius:4px}
+.jparcel{position:absolute;left:calc(var(--p)*100%);top:-40px;transform:translateX(-50%);width:34px;height:34px;border-radius:10px;background:var(--gold);color:var(--ink);display:grid;place-items:center;box-shadow:0 8px 16px -8px rgba(0,0,0,.4);animation:bob 1.6s ease-in-out infinite}
+.jparcel svg{width:20px;height:20px}
+@keyframes bob{50%{margin-top:-5px}}
+.jsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+.jstep{text-align:center;padding:0 6px;cursor:default;border-radius:14px;outline-offset:4px}
+.jdot{width:46px;height:46px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px;background:var(--card);border:3px solid var(--line);color:var(--muted);transition:background .35s,border-color .35s,color .35s,transform .45s cubic-bezier(.34,1.56,.64,1);position:relative;z-index:1}
+.jstep.on .jdot{background:var(--red);border-color:var(--red);color:#fff;transform:scale(1.12)}
+.jstep:hover .jdot{transform:scale(1.2) rotate(-8deg)}
+.jstep b{display:block;font-size:17px;margin-bottom:4px;transition:color .3s}
+.jstep.on b{color:var(--red)}
+.jstep p{margin:0;color:var(--muted);font-size:15px}
+
+/* ===== infographic: profit calculator ===== */
+.calc{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px}
+.calcin{display:grid;gap:16px;align-content:start}
+.calcin .chips{padding:0}
+.rangerow{display:grid;grid-template-columns:1fr 96px;gap:12px;align-items:center}
+input[type=range]{accent-color:var(--red);width:100%;height:28px;cursor:pointer}
+.calcout{background:var(--plum);color:#fff;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.bigs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bigs span{display:block;font-size:13.5px;color:#E9D7E3}
+.bigs b{display:block;font-family:var(--display);font-size:clamp(22px,2.6vw,32px);font-weight:800;line-height:1.1}
+.bigs .hi b{color:var(--gold)}
+.splitbar{display:flex;height:48px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.12)}
+.splitbar div{display:flex;align-items:center;padding:0 12px;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;transition:width .6s cubic-bezier(.34,1.3,.64,1)}
+.sb-cost{background:rgba(255,255,255,.22)}
+.sb-profit{background:var(--gold);color:var(--ink)}
+.calcmsg{font-size:14px;color:#E9D7E3;margin:0}
+.calcmsg.loss{color:#FFB4B4;font-weight:600}
+.calcpicks .chip{font-size:14px;padding:6px 12px}
+
+@media (max-width:760px){
+  .glance{grid-template-columns:1fr;padding:18px;gap:18px}
+  .donutwrap{max-width:250px}
+  .gstats b{font-size:17px}
+  .journey{padding-top:0}
+  .jtrack{left:21px;right:auto;top:23px;bottom:23px;width:4px;height:auto}
+  .jfill{width:100%;height:calc(var(--p)*100%)}
+  .jparcel{display:none}
+  .jsteps{grid-template-columns:1fr;gap:20px}
+  .jstep{text-align:left;padding:0 0 0 64px;position:relative;min-height:46px}
+  .jdot{position:absolute;left:0;top:0;margin:0}
+  .calc{grid-template-columns:1fr;padding:18px}
+  .bigs b{font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){.rv-on .rv{opacity:1!important;transform:none!important}.jparcel{animation:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <header class="top">
   <div class="wrap">
@@ -295,12 +441,12 @@ nav.bottom{display:none}
 <div data-view="home">
   <div class="wrap">
     <div class="hero">
-      <div>
+      <div class="hero-copy">
         <span class="kicker" data-t="hero_kicker">Wholesale readymade garments · Since 1995</span>
         <h1 data-t="hero_title" data-html>Everything your shop sells, <em>under one roof.</em></h1>
         <p class="sub" data-t="hero_sub">Men's, ladies' and kids' wear across a 40,000 sq ft showroom, for retailers in and around Ahilyanagar. Wholesale rates, new stock arriving regularly, and one number for every department.</p>
         <div class="ctas">
-          <a class="btn primary" href="#catalogue" data-t="btn_browse">Browse catalogue</a>
+          <a class="btn primary nudge" href="#catalogue"><span data-t="btn_browse">Browse catalogue</span> <span class="arrow">→</span></a>
           <a class="btn wa" href="https://wa.me/919730538971" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg><span data-t="btn_whatsapp">WhatsApp us</span></a>
         </div>
       </div>
@@ -315,9 +461,9 @@ nav.bottom{display:none}
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><b class="num" id="yearsN">31</b><span data-t="stat_years">years of trust</span></div>
-      <div class="stat"><b class="num">40,000</b><span data-t="stat_area">sq ft showroom</span></div>
-      <div class="stat"><b class="num">10+</b><span data-t="stat_depts">departments</span></div>
+      <div class="stat"><b class="num" id="yearsN" data-count="31">31</b><span data-t="stat_years">years of trust</span></div>
+      <div class="stat"><b class="num" data-count="40000">40,000</b><span data-t="stat_area">sq ft showroom</span></div>
+      <div class="stat"><b class="num" data-count="10" data-suffix="+">10+</b><span data-t="stat_depts">departments</span></div>
       <div class="stat"><b data-t="all_big">All</b><span data-t="stat_cat">categories except sarees</span></div>
     </div>
 
@@ -327,6 +473,21 @@ nav.bottom{display:none}
         <a class="link" href="#departments" data-t="see_all">See all departments →</a>
       </div>
       <div class="depts" id="homeDepts"></div>
+    </section>
+
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="sec_glance">Our range at a glance</h2><p data-t="glance_sub">Tap a department to see its designs, stock and rate range.</p></div></div>
+      <div class="glance" id="glance">
+        <div class="donutwrap">
+          <svg viewBox="0 0 220 220" id="donut" role="img" aria-label="Stock by department"></svg>
+          <div class="dcenter"><b class="num" id="dcPct">0%</b><span id="dcName"></span></div>
+        </div>
+        <div>
+          <div class="gcard" id="gCard"></div>
+          <div class="glegend" id="gLegend"></div>
+          <div class="samplenote" data-t="glance_note">Based on the sample catalogue.</div>
+        </div>
+      </div>
     </section>
 
     <section class="block">
@@ -343,11 +504,16 @@ nav.bottom{display:none}
     </section>
 
     <section class="block">
-      <div class="sechead"><h2 data-t="sec_how">How ordering works</h2></div>
-      <div class="how">
-        <div><p data-t="how1">Register your shop once: name, shop name, phone and address.</p></div>
-        <div><p data-t="how2">Pick designs and size-wise quantities from the catalogue.</p></div>
-        <div><p data-t="how3">Send the order on WhatsApp. Our team confirms it and packs your parcel.</p></div>
+      <div class="sechead"><div><h2 data-t="sec_journey">Your order's journey</h2><p data-t="journey_sub">Five simple steps from catalogue to parcel.</p></div></div>
+      <div class="journey" id="journey">
+        <div class="jtrack" aria-hidden="true"><div class="jfill"></div><div class="jparcel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></svg></div></div>
+        <ol class="jsteps">
+          <li class="jstep" tabindex="0"><span class="jdot">1</span><b data-t="j1t">Register</b><p data-t="how1">Register your shop once: name, shop name, phone and address.</p></li>
+          <li class="jstep" tabindex="0"><span class="jdot">2</span><b data-t="j2t">Pick designs</b><p data-t="how2">Pick designs and size-wise quantities from the catalogue.</p></li>
+          <li class="jstep" tabindex="0"><span class="jdot">3</span><b data-t="j3t">Send on WhatsApp</b><p data-t="j3">One tap sends your full order, size-wise, to 97305 38971.</p></li>
+          <li class="jstep" tabindex="0"><span class="jdot">4</span><b data-t="j4t">Confirm &amp; pack</b><p data-t="j4">Our team confirms stock and rates with you, then packs your parcel.</p></li>
+          <li class="jstep" tabindex="0"><span class="jdot">5</span><b data-t="j5t">Dispatch</b><p data-t="j5">Your parcel is handed over for dispatch.</p></li>
+        </ol>
       </div>
     </section>
 
@@ -364,6 +530,29 @@ nav.bottom{display:none}
         <div><b data-t="why4">Trusted since 1995</b><p data-t="why4p">Three decades of supplying shops around Ahilyanagar.</p></div>
       </div>
     </div>
+
+    <section class="block">
+      <div class="sechead"><div><h2 data-t="sec_calc">Retailer profit calculator</h2><p data-t="calc_sub">See your margin before you order.</p></div></div>
+      <div class="calc" id="calc">
+        <div class="calcin">
+          <div class="chips calcpicks" id="calcPicks" role="group" aria-label="Pick a product"></div>
+          <div class="field"><label for="cBuy" data-t="c_buy">Our wholesale rate (₹ / pc)</label><input id="cBuy" type="number" min="1" step="1" value="185" inputmode="decimal"></div>
+          <div class="field"><label for="cSell" data-t="c_sell">Your selling price (₹ / pc)</label>
+            <div class="rangerow"><input id="cSellR" type="range" min="185" max="555" step="1" value="299" aria-label="Selling price slider"><input id="cSell" type="number" min="1" step="1" value="299" inputmode="decimal"></div></div>
+          <div class="field"><label for="cQty" data-t="c_qty">Pieces</label>
+            <div class="rangerow"><input id="cQtyR" type="range" min="1" max="500" step="1" value="60" aria-label="Pieces slider"><input id="cQty" type="number" min="1" step="1" value="60" inputmode="numeric"></div></div>
+        </div>
+        <div class="calcout" aria-live="polite">
+          <div class="bigs">
+            <div><span data-t="c_ppc">Profit per piece</span><b class="num" id="oPpc">₹0</b></div>
+            <div><span data-t="c_margin">Margin</span><b class="num" id="oMargin">0%</b></div>
+            <div class="hi"><span data-t="c_total">Total profit</span><b class="num" id="oTotal">₹0</b></div>
+          </div>
+          <div class="splitbar"><div class="sb-cost" id="sbCost" style="width:60%"><span data-t="c_cost">Cost</span></div><div class="sb-profit" id="sbProfit" style="width:40%"><span data-t="c_profit">Profit</span></div></div>
+          <p class="calcmsg" id="calcMsg" data-t="c_note">Margin is shown on your selling price.</p>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -518,6 +707,9 @@ nav.bottom{display:none}
 <script>
 const WA = "919730538971";
 const PALETTE = ["#D42A2F","#EE7D1E","#F2B51C","#5A1E4E","#8E2C62","#B8361F"];
+const RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const FINE = !!(window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches);
+if(!RM && "IntersectionObserver" in window) document.documentElement.classList.add("rv-on");
 
 /* ---------- garment drawings ---------- */
 function shade(hex, amt){
@@ -632,7 +824,7 @@ const T = {
   about_p2:"We buy readymade garments from manufacturers across India, in every category except sarees, and stock them department by department in our 40,000 sq ft showroom on Link Road, Kedgaon.",
   about_p3:"Our motto is सचोटी व नाविन्य: honesty in every bill, and new ideas in how we serve our customers.",
   contact_title:"Visit us",contact_sub:"One number for every department.",addr_lbl:"Showroom",open_maps:"Open in Google Maps →",phone_lbl:"Call / WhatsApp",time_lbl:"Timings",timings:"10:00 AM – 8:30 PM",
-  enq_title:"Send an enquiry",enq_msg:"What are you looking for?",enq_send:"Send on WhatsApp",enq_open:"Open WhatsApp with your enquiry →",quick:"Quick links",items:"items",all_big:"All"},
+  enq_title:"Send an enquiry",enq_msg:"What are you looking for?",enq_send:"Send on WhatsApp",enq_open:"Open WhatsApp with your enquiry →",quick:"Quick links",items:"items",all_big:"All",sec_glance:"Our range at a glance",glance_sub:"Tap a department to see its designs, stock and rate range.",glance_note:"Based on the sample catalogue.",of_stock:"of stock",rate_range:"Rate range",view_dept:"View department",sec_journey:"Your order's journey",journey_sub:"Five simple steps from catalogue to parcel.",j1t:"Register",j2t:"Pick designs",j3t:"Send on WhatsApp",j3:"One tap sends your full order, size-wise, to 97305 38971.",j4t:"Confirm & pack",j4:"Our team confirms stock and rates with you, then packs your parcel.",j5t:"Dispatch",j5:"Your parcel is handed over for dispatch.",sec_calc:"Retailer profit calculator",calc_sub:"See your margin before you order.",c_buy:"Our wholesale rate (₹ / pc)",c_sell:"Your selling price (₹ / pc)",c_qty:"Pieces",c_ppc:"Profit per piece",c_margin:"Margin",c_total:"Total profit",c_cost:"Cost",c_profit:"Profit",c_note:"Margin is shown on your selling price.",c_loss:"Selling price is below cost. Raise it to make a profit."},
  hi:{nav_home:"होम",nav_depts:"विभाग",nav_catalogue:"कैटलॉग",nav_about:"हमारे बारे में",nav_contact:"संपर्क",nav_cart:"ऑर्डर",nav_account:"खाता",
   hero_kicker:"होलसेल रेडीमेड गारमेंट्स · 1995 से",hero_title:"आपकी दुकान का हर कपड़ा, <em>एक ही छत के नीचे।</em>",
   hero_sub:"40,000 sq ft के शोरूम में पुरुष, महिला और बच्चों के कपड़े, अहिल्यानगर और आसपास के रिटेलर्स के लिए। होलसेल रेट, लगातार नया माल, और हर विभाग के लिए एक ही नंबर।",
@@ -652,7 +844,7 @@ const T = {
   about_p2:"हम पूरे भारत के निर्माताओं से साड़ी छोड़कर हर कैटेगरी के रेडीमेड कपड़े खरीदते हैं, और उन्हें लिंक रोड, केडगाँव के 40,000 sq ft शोरूम में विभाग के अनुसार रखते हैं।",
   about_p3:"हमारा मंत्र है सचोटी व नाविन्य: हर बिल में ईमानदारी, और ग्राहकों की सेवा में नए विचार।",
   contact_title:"हमसे मिलें",contact_sub:"हर विभाग के लिए एक ही नंबर।",addr_lbl:"शोरूम",open_maps:"Google Maps में खोलें →",phone_lbl:"कॉल / WhatsApp",time_lbl:"समय",timings:"सुबह 10:00 – रात 8:30",
-  enq_title:"पूछताछ भेजें",enq_msg:"आप क्या ढूंढ रहे हैं?",enq_send:"WhatsApp पर भेजें",enq_open:"अपनी पूछताछ के साथ WhatsApp खोलें →",quick:"लिंक",items:"आइटम",all_big:"सभी"},
+  enq_title:"पूछताछ भेजें",enq_msg:"आप क्या ढूंढ रहे हैं?",enq_send:"WhatsApp पर भेजें",enq_open:"अपनी पूछताछ के साथ WhatsApp खोलें →",quick:"लिंक",items:"आइटम",all_big:"सभी",sec_glance:"एक नज़र में हमारी रेंज",glance_sub:"किसी विभाग पर टैप करें: डिज़ाइन, स्टॉक और रेट रेंज देखें।",glance_note:"नमूना कैटलॉग के आधार पर।",of_stock:"स्टॉक का",rate_range:"रेट रेंज",view_dept:"विभाग देखें",sec_journey:"आपके ऑर्डर का सफ़र",journey_sub:"कैटलॉग से पार्सल तक, पाँच आसान स्टेप।",j1t:"रजिस्टर",j2t:"डिज़ाइन चुनें",j3t:"WhatsApp पर भेजें",j3:"एक टैप में पूरा ऑर्डर, साइज़ के हिसाब से, 97305 38971 पर पहुँचता है।",j4t:"कन्फर्म और पैक",j4:"हमारी टीम आपसे स्टॉक और रेट कन्फर्म करती है, फिर पार्सल पैक करती है।",j5t:"डिस्पैच",j5:"आपका पार्सल डिस्पैच के लिए रवाना होता है।",sec_calc:"रिटेलर प्रॉफ़िट कैलकुलेटर",calc_sub:"ऑर्डर से पहले अपना मार्जिन देखें।",c_buy:"हमारा होलसेल रेट (₹ / पीस)",c_sell:"आपका बिक्री मूल्य (₹ / पीस)",c_qty:"पीस",c_ppc:"प्रति पीस मुनाफ़ा",c_margin:"मार्जिन",c_total:"कुल मुनाफ़ा",c_cost:"लागत",c_profit:"मुनाफ़ा",c_note:"मार्जिन आपके बिक्री मूल्य पर दिखाया गया है।",c_loss:"बिक्री मूल्य लागत से कम है। मुनाफ़े के लिए इसे बढ़ाएं।"},
  mr:{nav_home:"होम",nav_depts:"विभाग",nav_catalogue:"कॅटलॉग",nav_about:"आमच्याबद्दल",nav_contact:"संपर्क",nav_cart:"ऑर्डर",nav_account:"खाते",
   hero_kicker:"घाऊक रेडिमेड कपडे · 1995 पासून",hero_title:"तुमच्या दुकानातील प्रत्येक कपडा, <em>एकाच छताखाली.</em>",
   hero_sub:"40,000 sq ft शोरूममध्ये पुरुष, महिला आणि लहान मुलांचे कपडे, अहिल्यानगर आणि परिसरातील किरकोळ विक्रेत्यांसाठी. घाऊक दर, सतत नवीन माल, आणि प्रत्येक विभागासाठी एकच नंबर.",
@@ -672,7 +864,7 @@ const T = {
   about_p2:"आम्ही संपूर्ण भारतातील उत्पादकांकडून साडी सोडून सर्व प्रकारचे रेडिमेड कपडे खरेदी करतो, आणि लिंक रोड, केडगाव येथील 40,000 sq ft शोरूममध्ये विभागानुसार ठेवतो.",
   about_p3:"आमचे ब्रीदवाक्य आहे सचोटी व नाविन्य: प्रत्येक बिलात प्रामाणिकपणा, आणि ग्राहकसेवेत नव्या कल्पना.",
   contact_title:"आम्हाला भेट द्या",contact_sub:"प्रत्येक विभागासाठी एकच नंबर.",addr_lbl:"शोरूम",open_maps:"Google Maps मध्ये उघडा →",phone_lbl:"कॉल / WhatsApp",time_lbl:"वेळ",timings:"सकाळी 10:00 – रात्री 8:30",
-  enq_title:"चौकशी पाठवा",enq_msg:"तुम्ही काय शोधत आहात?",enq_send:"WhatsApp वर पाठवा",enq_open:"तुमच्या चौकशीसह WhatsApp उघडा →",quick:"लिंक",items:"आयटम",all_big:"सर्व"}
+  enq_title:"चौकशी पाठवा",enq_msg:"तुम्ही काय शोधत आहात?",enq_send:"WhatsApp वर पाठवा",enq_open:"तुमच्या चौकशीसह WhatsApp उघडा →",quick:"लिंक",items:"आयटम",all_big:"सर्व",sec_glance:"एका नजरेत आमची रेंज",glance_sub:"विभागावर टॅप करा: डिझाइन, स्टॉक आणि दर श्रेणी पहा.",glance_note:"नमुना कॅटलॉगवर आधारित.",of_stock:"स्टॉकपैकी",rate_range:"दर श्रेणी",view_dept:"विभाग पहा",sec_journey:"तुमच्या ऑर्डरचा प्रवास",journey_sub:"कॅटलॉगपासून पार्सलपर्यंत, पाच सोप्या पायऱ्या.",j1t:"नोंदणी",j2t:"डिझाइन निवडा",j3t:"WhatsApp वर पाठवा",j3:"एका टॅपमध्ये संपूर्ण ऑर्डर, साईजनुसार, 97305 38971 वर पोहोचते.",j4t:"खात्री आणि पॅकिंग",j4:"आमची टीम तुमच्याशी स्टॉक आणि दराची खात्री करते, मग पार्सल पॅक करते.",j5t:"रवाना",j5:"तुमचे पार्सल डिस्पॅचसाठी रवाना होते.",sec_calc:"किरकोळ विक्रेता नफा कॅल्क्युलेटर",calc_sub:"ऑर्डरआधी तुमचा मार्जिन पहा.",c_buy:"आमचा घाऊक दर (₹ / नग)",c_sell:"तुमची विक्री किंमत (₹ / नग)",c_qty:"नग",c_ppc:"प्रति नग नफा",c_margin:"मार्जिन",c_total:"एकूण नफा",c_cost:"खर्च",c_profit:"नफा",c_note:"मार्जिन तुमच्या विक्री किमतीवर दाखवला आहे.",c_loss:"विक्री किंमत खर्चापेक्षा कमी आहे. नफ्यासाठी ती वाढवा."}
 };
 
 /* ---------- state ---------- */
@@ -719,7 +911,7 @@ function renderHome(){
   $("#homeProducts").innerHTML = picks.map(id=>productCard(PRODUCTS.find(p=>p.id===id))).join("");
   $("#brandChips").innerHTML = BRANDS.map(b=>`<button class="brandchip" type="button" data-brand="${esc(b)}">${esc(b)}</button>`).join("") + `<span class="brandchip" style="cursor:default;color:var(--muted)">+ ${lang==="en"?"many more":lang==="hi"?"और भी कई":"आणखी अनेक"}</span>`;
 }
-function renderDepts(){ $("#allDepts").innerHTML = DEPTS.map(deptCard).join(""); }
+function renderDepts(){ $("#allDepts").innerHTML = DEPTS.map(deptCard).join(""); stagger("#allDepts","pop"); }
 function buildFilterOptions(){
   const opt=(v,l,sel)=>`<option value="${esc(v)}"${sel===v?" selected":""}>${esc(l)}</option>`;
   const brands=[...new Set(PRODUCTS.map(p=>p.brand))].sort();
@@ -743,6 +935,7 @@ function renderCatalogue(){
   const pcs=list.reduce((a,p)=>a+p.stock,0);
   $("#resultLine").textContent = `${list.length} ${t("results")} · ${pcs.toLocaleString("en-IN")} ${t("pcs")}`;
   $("#catGrid").innerHTML = list.length?list.map(productCard).join(""):`<div class="empty" style="grid-column:1/-1">—</div>`;
+  stagger("#catGrid","pop");
 }
 function cartTotals(){
   let pcs=0,amt=0;
@@ -798,7 +991,7 @@ function renderAccount(){
       <button class="btn primary" type="submit">${t("save")}</button></form>`;
   }
 }
-function renderAll(){renderHome();renderDepts();renderCatalogue();renderCart();renderAccount();}
+function renderAll(){renderHome();renderDepts();renderCatalogue();renderCart();renderAccount();renderGlance();renderCalcPicks();calcUpdate(true);stagger("#homeDepts","rv");stagger("#homeProducts","rv");watchReveal();}
 
 /* ---------- product sheet ---------- */
 let sheetPid=null;
@@ -831,7 +1024,7 @@ function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("sh
 const VIEWS=["home","departments","catalogue","order","account","about","contact"];
 function route(){
   const h=(location.hash||"#home").slice(1); const v=VIEWS.includes(h)?h:"home";
-  document.querySelectorAll("[data-view]").forEach(el=>el.classList.toggle("show",el.dataset.view===v));
+  document.querySelectorAll("[data-view]").forEach(el=>{const on=el.dataset.view===v;const was=el.classList.contains("show");el.classList.toggle("show",on);if(on&&!was&&!RM){el.classList.remove("enter");void el.offsetWidth;el.classList.add("enter");}});
   document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===v));
   document.querySelector(".fab").style.display=(v==="order"||v==="contact")?"none":"";
   if(VIEWS.includes(h)) window.scrollTo(0,0);
@@ -852,7 +1045,8 @@ document.addEventListener("click",e=>{
   if(e.target.closest("#addBtn")){
     const sz={}; document.querySelectorAll("#sheet input[data-size]").forEach(i=>{const v=Math.min(+i.max,Math.max(0,Math.floor(+i.value||0)));if(v>0)sz[i.dataset.size]=v;});
     if(!Object.keys(sz).length){toast(t("select_qty"));return;}
-    cart[sheetPid]=sz; store.set("da_cart",cart); renderCart(); closeSheet(); toast(t("added"));return;
+    const fr=$("#addBtn").getBoundingClientRect();
+    cart[sheetPid]=sz; store.set("da_cart",cart); renderCart(); closeSheet(); toast(t("added")); flyToCart(fr);return;
   }
   if(e.target.closest("#changeUser")){const u=user;user=null;renderAccount();user=null;const f=$("#regForm");if(f&&u){$("#rName").value=u.name;$("#rShop").value=u.shop;$("#rPhone").value=u.phone;$("#rAddr").value=u.addr;}store.set("da_user",null);renderCart();return;}
   const sw=e.target.closest("#sendWA");
@@ -912,7 +1106,8 @@ function drawMosaic(cv, seed){
     }
   };
   paint();
-  cv._st={tiles,paint,rnd};
+  cv._st={tiles,paint,rnd,size,cols};
+  mosaicPointer(cv);
   const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(!reduce&&!cv._anim){
     cv._anim=true;
@@ -935,10 +1130,214 @@ function drawAllMosaics(){
 }
 window.addEventListener("resize",()=>{clearTimeout(drawAllMosaics._t);drawAllMosaics._t=setTimeout(drawAllMosaics,150)});
 window.addEventListener("hashchange",()=>setTimeout(drawAllMosaics,0));
+window.addEventListener("hashchange",()=>setTimeout(onScroll,60));
+
+
+/* ---------- motion helpers ---------- */
+function stagger(sel, cls){
+  const box=$(sel); if(!box) return;
+  [...box.children].forEach((el,i)=>{ if(el.classList.contains("empty")) return; el.style.setProperty("--i",Math.min(i,12)); if(!RM) el.classList.add(cls); });
+}
+let revealIO=null;
+function watchReveal(){
+  if(RM||!("IntersectionObserver" in window)) return;
+  if(!revealIO){
+    revealIO=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el=e.target; revealIO.unobserve(el); el.classList.add("in");
+      if(el.id==="glance") glanceIn();
+      setTimeout(()=>{el.classList.remove("rv","rv-l","rv-r","rv-s","in");el.style.removeProperty("--i")},1400);
+    }),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  }
+  document.querySelectorAll(".rv:not(.watch)").forEach(el=>{el.classList.add("watch");revealIO.observe(el);});
+}
+function markStatic(){
+  if(RM) return;
+  const add=(sel,cls="rv")=>document.querySelectorAll(sel).forEach((el,i)=>{el.classList.add(...cls.split(" "));});
+  add("[data-view] .sechead","rv rv-l");
+  add(".stats"); add(".glance","rv rv-s"); add(".journey"); add(".calc","rv rv-s");
+  add(".band","rv rv-s"); add(".notice"); add(".filters");
+  document.querySelectorAll(".why > div, .facts .fact, .brands").forEach((el,i)=>{el.classList.add("rv");el.style.setProperty("--i",i%4);});
+  add(".prose","rv rv-l"); add("[data-view=about] .mosaic","rv rv-r"); add("#enqForm","rv rv-r");
+}
+/* count-up numbers */
+function countUp(el){
+  const to=+el.dataset.count, suf=el.dataset.suffix||"";
+  if(RM){el.textContent=to.toLocaleString("en-IN")+suf;return;}
+  const t0=performance.now(), d=1500;
+  const step=now=>{const k=Math.min(1,(now-t0)/d), e=1-Math.pow(1-k,3);
+    el.textContent=Math.round(to*e).toLocaleString("en-IN")+suf; if(k<1) requestAnimationFrame(step);};
+  requestAnimationFrame(step);
+}
+function watchCounts(){
+  const els=document.querySelectorAll("[data-count]");
+  if(RM||!("IntersectionObserver" in window)){els.forEach(countUp);return;}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);countUp(e.target);}}),{threshold:.6});
+  els.forEach(el=>{el.textContent="0"+(el.dataset.suffix||"");io.observe(el);});
+}
+/* ripple on press */
+document.addEventListener("pointerdown",e=>{
+  if(RM) return;
+  const b=e.target.closest(".btn,.chip,.brandchip"); if(!b) return;
+  const r=b.getBoundingClientRect(), d=Math.max(r.width,r.height)*2.2, sp=document.createElement("span");
+  sp.className="ripple"; sp.style.width=sp.style.height=d+"px";
+  sp.style.left=(e.clientX-r.left-d/2)+"px"; sp.style.top=(e.clientY-r.top-d/2)+"px";
+  b.appendChild(sp); setTimeout(()=>sp.remove(),700);
+});
+/* 3D tilt on cards (mouse only) */
+if(FINE&&!RM){
+  document.addEventListener("pointermove",e=>{
+    const c=e.target.closest(".dept,.pcard"); if(!c||c.closest(".sheet")) return;
+    if(c.classList.contains("rv")) return;
+    const r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`perspective(800px) rotateX(${(-y*8).toFixed(2)}deg) rotateY(${(x*10).toFixed(2)}deg) translateY(-4px)`;
+    c._tilt=true;
+  });
+  document.addEventListener("pointerout",e=>{
+    const c=e.target.closest(".dept,.pcard"); if(!c||!c._tilt) return;
+    if(e.relatedTarget&&c.contains(e.relatedTarget)) return;
+    c.style.transform=""; c._tilt=false;
+  });
+}
+/* fly to cart */
+function flyToCart(fr){
+  const targets=[...document.querySelectorAll('[data-nav="order"]')].filter(a=>a.offsetParent);
+  const tgt=targets[targets.length-1]; const badges=document.querySelectorAll("[data-cartn]");
+  const bump=()=>badges.forEach(b=>{b.classList.remove("bump");void b.offsetWidth;b.classList.add("bump");});
+  if(RM||!tgt||!fr){bump();return;}
+  const tr=tgt.getBoundingClientRect();
+  const sx=fr.left+fr.width/2-10, sy=fr.top+fr.height/2-10, ex=tr.left+tr.width/2-10, ey=tr.top+tr.height/2-10;
+  const dot=document.createElement("div"); dot.className="flydot"; document.body.appendChild(dot);
+  const mx=(sx+ex)/2, my=Math.min(sy,ey)-120;
+  const a=dot.animate([
+    {transform:`translate(${sx}px,${sy}px) scale(1)`},
+    {transform:`translate(${mx}px,${my}px) scale(1.15)`,offset:.45},
+    {transform:`translate(${ex}px,${ey}px) scale(.35)`}
+  ],{duration:850,easing:"cubic-bezier(.45,.05,.55,.95)"});
+  a.onfinish=()=>{dot.remove();bump();};
+}
+/* scroll: progress bar, journey fill, hero parallax */
+let scrollTick=false;
+function onScroll(){
+  if(scrollTick) return; scrollTick=true;
+  requestAnimationFrame(()=>{
+    scrollTick=false;
+    const h=document.documentElement, max=h.scrollHeight-h.clientHeight;
+    $("#progress").style.transform=`scaleX(${max>0?(h.scrollTop||document.body.scrollTop)/max:0})`;
+    const j=$("#journey");
+    if(j&&j.offsetParent){
+      const r=j.getBoundingClientRect(), vh=innerHeight;
+      let p=RM?1:(vh*0.82-r.top)/(r.height+vh*0.15); p=Math.max(0,Math.min(1,p));
+      j.style.setProperty("--p",p.toFixed(3));
+      const steps=j.querySelectorAll(".jstep"); steps.forEach((s,i)=>s.classList.toggle("on",p>=i/(steps.length-1)-0.02));
+    }
+    const m=$(".hero .mosaic");
+    if(m&&m.offsetParent&&!RM){const y=Math.min(140,scrollY); m.style.transform=`translateY(${(y*-0.12).toFixed(1)}px)`;}
+  });
+}
+addEventListener("scroll",onScroll,{passive:true});
+/* interactive mosaic: tiles change colour under the pointer, seal tilts */
+function mosaicPointer(cv){
+  if(cv._ptr) return; cv._ptr=true;
+  const host=cv.parentElement;
+  host.addEventListener("pointermove",e=>{
+    const st=cv._st; if(!st) return;
+    const r=cv.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    const c=Math.floor(x/st.size), rr=Math.floor(y/st.size); const tile=st.tiles[rr*st.cols+c];
+    if(tile&&tile!==cv._last){cv._last=tile; tile.a=PALETTE[(PALETTE.indexOf(tile.a)+1)%PALETTE.length]; tile.b=PALETTE[(PALETTE.indexOf(tile.b)+2)%PALETTE.length]; st.paint();}
+    const seal=host.querySelector(".seal");
+    if(seal&&FINE&&!RM){const dx=x/r.width-.5, dy=y/r.height-.5; seal.style.transform=`translate(-50%,-50%) perspective(700px) rotateY(${(dx*14).toFixed(1)}deg) rotateX(${(-dy*14).toFixed(1)}deg)`;}
+  });
+  host.addEventListener("pointerleave",()=>{const seal=host.querySelector(".seal"); if(seal) seal.style.transform="";});
+}
+
+/* ---------- infographic: range at a glance ---------- */
+let gSel=null, glanceShown=false;
+function deptStats(){
+  return DEPTS.map(d=>{const ps=PRODUCTS.filter(p=>p.dept===d.id);const pcs=ps.reduce((a,p)=>a+p.stock,0);const rates=ps.map(p=>p.rate);
+    return {d,designs:ps.length,pcs,min:Math.min(...rates),max:Math.max(...rates)};}).filter(x=>x.designs>0);
+}
+function renderGlance(){
+  const S=deptStats(), total=S.reduce((a,x)=>a+x.pcs,0);
+  if(!gSel) gSel=S.slice().sort((a,b)=>b.pcs-a.pcs)[0].d.id;
+  const R=84, C=2*Math.PI*R, gap=3; let off=0;
+  $("#donut").innerHTML=`<circle cx="110" cy="110" r="${R}" fill="none" stroke="var(--tint)" stroke-width="26"/>`+S.map(x=>{
+    const len=Math.max(0,x.pcs/total*C-gap); const o=off; off+=x.pcs/total*C;
+    const dash=(glanceShown||RM)?`${len} ${C-len}`:`0 ${C}`;
+    return `<circle class="slice${x.d.id===gSel?" sel":""}" data-g="${x.d.id}" cx="110" cy="110" r="${R}" stroke="${x.d.c}" stroke-dasharray="${dash}" data-dash="${len} ${C-len}" stroke-dashoffset="${-o}" transform="rotate(-90 110 110)" tabindex="0" role="button" aria-label="${esc(x.d.name)}"><title>${esc(x.d.name)}: ${x.pcs} ${t("pcs")}</title></circle>`;
+  }).join("");
+  $("#gLegend").innerHTML=S.map(x=>`<button type="button" data-g="${x.d.id}" class="${x.d.id===gSel?"sel":""}"><i style="background:${x.d.c}"></i>${esc(x.d.name)}<small class="num">${Math.round(x.pcs/total*100)}%</small></button>`).join("");
+  glanceSelect(gSel,true);
+}
+function glanceSelect(id,quiet){
+  const S=deptStats(), total=S.reduce((a,x)=>a+x.pcs,0), x=S.find(s=>s.d.id===id); if(!x) return; gSel=id;
+  document.querySelectorAll("#donut .slice").forEach(c=>c.classList.toggle("sel",c.dataset.g===id));
+  document.querySelectorAll("#gLegend button").forEach(b=>b.classList.toggle("sel",b.dataset.g===id));
+  const pct=Math.round(x.pcs/total*100);
+  const pctEl=$("#dcPct");
+  if(!RM&&!quiet){const from=parseInt(pctEl.textContent)||0,t0=performance.now();const st=n=>{const k=Math.min(1,(n-t0)/400);pctEl.textContent=Math.round(from+(pct-from)*k)+"%";if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st);}else pctEl.textContent=pct+"%";
+  $("#dcName").textContent=x.d.name;
+  const card=$("#gCard"); card.style.setProperty("--gc",x.d.c);
+  card.innerHTML=`<h3>${garment(x.d.icon,x.d.c)}${esc(x.d.name)}</h3>
+    <div class="gstats"><div><b class="num">${x.designs}</b><span>${t("results")}</span></div><div><b class="num">${x.pcs.toLocaleString("en-IN")}</b><span>${t("pcs")}</span></div><div><b class="num">${rupee(x.min)}–${x.max}</b><span>${t("rate_range")}</span></div></div>
+    <div class="gbar"><i style="width:${(glanceShown||RM)?pct:0}%"></i></div>
+    <button class="btn primary" type="button" data-dept="${x.d.id}"><span>${t("view_dept")}</span> <span class="arrow">→</span></button>`;
+  if(!RM&&glanceShown){const bar=card.querySelector(".gbar i");bar.style.width="0%";requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width=pct+"%"));}
+}
+function glanceIn(){
+  if(glanceShown) return; glanceShown=true;
+  document.querySelectorAll("#donut .slice").forEach((c,i)=>{c.style.transitionDelay=(i*70)+"ms";c.setAttribute("stroke-dasharray",c.dataset.dash);});
+  setTimeout(()=>document.querySelectorAll("#donut .slice").forEach(c=>c.style.transitionDelay=""),1600);
+  const bar=$("#gCard .gbar i"); if(bar) setTimeout(()=>{bar.style.width=$("#dcPct").textContent},300);
+}
+document.addEventListener("pointerover",e=>{const g=e.target.closest("#donut [data-g], #gLegend [data-g]"); if(g&&FINE&&g.dataset.g!==gSel) glanceSelect(g.dataset.g);});
+document.addEventListener("click",e=>{const g=e.target.closest("#donut [data-g], #gLegend [data-g]"); if(g) glanceSelect(g.dataset.g);});
+document.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("#donut [data-g]"); if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();glanceSelect(g.dataset.g);}});
+
+/* ---------- infographic: profit calculator ---------- */
+const CALC_PICKS=["DA-TS-101","DA-JN-201","DA-FR-501","DA-HS-601","DA-LW-701"];
+function suggestSell(rate){return Math.ceil(rate*1.55/10)*10-1;}
+function renderCalcPicks(){
+  $("#calcPicks").innerHTML=CALC_PICKS.map(id=>{const p=PRODUCTS.find(x=>x.id===id);return `<button class="chip" type="button" data-calc="${id}">${esc(deptOf(p.dept).name)} ${rupee(p.rate)}</button>`;}).join("");
+}
+const tween={};
+function tweenNum(id,to,fmt){
+  const el=$("#"+id); const from=tween[id]??to; tween[id]=to;
+  if(RM||from===to){el.textContent=fmt(to);return;}
+  const t0=performance.now(),d=450; cancelAnimationFrame(el._raf);
+  const st=n=>{const k=Math.min(1,(n-t0)/d),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)el._raf=requestAnimationFrame(st)};
+  el._raf=requestAnimationFrame(st);
+}
+function calcUpdate(fromLang){
+  const buy=Math.max(0,+$("#cBuy").value||0), sell=Math.max(0,+$("#cSell").value||0), qty=Math.max(0,Math.floor(+$("#cQty").value||0));
+  const r=$("#cSellR"); r.min=Math.max(1,Math.floor(buy*0.8)); r.max=Math.max(+r.min+10,Math.ceil(buy*3)); r.value=sell;
+  $("#cQtyR").value=Math.min(500,qty);
+  const ppc=sell-buy, margin=sell>0?ppc/sell*100:0, total=ppc*qty;
+  const fmtR=v=>(v<0?"−":"")+"₹"+Math.round(Math.abs(v)).toLocaleString("en-IN");
+  tweenNum("oPpc",ppc,fmtR); tweenNum("oMargin",margin,v=>(Math.round(v*10)/10).toFixed(1)+"%"); tweenNum("oTotal",total,fmtR);
+  const costW=sell>0?Math.min(100,buy/sell*100):100;
+  $("#sbCost").style.width=costW+"%"; $("#sbProfit").style.width=(ppc>0?100-costW:0)+"%";
+  const msg=$("#calcMsg"); const loss=ppc<0;
+  msg.classList.toggle("loss",loss); msg.textContent=loss?t("c_loss"):t("c_note");
+}
+document.addEventListener("input",e=>{
+  const id=e.target.id;
+  if(id==="cSellR") $("#cSell").value=e.target.value;
+  if(id==="cQtyR") $("#cQty").value=e.target.value;
+  if(["cBuy","cSell","cSellR","cQty","cQtyR"].includes(id)) calcUpdate();
+});
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-calc]"); if(!c) return;
+  const p=PRODUCTS.find(x=>x.id===c.dataset.calc);
+  $("#cBuy").value=p.rate; $("#cSell").value=suggestSell(p.rate);
+  document.querySelectorAll("[data-calc]").forEach(b=>b.classList.toggle("on",b===c));
+  calcUpdate();
+});
 
 /* ---------- boot ---------- */
-$("#yearsN").textContent = String(new Date().getFullYear()-1995);
-route(); applyLang(); drawAllMosaics();
+$("#yearsN").dataset.count = String(new Date().getFullYear()-1995);
+markStatic();
+route(); applyLang(); drawAllMosaics(); watchCounts(); watchReveal(); onScroll();
 </script>
 </body>
 </html>
