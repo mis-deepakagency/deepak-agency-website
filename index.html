@@ -575,7 +575,7 @@ main{overflow-x:clip}
 .rod{position:absolute;left:22px;right:22px;top:31px;height:7px;border-radius:5px;background:linear-gradient(#E3E6EA,#A5ACB4 55%,#7E858D);box-shadow:0 3px 4px rgba(0,0,0,.18);z-index:0}
 .rod::before,.rod::after{content:"";position:absolute;top:-6px;width:9px;height:19px;border-radius:3px;background:linear-gradient(90deg,#8A9098,#B9BFC6,#8A9098)}
 .rod::before{left:-4px}.rod::after{right:-4px}
- .rack{position:relative;z-index:1;display:flex;justify-content:safe center;align-items:flex-start;overflow-x:auto;overflow-y:visible;padding:12px 44px 6px;min-height:232px;scrollbar-width:thin;scroll-snap-type:x proximity}
+ .rack{position:relative;z-index:1;display:flex;justify-content:safe center;align-items:flex-start;overflow-x:auto;overflow-y:visible;padding:12px 44px 18px;min-height:262px;scrollbar-width:thin;scroll-snap-type:x proximity}
 .hang{flex:0 0 auto;width:62px;margin-right:-8px;border:0;background:none;padding:0;cursor:pointer;position:relative;transform-origin:50% 8px;transition:width .5s cubic-bezier(.2,.7,.2,1),margin .5s cubic-bezier(.2,.7,.2,1);scroll-snap-align:center;outline-offset:4px}
 .hang .hg{display:block;width:46px;height:24px;margin:0 auto}
 .hang .gw{display:block;width:150px;margin:-14px 0 0 calc((100% - 150px)/2);transform-origin:50% 0;transform:scaleX(.42);filter:saturate(.85);transition:transform .55s cubic-bezier(.34,1.35,.64,1),filter .3s}
@@ -642,6 +642,13 @@ main{overflow-x:clip}
   .st-visual{flex-direction:column;align-items:center;gap:0}
 }
 @media (prefers-reduced-motion:reduce){.st-sway,.hang:hover{animation:none}.flip{transition:none}}
+
+/* real photos */
+.vimg img{object-fit:contain!important;padding:10px}
+.hang .gw img{display:block;width:150px;height:200px;object-fit:contain;object-position:50% 0;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18))}
+.lay img{width:100%;height:100%;display:block;object-fit:contain;object-position:50% 0;filter:drop-shadow(0 22px 22px rgba(37,27,34,.22))}
+.stage-in.photo .flip{aspect-ratio:4/5}
+@media (max-width:760px){.hang .gw img{width:132px;height:176px}}
 
 .hammer em{font-style:normal}
 </style>
@@ -956,14 +963,14 @@ Hosiery,Gents Innerwear,Pocket Vest,,,"Dixcy, Macho, Essa, James & Harper, Lux, 
 Hosiery,More Products,Patta / Kopri / Sun Caps,All types,,,
 Hosiery,More Products,Socks,"Ankle, Full, Loose",,"Otaya, N.K, Redon, Supersox",
 Hosiery,Winter Collection,Thermal,"Kids, Gents, Ladies",All sizes,,
-Shirt,Shirts,Casual Shirts,"Plain, Print, Checks, Lining, Pattern, White",,"Offer, Hangout, Malabiz, Freedom, My Rules, Studio 83",
+Shirt,Shirts,Casual Shirts,"Plain, Print, Checks, Lining, Pattern, White",,"Offer, Hangout, Malabiz, Freedom, My Rules, Studio 83","shirt-bluecheck.webp, shirt-maroonfloral.webp, shirt-navy.webp, shirt-white.webp"
 Shirt,Shirts,Formal Shirts,Box Packing,,"Goodwill, Mercury, Touch Up",
 Shirt,Shirts,White Shirts,"Structure, Plain, Box Packing",,"Ramraj, Goodwill, Mercury, White King, Touch Up, Civic",
 Shirt,Kids Shirts,Kids Shirts,"White, Lining, Print, Checks, Fancy Patterns","3 to 8, 10 to 14","Civic, Play Goer, Offer, Hangout, Richie Rich, Kalash",
 Shirt,Kurta Pyjama,Kurta Pyjama (Kids & Men's),"Plain White, Plain Colours, Fancy Kurta",,"Diamond, Kingman, Touch Up, Freedom",
 Shirt,Winter Collection,Jerkin,,S – 4XL,"Krishna, Bansal",
 Shirt,Winter Collection,Sweat Shirt,,M – XXL,,
-T-Shirt,Men's,Fancy T-Shirts,,,,
+T-Shirt,Men's,Fancy T-Shirts,,,,"tee-maroon.webp, tee-black.webp, tee-white.webp, tee-greyv.webp"
 T-Shirt,Men's,Sports T-Shirts,,,,
 T-Shirt,Men's,Hoodies,,,,
 T-Shirt,Men's,Sweats,,,,
@@ -973,7 +980,7 @@ T-Shirt,Kids,Kids Sports T-Shirts,,,,
 T-Shirt,Kids,Sports School Uniform,,,,
 T-Shirt,Mandal T-Shirts,Mandal T-Shirts,,,,
 T-Shirt,Winter Collection,Jerkin,,M – 6XL,"Bholashankar, Black Harry, Hiccups",
-Jeans,Jeans & Pants,Jeans,,28 to 44,"LBW, Hidden, Maker's, Redux-S, White Ice, J-Ten, Next-9",
+Jeans,Jeans & Pants,Jeans,,28 to 44,"LBW, Hidden, Maker's, Redux-S, White Ice, J-Ten, Next-9","jean-dark.webp, jean-black.webp"
 Jeans,Jeans & Pants,Scratch & Damage Jeans,,28 to 44,"Mr Wrong, White Devil, Trigger, Apple Club",
 Jeans,Jeans & Pants,Armani Pants,,28 to 44,"Mabel, Pronex, Next-9, Hidden",
 Jeans,Jeans & Pants,Formal Pants,,28 to 44,"I-10, Midon",
@@ -1081,12 +1088,12 @@ Handloom,Ramraj,Ramraj Bedsheet,,,Ramraj,
 Handloom,Ramraj,Wedding Set,,,Ramraj,
 Kids Jeans,Boys Jeans,Boys Jeans,"Six Pocket, Plain, Cargo, Jogger, Cotton","16/20, 22/30, 32/40",,
 Kids Jeans,Boys Jeans,Armani,"Plain, Checks, Peanut, Popcorn, Flexi Belt","22/30, 32/40",,
-Kids Jeans,Pant Shirt,Pant Shirt,"Plain, Double Pocket, Digital Print, Checks","2/7, 5/10, 3/8",,
-Kids Jeans,Ethnic Wear,Kurta Payjama,,1/10,,
-Kids Jeans,Ethnic Wear,Three Piece,,1/10,,
+Kids Jeans,Pant Shirt,Pant Shirt,"Plain, Double Pocket, Digital Print, Checks","2/7, 5/10, 3/8",,"kid-blue.webp, kid-redcheck.webp, kid-orange.webp, kid-yellow.webp"
+Kids Jeans,Ethnic Wear,Kurta Payjama,,1/10,,kid-white.webp
+Kids Jeans,Ethnic Wear,Three Piece,,1/10,,kid-waistcoat.webp
 Kids Jeans,Ethnic Wear,Chikan Kurta Payjama,,1/10,,
-Kids Jeans,Jacket,Jacket,"Half Jacket, Full Jacket, Jeans Jacket",22/32,,
-Kids Jeans,Newborn Baby,Baby Dress,"Full, Half",0,,
+Kids Jeans,Jacket,Jacket,"Half Jacket, Full Jacket, Jeans Jacket",22/32,,kid-hoodie.webp
+Kids Jeans,Newborn Baby,Baby Dress,"Full, Half",0,,kid-romper.webp
 Kids Jeans,Newborn Baby,Langot,,0,,
 Kids Jeans,Newborn Baby,Baby Cap & Mittens,"Baby Cap, Mittens",0,,
 Kids Jeans,Newborn Baby,Baby Socks Set,"Hand, Legs",0,,
@@ -1118,7 +1125,7 @@ Baba Suit,New Born Baby,New Born Baby (Mojito),,"M, L, XXL",Mojito,
 Baba Suit,New Born Sweater,New Born Sweater (Love Bird),,14 – 22,Love Bird,
 Baba Suit,New Born Sweater,New Born Sweater (Top Gear),,"14, 16, 18, 20",Top Gear,
 Baba Suit,New Born Sweater,China Sweater,,"14, 16, 18, 20, 22",,
-Baba Suit,Raincoat,Raincoat,,"22 – 26, 27 – 42, 48 – 52, S – M, L – 5XL","Zeel, Kesri, Reliance",
+Baba Suit,Raincoat,Raincoat,,"22 – 26, 27 – 42, 48 – 52, S – M, L – 5XL","Zeel, Kesri, Reliance","rain-navy.webp, rain-black.webp, rain-olive.webp, rain-yellow.webp, rain-red.webp, rain-maroon.webp, rain-grey.webp"
 Baba Suit,Winter Collection,Fur Suit,,14 – 22,,
 Baba Suit,Winter Collection,Boys Sweat Shirt,,18 – 36,,
 Baba Suit,Winter Collection,Jerkin,,18 – 36,,
@@ -1322,7 +1329,7 @@ function buildData(raw){
   depRows.forEach(r=>{if(r.department) addDept(r.department,r);});
   const vars=[];
   prodRows.forEach(r=>{ if(!r.department||!r.variety) return; const d=addDept(r.department);
-    vars.push({dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photo:assetPath(r.photo,"images/products/"),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
+    vars.push({get photo(){return this.photos[0]||""},dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photos:splitList(r.photo).map(p=>assetPath(p,"images/products/")),backs:splitList(r["back photo"]).map(p=>assetPath(p,"images/products/")),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
   const brands=new Map(), canon=new Map();
   brandRows.forEach(r=>{ if(r.brand){const n=r.brand.trim(); canon.set(n.toLowerCase(),n); brands.set(n,{name:n,logo:assetPath(r.logo||DEFAULT_LOGOS[n.toLowerCase()]||"","logos/brands/")});} });
   vars.forEach(v=>{ v.brands=v.brands.map(b=>{const k=b.toLowerCase(); if(!canon.has(k)){canon.set(k,b); brands.set(b,{name:b,logo:assetPath(DEFAULT_LOGOS[k]||"","logos/brands/")});} return canon.get(k);}); });
@@ -1412,7 +1419,7 @@ function renderProducts(){
     <div class="meta"><span><b class="num">${d.vars.length}</b> ${t("varieties")}</span><span><b class="num">${d.sizeCount}</b> ${t("size_opts")}</span><span><b class="num">${d.brands.length||"—"}</b> ${t("brands_lbl")}</span></div>
     ${d.brands.length?`<div class="blabel">${t("brands_in")}</div><div class="logos">${d.brands.map(b=>brandTile(b)).join("")}</div>`:`<div class="muted small">${t("multi_brands")}</div>`}
     <a class="btn wa" style="align-self:flex-start;margin-top:6px" href="${waLink(fill(t("wa_dept"),{d:d.name}))}" target="_blank" rel="noopener">${WAICON}<span>${t("ask_dept")}</span></a></div></div>
-    <div class="rackwrap" style="--d:${d.c}"><div class="rod" aria-hidden="true"></div><div class="rack" id="rack">${d.vars.map(v=>`<button class="hang" type="button" data-v="${DATA.vars.indexOf(v)}" aria-label="${esc(v.name)}">${hangerSVG()}<span class="gw">${garment(v.icon,v.color,false,true)}</span></button>`).join("")}</div><div class="rackcap" id="rackCap">${t("rack_hint")}</div></div>
+    <div class="rackwrap" style="--d:${d.c}"><div class="rod" aria-hidden="true"></div><div class="rack" id="rack">${d.vars.map(v=>`<button class="hang" type="button" data-v="${DATA.vars.indexOf(v)}" aria-label="${esc(v.name)}">${hangerSVG()}<span class="gw">${v.photo?`<img src="${esc(v.photo)}" alt="" loading="lazy">`:garment(v.icon,v.color,false,true)}</span></button>`).join("")}</div><div class="rackcap" id="rackCap">${t("rack_hint")}</div></div>
     ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)} <small class="num">${s.vars.length}</small></h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
   d.sections.forEach((s,i)=>stagger("#vg"+i,"pop"));
 }
@@ -1433,16 +1440,24 @@ function stageEl(){
   s.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
   return s;
 }
-function paintLayers(sel,col){const v=ST.list[ST.i]; document.querySelectorAll(`#stFlip .fr ${sel}`).forEach(e=>e.innerHTML=garment(v.icon,col,false,true)); document.querySelectorAll(`#stFlip .bk ${sel}`).forEach(e=>e.innerHTML=garment(v.icon,col,true,true));}
+function paintLayers(sel,ci){const v=ST.list[ST.i];
+  const fr=ST.photo?`<img src="${esc(v.photos[ci])}" alt="${esc(v.name)}">`:garment(v.icon,ST.cols[ci],false,true);
+  const bk=ST.photo?(v.backs[ci]?`<img src="${esc(v.backs[ci])}" alt="">`:fr):garment(v.icon,ST.cols[ci],true,true);
+  document.querySelectorAll(`#stFlip .fr ${sel}`).forEach(e=>e.innerHTML=fr); document.querySelectorAll(`#stFlip .bk ${sel}`).forEach(e=>e.innerHTML=bk);}
+const TONES={};
+function photoTone(src){ if(TONES[src]) return TONES[src]; TONES[src]=new Promise(res=>{const im=new Image(); im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=32;const g=c.getContext("2d");g.drawImage(im,0,0,32,32);const d=g.getImageData(0,0,32,32).data;let r=0,gg=0,b=0,n=0;for(let i=0;i<d.length;i+=4){if(d[i+3]>200){r+=d[i];gg+=d[i+1];b+=d[i+2];n++;}} res(n?`rgb(${Math.round(r/n)},${Math.round(gg/n)},${Math.round(b/n)})`:"#999");}catch(e){res("#999");}}; im.onerror=()=>res("#999"); im.src=src;}); return TONES[src]; }
 function renderStage(dir){
-  const v=ST.list[ST.i], d=deptOf(v.dept); ST.cols=swatchesFor(v); ST.ci=0;
+  const v=ST.list[ST.i], d=deptOf(v.dept); ST.photo=v.photos.length>0; ST.cols=ST.photo?v.photos.slice():swatchesFor(v); ST.ci=0;
   $("#stDept").textContent=d.name+(v.section?" · "+v.section:""); $("#stName").textContent=v.name;
   $("#stTypes").textContent=v.types.join(" · ");
   $("#stSizes").innerHTML=v.sizes.length?`<div class="vlabel">${t("sizes_lbl")}</div><div class="vsizes">${v.sizes.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:"";
   $("#stBrands").innerHTML=v.brands.length?`${t("brands_lbl")}: <b>${v.brands.map(esc).join(", ")}</b>`:"";
   $("#stAsk").href=waLink(fill(t("wa_variety"),{v:v.name,d:d.name}));
-  $("#stTags").innerHTML=`<span class="vlabel" data-t="st_colour">${t("st_colour")}</span>`+ST.cols.map((c,i)=>`<button class="tag${i===0?" on":""}" type="button" data-col="${i}" style="--c:${c};--r:${(i%2?4:-4)}deg" aria-label="Colour ${i+1}"><i></i></button>`).join("");
-  paintLayers(".base",ST.cols[0]); document.querySelectorAll("#stFlip .top").forEach(e=>{e.innerHTML="";e.classList.remove("go");});
+  $("#stTags").innerHTML=ST.cols.length>1||!ST.photo?`<span class="vlabel" data-t="st_colour">${t("st_colour")}</span>`+ST.cols.map((c,i)=>`<button class="tag${i===0?" on":""}" type="button" data-col="${i}" style="--c:${ST.photo?"#C9C2BA":c};--r:${(i%2?4:-4)}deg" aria-label="Colour ${i+1}"><i></i></button>`).join(""):"";
+  if(ST.photo) ST.cols.forEach((src,i)=>photoTone(src).then(col=>{const tg=document.querySelector(`#stTags .tag[data-col="${i}"]`); if(tg) tg.style.setProperty("--c",col);}));
+  $("#stage .seg").hidden=ST.photo&&!v.backs.length; $("#stage [data-t=st_note]").hidden=ST.photo;
+  $("#stage .stage-in").classList.toggle("photo",ST.photo);
+  paintLayers(".base",0); document.querySelectorAll("#stFlip .top").forEach(e=>{e.innerHTML="";e.classList.remove("go");});
   ST.back=false; $("#stFlip").classList.remove("back"); document.querySelectorAll('#stage .seg button').forEach(b=>b.classList.toggle("on",b.dataset.st==="front"));
   const hg=$("#stHang"); hg.classList.remove("in-l","in-r","drop"); void hg.offsetWidth; if(!RM) hg.classList.add(dir>0?"in-r":dir<0?"in-l":"drop");
   const n=ST.list.length>1; document.querySelectorAll("#stage .st-nav").forEach(b=>b.hidden=!n);
@@ -1454,11 +1469,11 @@ function openStage(idx){
 function closeStage(){const s=$("#stage"); if(s){s.hidden=true; document.body.style.overflow="";}}
 function stepStage(k){ST.i=(ST.i+k+ST.list.length)%ST.list.length; renderStage(k);}
 function setColour(ci){
-  if(ci===ST.ci||ST.busy) return; ST.ci=ci; const col=ST.cols[ci];
+  if(ci===ST.ci||ST.busy) return; ST.ci=ci;
   document.querySelectorAll("#stTags .tag").forEach((b,i)=>b.classList.toggle("on",i===ci));
-  if(RM){paintLayers(".base",col);return;}
-  ST.busy=true; paintLayers(".top",col); const tops=document.querySelectorAll("#stFlip .top"); tops.forEach(e=>{e.classList.remove("go");void e.offsetWidth;e.classList.add("go");});
-  setTimeout(()=>{paintLayers(".base",col); tops.forEach(e=>{e.classList.remove("go");e.innerHTML="";}); ST.busy=false;},1050);
+  if(RM){paintLayers(".base",ci);return;}
+  ST.busy=true; paintLayers(".top",ci); const tops=document.querySelectorAll("#stFlip .top"); tops.forEach(e=>{e.classList.remove("go");void e.offsetWidth;e.classList.add("go");});
+  setTimeout(()=>{paintLayers(".base",ci); tops.forEach(e=>{e.classList.remove("go");e.innerHTML="";}); ST.busy=false;},1050);
 }
 document.addEventListener("click",e=>{
   const h=e.target.closest("[data-v]"); if(h){openStage(+h.dataset.v);return;}
