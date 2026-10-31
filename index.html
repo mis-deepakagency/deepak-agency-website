@@ -1311,9 +1311,11 @@ function renderProducts(){
   d.sections.forEach((s,i)=>stagger("#vg"+i,"pop"));
 }
 function renderBrands(){
-  const all=[...DATA.brands.keys()];
-  const loop=all.length?[...all,...all].map(b=>brandTile(b,true)).join(""):"";
-  $("#brandsMarquee").innerHTML=loop; $("#homeLogos").innerHTML=loop;
+  const withLogo=[...DATA.brands.values()].filter(b=>b.logo).map(b=>b.name);
+  const half=Math.max(1,Math.ceil(8/Math.max(1,withLogo.length)));
+  const loopList=[]; for(let i=0;i<half*2;i++) loopList.push(...withLogo);
+  const loop=withLogo.length?loopList.map(b=>brandTile(b,true)).join(""):"";
+  ["#brandsMarquee","#homeLogos"].forEach(sel=>{const tr=$(sel); tr.innerHTML=loop; tr.style.setProperty("--dur",(withLogo.length*half*4.5)+"s"); tr.parentElement.hidden=!withLogo.length;});
   $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted">${t("brands_lbl")}: ${d.brands.length} · <a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
     + (DATA.depts.some(d=>!d.brands.length)?`<p class="muted small">${t("brands_more")}</p>`:"");
 }
