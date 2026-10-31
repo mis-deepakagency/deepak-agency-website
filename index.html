@@ -436,7 +436,8 @@ main{overflow-x:clip}
 .ribbon.r2{background:var(--plum);color:var(--gold);transform:rotate(1.2deg);margin-top:6px;font-size:clamp(20px,3vw,36px)}
 .track{display:inline-flex;gap:0;animation:mq var(--dur,38s) linear infinite;will-change:transform}
 .ribbon.r2 .track{animation-direction:reverse;--dur:46s}
-.track span{padding:0 22px;display:inline-flex;align-items:center;gap:22px}
+.track > span{padding:0 22px;display:inline-flex;align-items:center;gap:22px}
+[hidden]{display:none!important}
 .track .o{color:transparent;-webkit-text-stroke:1.5px currentColor}
 .ribbon.r1 .track .o{-webkit-text-stroke-color:#fff}
 .track i{font-style:normal;color:var(--gold);font-size:.7em}
@@ -821,6 +822,8 @@ main{overflow-x:clip}
    the sample data below is shown. */
 const SHEET_ID = "128mCJ1BvfbTVX_4d3_BVJGKTEO4NqpCNaxHvEEL_eUI";
 const WA = "919730538971";
+/* Logos already uploaded to logos/brands/ (used when the sheet's Logo cell is empty) */
+const DEFAULT_LOGOS = {"verito":"verito.png","stax":"stax.png","essa":"essa.png","dixcy":"dixcy.png","james & harper":"james-harper.png","jockey":"jockey.png","cucumber":"cucumber.png","zeel":"zeel.png","lyra":"lyra.png","ramraj":"ramraj.png"};
 const PALETTE = ["#D42A2F","#EE7D1E","#F2B51C","#5A1E4E","#8E2C62","#B8361F"];
 const RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 const FINE = !!(window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches);
@@ -1205,8 +1208,8 @@ function buildData(raw){
   prodRows.forEach(r=>{ if(!r.department||!r.variety) return; const d=addDept(r.department);
     vars.push({dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photo:assetPath(r.photo,"images/products/"),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
   const brands=new Map(), canon=new Map();
-  brandRows.forEach(r=>{ if(r.brand){const n=r.brand.trim(); canon.set(n.toLowerCase(),n); brands.set(n,{name:n,logo:assetPath(r.logo,"logos/brands/")});} });
-  vars.forEach(v=>{ v.brands=v.brands.map(b=>{const k=b.toLowerCase(); if(!canon.has(k)){canon.set(k,b); brands.set(b,{name:b,logo:""});} return canon.get(k);}); });
+  brandRows.forEach(r=>{ if(r.brand){const n=r.brand.trim(); canon.set(n.toLowerCase(),n); brands.set(n,{name:n,logo:assetPath(r.logo||DEFAULT_LOGOS[n.toLowerCase()]||"","logos/brands/")});} });
+  vars.forEach(v=>{ v.brands=v.brands.map(b=>{const k=b.toLowerCase(); if(!canon.has(k)){canon.set(k,b); brands.set(b,{name:b,logo:assetPath(DEFAULT_LOGOS[k]||"","logos/brands/")});} return canon.get(k);}); });
   depts.forEach(d=>{ d.vars=vars.filter(v=>v.dept===d.id); d.brands=[...new Set(d.vars.flatMap(v=>v.brands))]; d.sizeCount=new Set(d.vars.flatMap(v=>v.sizes)).size;
     const secs=[]; d.vars.forEach(v=>{let s=secs.find(x=>x.name===v.section); if(!s){s={name:v.section,vars:[]};secs.push(s);} s.vars.push(v);});
     secs.forEach(s=>{const keys=s.vars.map(v=>v.brands.join("|")); s.shared=keys.every(k=>k===keys[0])&&s.vars.length>1&&s.vars[0].brands.length?s.vars[0].brands:null;});
