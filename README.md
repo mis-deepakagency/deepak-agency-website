@@ -1,9 +1,13 @@
 # Deepak Agency & Readymades — Website
 
-Wholesale readymade garments, Ahilyanagar. Since 1995.
+Live: https://deepak-agency.netlify.app (Netlify auto-deploys every change on `main`).
 
-- `index.html` — poori website (Home, Departments, Catalogue, Order, Account, About, Contact)
-- `logo.png`, `mark.png` — logo
-- Netlify par auto-deploy hota hai: `main` branch mein change aate hi website update.
+## Data kahan se badlein
+Google Sheet **"Deepak Agency Website Data"** (tabs: Departments, Products, Brands).
+Sheet "Anyone with the link → Viewer" par share honi chahiye, tabhi website use padh paati hai.
+Sheet na padh paaye to website `index.html` ke andar ka sample data dikhati hai.
 
-Catalogue abhi demo data par hai (`RAW` list in `index.html`).
+## Logos aur photos kahan daalein
+- Brand logos: `logos/brands/` → Sheet ke Brands tab mein Logo = file naam
+- Department photos: `images/departments/` → Departments tab mein Photo = file naam
+- Variety photos (optional): `images/products/` → Products tab mein Photo = file naam
