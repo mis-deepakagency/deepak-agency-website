@@ -530,6 +530,25 @@ main{overflow-x:clip}
 }
 @media (prefers-reduced-motion:reduce){.hammer .w{animation:none!important}.roof path.line{stroke-dashoffset:0!important}.track{animation:none!important}}
 
+/* sections inside a department */
+.ssec{margin-top:22px}
+.ssech{display:flex;align-items:center;justify-content:space-between;gap:12px 18px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+.ssech h4{margin:0;font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.01em}
+.ssech h4 small{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:600;margin-left:6px}
+.slogos{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.slogos .blabel{margin:0}
+.slogos .btile{width:auto;min-width:96px;height:44px;padding:6px 12px;border-radius:12px}
+.slogos .btile .wm{font-size:14px}
+.slogos .btile img{max-height:30px}
+.ssec.winter{background:linear-gradient(180deg,#EEF5FB,#F7FAFD);border:1px solid #D3E4F2;border-radius:20px;padding:16px}
+.ssec.winter .ssech{border-color:#D3E4F2}
+.ssec.winter .ssech h4{color:#1F5A8A}
+.vtypes{font-size:13.5px;color:var(--plum);font-weight:600;line-height:1.35}
+.dhero .logos .btile{width:auto;min-width:104px;height:50px;padding:6px 12px}
+.dhero .logos .btile .wm{font-size:15px}
+.dhero .logos{max-height:180px;overflow:auto}
+@media (max-width:760px){.ssech h4{font-size:21px}.slogos .btile{min-width:0}}
+
 .hammer em{font-style:normal}
 </style>
 </head>
@@ -800,7 +819,7 @@ main{overflow-x:clip}
    Website data comes from the Google Sheet "Deepak Agency Website Data".
    Sheet tabs: Departments, Products, Brands. If the sheet can't be read,
    the sample data below is shown. */
-const SHEET_ID = "1jg68pgTZJX7fmQNR6gTXedSIxaGIzdoEvLx9xVPPArw";
+const SHEET_ID = "128mCJ1BvfbTVX_4d3_BVJGKTEO4NqpCNaxHvEEL_eUI";
 const WA = "919730538971";
 const PALETTE = ["#D42A2F","#EE7D1E","#F2B51C","#5A1E4E","#8E2C62","#B8361F"];
 const RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -810,63 +829,297 @@ if(!RM && "IntersectionObserver" in window) document.documentElement.classList.a
 /* ---------- sample data (same columns as the Google Sheet) ---------- */
 const SAMPLE = {
 departments: `Department,Photo,About
-T-Shirt,,"Round neck, polo, printed and sports tees for men and kids."
-Jeans,,"Denim and casual bottoms for men, ladies and boys."
-Night Pant,,Cotton night pants and pyjamas for the whole family.
-Baba Suit,,Sets and daily wear for babies and toddlers.
-Frock,,Daily wear and party frocks for girls.
-Hosiery,,Innerwear and vests from leading brands.
-Ladies Wear,,"Kurtis, leggings, nighties and more."
-Handloom,,"Dhotis, bedsheets, towels and lungis."
-Kids Wear,,"Sets, hoodies and track suits for boys and girls."
-Mens Wear,,"Shirts, track pants and shorts for men."`,
-products: `Department,Variety,Sizes,Brands,Photo
-T-Shirt,Round Neck Cotton T-Shirt,"S, M, L, XL, XXL",Dixcy Scott,
-T-Shirt,Polo Collar T-Shirt,"M, L, XL, XXL",,
-T-Shirt,Printed Oversize T-Shirt,"M, L, XL",,
-T-Shirt,Dry-Fit Sports T-Shirt,"S, M, L, XL, XXL",,
-T-Shirt,Kids Round Neck T-Shirt,"20, 22, 24, 26, 28, 30, 32, 34",Dixcy Scott,
-Jeans,Men's Slim Fit Denim,"28, 30, 32, 34, 36",,
-Jeans,Men's Regular Fit Jeans,"30, 32, 34, 36, 38, 40",,
-Jeans,Ladies Stretchable Jeans,"26, 28, 30, 32",,
-Jeans,Boys Denim Jeans,"20, 22, 24, 26, 28, 30",,
-Jeans,Cargo / Jogger Pant,"M, L, XL",,
-Night Pant,Men's Cotton Night Pant,"M, L, XL, XXL",,
-Night Pant,Ladies Printed Pyjama,"M, L, XL",,
-Night Pant,Kids Night Pant,"20, 22, 24, 26, 28",,
-Baba Suit,Shirt & Shorts Set,"0-6M, 6-12M, 1-2Y, 2-3Y",,
-Baba Suit,Cotton Jhabla Set,"0-3M, 3-6M, 6-9M",,
-Baba Suit,Party Wear Baba Suit,"1-2Y, 2-3Y, 3-4Y",,
-Baba Suit,Romper,"0-6M, 6-12M",,
-Frock,Daily Wear Cotton Frock,"16, 18, 20, 22, 24",,
-Frock,Party Net Frock,"18, 20, 22, 24, 26, 28",,
-Frock,Frock with Legging Set,"18, 20, 22, 24",,
-Frock,Long Gown,"20, 22, 24, 26, 28, 30",,
-Hosiery,Vest (RN / Sleeveless),"75, 80, 85, 90, 95, 100","Macho, Dixcy Scott",
-Hosiery,Brief,"75, 80, 85, 90, 95, 100","Macho, James & Harper",
-Hosiery,Trunk,"S, M, L, XL",James & Harper,
-Hosiery,Gym Vest,"S, M, L, XL",James & Harper,
-Ladies Wear,Cotton Kurti,"M, L, XL, XXL",,
-Ladies Wear,Leggings,"M, L, XL, XXL, Free",,
-Ladies Wear,Printed Nighty,"Free, XL, XXL",,
-Ladies Wear,Palazzo,"M, L, XL",,
-Handloom,Cotton Dhoti,"Single, Double",Ramraj,
-Handloom,Cotton Bedsheet,"Single, Double, King",,
-Handloom,Bath Towel,"Standard, Large",,
-Handloom,Lungi,Free,,
-Kids Wear,Boys T-Shirt & Shorts Set,"20, 22, 24, 26, 28, 30",,
-Kids Wear,Girls Top & Capri Set,"20, 22, 24, 26, 28",,
-Kids Wear,Kids Hoodie,"22, 24, 26, 28, 30",,
-Kids Wear,Kids Track Suit,"20, 22, 24, 26, 28, 30, 32",,
-Mens Wear,Formal Cotton Shirt,"38, 40, 42, 44",,
-Mens Wear,White Cotton Shirt,"38, 40, 42, 44",Ramraj,
-Mens Wear,Track Pant,"M, L, XL, XXL",,
-Mens Wear,Bermuda Shorts,"30, 32, 34, 36",,`,
+Hosiery,,"Ladies, gents and kids innerwear, socks, caps and thermals."
+Shirt,,"Casual, formal, white and kids shirts, kurta pyjama and winter wear."
+T-Shirt,,"Men's and kids T-shirts, hoodies, sports wear and Mandal T-shirts."
+Jeans,,"Jeans, Armani pants, formal pants and trousers. All sizes 28 to 44."
+Night Pant,,"Night pants, 3/4ths, shorts and bermudas for men and boys."
+Ladies,,"Kurtis, bottom wear, tops, gowns and night wear."
+Frock,,Kolkata collection of dresses and frocks.
+Handloom,,"Uparne, towels, bedsheets, home goods and traditional wear."
+Kids Jeans,,"Boys jeans, pant shirts, ethnic wear and newborn essentials."
+Baba Suit,,Kids and newborn collection.`,
+products: `Department,Section,Variety,Types,Sizes,Brands,Photo
+Hosiery,Ladies Innerwear,Panty,"Hipster, Bloomer, Boyleg, Plain, Print",Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Bra,"Bra Set, Sports, Padded, Seamless, Tube",Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Body Shaper,,Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Shorts,,Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Slacks,,Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Bridal Set,,Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Imported (China) Innerwear,,Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Sanitary Napkin,,,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Ladies Innerwear,Cloth Diapers,"Baby, Adult",,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
+Hosiery,Gents Innerwear,Trunk,"Trunk, Casement Trunk, Patta Trunk",,"Dixcy, Macho, Essa, James & Harper, Lux, Nova, Vission, Ramraj, Jockey",
+Hosiery,Gents Innerwear,Vest (Baniyan),"RN / RNS, Colour, White",,"Dixcy, Macho, Essa, James & Harper, Lux, Nova, Vission, Ramraj, Jockey",
+Hosiery,Gents Innerwear,Gym Vest,,,"Dixcy, Macho, Essa, James & Harper, Lux, Nova, Vission, Ramraj, Jockey",
+Hosiery,Gents Innerwear,Pocket Vest,,,"Dixcy, Macho, Essa, James & Harper, Lux, Nova, Vission, Ramraj, Jockey",
+Hosiery,More Products,Patta / Kopri / Sun Caps,All types,,,
+Hosiery,More Products,Socks,"Ankle, Full, Loose",,"Otaya, N.K, Redon, Supersox",
+Hosiery,Winter Collection,Thermal,"Kids, Gents, Ladies",All sizes,,
+Shirt,Shirts,Casual Shirts,"Plain, Print, Checks, Lining, Pattern, White",,"Offer, Hangout, Malabiz, Freedom, My Rules, Studio 83",
+Shirt,Shirts,Formal Shirts,Box Packing,,"Goodwill, Mercury, Touch Up",
+Shirt,Shirts,White Shirts,"Structure, Plain, Box Packing",,"Ramraj, Goodwill, Mercury, White King, Touch Up, Civic",
+Shirt,Kids Shirts,Kids Shirts,"White, Lining, Print, Checks, Fancy Patterns","3 to 8, 10 to 14","Civic, Play Goer, Offer, Hangout, Richie Rich, Kalash",
+Shirt,Kurta Pyjama,Kurta Pyjama (Kids & Men's),"Plain White, Plain Colours, Fancy Kurta",,"Diamond, Kingman, Touch Up, Freedom",
+Shirt,Winter Collection,Jerkin,,S – 4XL,"Krishna, Bansal",
+Shirt,Winter Collection,Sweat Shirt,,M – XXL,,
+T-Shirt,Men's,Fancy T-Shirts,,,,
+T-Shirt,Men's,Sports T-Shirts,,,,
+T-Shirt,Men's,Hoodies,,,,
+T-Shirt,Men's,Sweats,,,,
+T-Shirt,Men's,Upper Jacket,,,,
+T-Shirt,Men's,Down Shoulders,,,,
+T-Shirt,Kids,Kids Sports T-Shirts,,,,
+T-Shirt,Kids,Sports School Uniform,,,,
+T-Shirt,Mandal T-Shirts,Mandal T-Shirts,,,,
+T-Shirt,Winter Collection,Jerkin,,M – 6XL,"Bholashankar, Black Harry, Hiccups",
+Jeans,Jeans & Pants,Jeans,,28 to 44,"LBW, Hidden, Maker's, Redux-S, White Ice, J-Ten, Next-9",
+Jeans,Jeans & Pants,Scratch & Damage Jeans,,28 to 44,"Mr Wrong, White Devil, Trigger, Apple Club",
+Jeans,Jeans & Pants,Armani Pants,,28 to 44,"Mabel, Pronex, Next-9, Hidden",
+Jeans,Jeans & Pants,Formal Pants,,28 to 44,"I-10, Midon",
+Jeans,Jeans & Pants,Cotton Trouser,,28 to 44,"M&H, 9 Star, Crazy",
+Jeans,Jeans & Pants,Cargo & Joggers,All colours,28 to 44,,
+Jeans,Winter Collection,Hand Gloves,"Mens, Ladies, All varieties",Free size,,
+Night Pant,Men's,Night Pant,,,"Awoke, Foggy, Oming, Ezeefit, Sportsone, Royal Plus, Level Age, Kiwi, Cavo, Glazer",
+Night Pant,Men's,3/4th,,,"Awoke, Foggy, Oming, Ezeefit, Sportsone, Royal Plus, Level Age, Kiwi, Cavo, Glazer",
+Night Pant,Men's,Short,,,"Awoke, Foggy, Oming, Ezeefit, Sportsone, Royal Plus, Level Age, Kiwi, Cavo, Glazer",
+Night Pant,Men's,Bermuda,,,"Awoke, Foggy, Oming, Ezeefit, Sportsone, Royal Plus, Level Age, Kiwi, Cavo, Glazer",
+Night Pant,Boys,Boys Night Pant,,,"Verito, Magito, Blue Fisher, Aricy, P.M.C, Awoke",
+Night Pant,Boys,Boys Bermuda,,,"Verito, Magito, Blue Fisher, Aricy, P.M.C, Awoke",
+Night Pant,Boys,Boys 3/4th,,,"Verito, Magito, Blue Fisher, Aricy, P.M.C, Awoke",
+Night Pant,More Products,Thermal Boys Pant Top,,,Cucumber,
+Night Pant,More Products,Dupte,,,Love Bird,
+Night Pant,More Products,Born Baby Pant,,,Verito,
+Night Pant,More Products,Dry Sheet,,,Paras,
+Night Pant,More Products,Tracksuit,,,L.K. Oswal,
+Night Pant,More Products,Muffler,,,Neelam,
+Night Pant,Winter Collection,Muffler,,"10×60, 10×72, 10×84",,
+Night Pant,Winter Collection,Thermal Wear (Kids),,0 – XXL,,
+Ladies,Kurti,Kurti,,"L, XL, XXL, 3XL, 4XL",,
+Ladies,Kurti,One Piece Kurti,,M – XXL,,
+Ladies,Kurti,Fitting Kurti,,,,
+Ladies,Kurti,Short Kurti,,,,
+Ladies,Bottom Wear,Leggings,,"20×30, 22/30, 32×40, 26–36, M – 2XL",,
+Ladies,Bottom Wear,Lyra Leggings,"Churidar, Ankle Fit",Free size,Lyra,
+Ladies,Bottom Wear,Kurti Pant,,"Free size, 3XL",,
+Ladies,Bottom Wear,Palazzo,,"M – XXL, 3XL, 4XL",,
+Ladies,Bottom Wear,Dhoti Pant,,"XL, XXL, 3XL, Free size",,
+Ladies,Bottom Wear,Ladies Jeans,,"20–30, 32–40, Waist 28–40",,
+Ladies,Bottom Wear,Hot Pant,,"50–80, M – XXL",,
+Ladies,"Tops, Shrugs & Gowns",Crop Top,,"26, 28, 30, 36, M – 2XL",,
+Ladies,"Tops, Shrugs & Gowns",Ladies T-Shirt,,"50–80, S, M, L, XL, XXL",,
+Ladies,"Tops, Shrugs & Gowns",Co-ord Set,,"50–80, M – XXL",,
+Ladies,"Tops, Shrugs & Gowns",Fitting Gown,,"L, XL, XXL",,
+Ladies,"Tops, Shrugs & Gowns",Shrug,,"L, XL, XXL",,
+Ladies,"Tops, Shrugs & Gowns",Western Top,,"24/28, 30/34, 36, XL, XXL, 3XL",,
+Ladies,Night Wear,Ladies Night Pant,,"50–80, M – 2XL",,
+Ladies,Night Wear,Night Dress,,"50–80, M – XXL",,
+Ladies,Suncoat & Apron,Suncoat,,32–48,,
+Ladies,Suncoat & Apron,Apron,,32–42,,
+Ladies,Winter Collection,Ladies Sweatshirt,,"24–44, M – 5XL",,
+Frock,Dresses & Frocks,Legging Top,,"16×18, 20×30, 32×38",,
+Frock,Dresses & Frocks,Skirt Top,,"16×18, 20×30, 32×38",,
+Frock,Dresses & Frocks,Garara Dress,,"16×18, 20×30, 32×38",,
+Frock,Dresses & Frocks,Hosiery Frock,,"0, 16×18, 20×30",,
+Frock,Dresses & Frocks,Fancy Frock,,"16×18, 20×30, 32×38",,
+Frock,Dresses & Frocks,Plazzo Dress,,"16×18, 20×30, 32×38",,
+Frock,Dresses & Frocks,Sigaar Dress,,"22×30, 32×40",,
+Frock,Dresses & Frocks,3 Piece Dress,,"M, XXL, 3XL, 5XL",,
+Frock,Dresses & Frocks,Pari Frock,,"16×18, 20×30, 32×34",,
+Frock,Dresses & Frocks,Rewan Frock,,"16×20, 22×26",,
+Frock,Dresses & Frocks,Fancy Dress,,"16×18, 20×30, 32×38",,
+Frock,Towel & Napkin,Turkish Towel,,,,
+Frock,Towel & Napkin,Napkin,,,,
+Frock,Winter Collection,Ladies Sweater,,"Free size, M – XXL, 3XL",,
+Handloom,Uparne & Towels,Uparne,,"27×27, 30×30, 33×33, 27×54, 30×60, 32×64, 33×66, 36×72, 30×70, 2 m",,
+Handloom,Uparne & Towels,Towel,,"27×54, 30×60, 36×72",,
+Handloom,Uparne & Towels,Name Printed Uparne,,,,
+Handloom,Uparne & Towels,Bajaj Saffron / White Uparne,,,,
+Handloom,Uparne & Towels,Aaheri Towel,,,,
+Handloom,Bedsheets & Pillows,Bedsheet,"Plain, White, Printed, Coloured, Cotton, Mix Fabric","Single, Double, King, Queen, Fitted",,
+Handloom,Bedsheets & Pillows,Blanket & AC Blanket,,"Single, Double",,
+Handloom,Bedsheets & Pillows,Dohar,,"Single, Double",,
+Handloom,Bedsheets & Pillows,Pillow,"Square, Round",,,
+Handloom,Bedsheets & Pillows,Kids Pillow,,,,
+Handloom,Bedsheets & Pillows,Lod (Bolster) Pillow,,,,
+Handloom,Bedsheets & Pillows,Heart Shape Pillow,,,,
+Handloom,Bedsheets & Pillows,Pillow Cover,,,,
+Handloom,"Mats, Carpets & Home",Carpet (Galicha),,"4×7, 5×7, 9×12",,
+Handloom,"Mats, Carpets & Home",Yoga Mat,,"4 mm, 6 mm, 8 mm",,
+Handloom,"Mats, Carpets & Home",Baskar (Seat Mat),,"Small, Big",,
+Handloom,"Mats, Carpets & Home",Payposhni (Doormat),"Doormat, Payposhni Strip",,,
+Handloom,"Mats, Carpets & Home",Shower Mat,,,,
+Handloom,"Mats, Carpets & Home",Satranji,,,,
+Handloom,"Mats, Carpets & Home",Aasan Patti,,,,
+Handloom,"Mats, Carpets & Home",Chatai Mat,,,,
+Handloom,"Mats, Carpets & Home",Curtains,"Curtains, Net Curtains",,,
+Handloom,"Mats, Carpets & Home",Sofa Cover,,,,
+Handloom,"Mats, Carpets & Home",Kitchen Napkin,,,,
+Handloom,"Mats, Carpets & Home",Car Wash Cloth,,,,
+Handloom,For Women,Blouse Piece,,"80 cm, 1 m, Taga",,
+Handloom,For Women,Aaheri Blouse Piece,,80 cm,,
+Handloom,For Women,Readymade Blouse,,"L, XL, XXL",,
+Handloom,For Women,Lining Cut Piece,,"80 cm, 1 m, Taga",,
+Handloom,For Women,Parkar (Petticoat),,"36, 38, 40, 42, Jumbo",,
+Handloom,For Women,"Fall, Stole, Scarf & Odhani","Fall, Stole, Scarf, Odhani",,,
+Handloom,For Women,Ladies Handkerchief,,,,
+Handloom,Men's & Traditional,Lungi,,"2 m, 2.25 m, 2.50 m",,
+Handloom,Men's & Traditional,Dhotar,,,,
+Handloom,Men's & Traditional,Shele & Shawl,"Shele, Shawl",,,
+Handloom,Men's & Traditional,Gents Handkerchief,,,,
+Handloom,Men's & Traditional,Topi,"Aaheri Topi, Daily Wear Topi, Fur Topi",,,
+Handloom,Men's & Traditional,Feta,"Readymade Feta, Tie Feta",,,
+Handloom,"Kids, Baby & Gifts",Baby Mosquito Net,,"S, M, L",,
+Handloom,"Kids, Baby & Gifts",Kids Mat,"Kids Mat, Kids Study Mat",,,
+Handloom,"Kids, Baby & Gifts",Kids Sofa,,,,
+Handloom,"Kids, Baby & Gifts",Flower Bouquet Gift Set,,,,
+Handloom,Ramraj,Towel & Bamboo Towel,,"30×60, 36×72",Ramraj,
+Handloom,Ramraj,Ramraj Uparne,,"2 m, 2.25 m, 2.50 m",Ramraj,
+Handloom,Ramraj,Ramraj Handkerchief,"Gents, Ladies","48×48, 51×51 cm",Ramraj,
+Handloom,Ramraj,Ramraj Lungi & Dhoti,"Lungi, Dhoti",,Ramraj,
+Handloom,Ramraj,Ramraj Bedsheet,,,Ramraj,
+Handloom,Ramraj,Wedding Set,,,Ramraj,
+Kids Jeans,Boys Jeans,Boys Jeans,"Six Pocket, Plain, Cargo, Jogger, Cotton","16/20, 22/30, 32/40",,
+Kids Jeans,Boys Jeans,Armani,"Plain, Checks, Peanut, Popcorn, Flexi Belt","22/30, 32/40",,
+Kids Jeans,Pant Shirt,Pant Shirt,"Plain, Double Pocket, Digital Print, Checks","2/7, 5/10, 3/8",,
+Kids Jeans,Ethnic Wear,Kurta Payjama,,1/10,,
+Kids Jeans,Ethnic Wear,Three Piece,,1/10,,
+Kids Jeans,Ethnic Wear,Chikan Kurta Payjama,,1/10,,
+Kids Jeans,Jacket,Jacket,"Half Jacket, Full Jacket, Jeans Jacket",22/32,,
+Kids Jeans,Newborn Baby,Baby Dress,"Full, Half",0,,
+Kids Jeans,Newborn Baby,Langot,,0,,
+Kids Jeans,Newborn Baby,Baby Cap & Mittens,"Baby Cap, Mittens",0,,
+Kids Jeans,Newborn Baby,Baby Socks Set,"Hand, Legs",0,,
+Kids Jeans,Newborn Baby,Newborn Gift Set,,0,,
+Kids Jeans,Ramraj Fabric,Ramraj Fabric,"Linen, Cotton, Paper Cotton",,Ramraj,
+Kids Jeans,Ramraj Fabric,Pant Shirt Gift,,,Ramraj,
+Kids Jeans,Ganpati Mandap,Ganpati Mandap,,"4×4 – 7 ft, 5×5 – 7 ft",,
+Kids Jeans,Winter Collection,Baby Woollen Sweater,New arrival,0,,
+Kids Jeans,Winter Collection,Winter Caps,,"Small, Big",,
+Kids Jeans,Winter Collection,Baby Hand Gloves,,,,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Essa),,45 – 90,Essa,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Stax),,"S, M, L, XL, XXL",Stax,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Blue Fisher),,50 – 80,Blue Fisher,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Run Kids),,45 – 80,Run Kids,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (M&M),,24/34,M&M,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Macpi),,26 – 36,Macpi,
+Baba Suit,Boys T-Shirt,Boys T-Shirt (Joviens),,26 – 36,Joviens,
+Baba Suit,Baba Suit,Baba Suit (Bobee),,"16, 18, 20",Bobee,
+Baba Suit,Baba Suit,Baba Suit (Amit),,0,Amit,
+Baba Suit,Baba Suit,Baba Suit (Preeti),,"0, 16, 20",Preeti,
+Baba Suit,Baba Suit,Baba Suit (Double Tiger),,22 – 28,Double Tiger,
+Baba Suit,Baba Suit,Baba Suit (Selfie-7),,"0, 16, 20",Selfie-7,
+Baba Suit,Boys Upper,Boys Upper,,24 – 36,,
+Baba Suit,New Born Baby,New Born Baby (Hallo),,0,Hallo,
+Baba Suit,New Born Baby,New Born Baby (Eskimo),,"0, S, M, L, XL, XXL",Eskimo,
+Baba Suit,New Born Baby,New Born Baby (Best Baby),,0,Best Baby,
+Baba Suit,New Born Baby,New Born Baby (Cucumber),,0 – XXL,Cucumber,
+Baba Suit,New Born Baby,New Born Baby (Mojito),,"M, L, XXL",Mojito,
+Baba Suit,New Born Sweater,New Born Sweater (Love Bird),,14 – 22,Love Bird,
+Baba Suit,New Born Sweater,New Born Sweater (Top Gear),,"14, 16, 18, 20",Top Gear,
+Baba Suit,New Born Sweater,China Sweater,,"14, 16, 18, 20, 22",,
+Baba Suit,Raincoat,Raincoat,,"22 – 26, 27 – 42, 48 – 52, S – M, L – 5XL","Zeel, Kesri, Reliance",
+Baba Suit,Winter Collection,Fur Suit,,14 – 22,,
+Baba Suit,Winter Collection,Boys Sweat Shirt,,18 – 36,,
+Baba Suit,Winter Collection,Jerkin,,18 – 36,,
+Baba Suit,Winter Collection,Thermal Suit,New born to 5 yrs,S – XXL,,`,
 brands: `Brand,Logo
-Dixcy Scott,
-Macho,
+Essa,
+Dixcy,
+Lyra,
 James & Harper,
-Ramraj,`
+Body Tonic,
+Mansi,
+Dream,
+Verito,
+Stax,
+Simplex,
+Pooja Ragini,
+Lux,
+Macho,
+Nova,
+Vission,
+Ramraj,
+Jockey,
+Otaya,
+N.K,
+Redon,
+Supersox,
+Offer,
+Hangout,
+Malabiz,
+Freedom,
+My Rules,
+Studio 83,
+Goodwill,
+Mercury,
+Touch Up,
+White King,
+Civic,
+Play Goer,
+Richie Rich,
+Kalash,
+Diamond,
+Kingman,
+Krishna,
+Bansal,
+Bholashankar,
+Black Harry,
+Hiccups,
+LBW,
+Hidden,
+Maker's,
+Redux-S,
+White Ice,
+J-Ten,
+Next-9,
+Mr Wrong,
+White Devil,
+Trigger,
+Apple Club,
+Mabel,
+Pronex,
+I-10,
+Midon,
+M&H,
+9 Star,
+Crazy,
+Awoke,
+Foggy,
+Oming,
+Ezeefit,
+Sportsone,
+Royal Plus,
+Level Age,
+Kiwi,
+Cavo,
+Glazer,
+Magito,
+Blue Fisher,
+Aricy,
+P.M.C,
+Cucumber,
+Love Bird,
+Paras,
+L.K. Oswal,
+Neelam,
+Run Kids,
+M&M,
+Macpi,
+Joviens,
+Bobee,
+Amit,
+Preeti,
+Double Tiger,
+Selfie-7,
+Hallo,
+Eskimo,
+Best Baby,
+Mojito,
+Top Gear,
+Zeel,
+Kesri,
+Reliance,`
 };
 
 /* ---------- small utils ---------- */
@@ -934,7 +1187,7 @@ function stackArt(type,cols){
    <g transform="translate(64 14) rotate(12 36 45) scale(.72)">${garmentInner(type,cols[2])}</g>
    <g transform="translate(25 2) scale(.9)">${garmentInner(type,cols[0])}</g></svg>`;
 }
-const ICON_RULES=[[/polo/,"polo"],[/hood/,"hoodie"],[/baba|jhabla|romper/,"babasuit"],[/frock|gown|petticoat/,"frock"],[/\bset\b/,"set"],[/t-?shirt|\btee\b/,"tshirt"],[/shirt/,"shirt"],[/jean|denim/,"jeans"],[/cargo|jogger|track/,"track"],[/night ?pant|pyjama|pajama/,"pyjama"],[/bermuda|short/,"shorts"],[/brief|trunk|panty|drawer/,"brief"],[/vest|hosiery|innerwear|baniyan|banian/,"vest"],[/nighty/,"nighty"],[/kurti|kurta|ladies/,"kurti"],[/legging|palazzo|capri/,"leggings"],[/dhoti|lungi|handloom/,"dhoti"],[/bedsheet|sheet|blanket/,"sheet"],[/towel|napkin/,"towel"],[/suit|kids/,"set"],[/men/,"shirt"]];
+const ICON_RULES=[[/polo/,"polo"],[/hood/,"hoodie"],[/baba|jhabla|romper/,"babasuit"],[/frock|gown|petticoat/,"frock"],[/\bset\b/,"set"],[/t-?shirt|\btee\b/,"tshirt"],[/shirt/,"shirt"],[/jean|denim/,"jeans"],[/cargo|jogger|track/,"track"],[/night ?pant|pyjama|pajama/,"pyjama"],[/kurti|kurta/,"kurti"],[/bra\b|panty|bloomer|slack/,"brief"],[/bermuda|short|3\/4/,"shorts"],[/brief|trunk|panty|drawer/,"brief"],[/vest|hosiery|innerwear|baniyan|banian/,"vest"],[/nighty/,"nighty"],[/kurti|kurta|ladies/,"kurti"],[/legging|palazzo|capri/,"leggings"],[/dhoti|lungi|handloom/,"dhoti"],[/bedsheet|sheet|blanket/,"sheet"],[/towel|napkin/,"towel"],[/suit|kids/,"set"],[/men/,"shirt"]];
 const iconFor=(name,fallback)=>{const n=String(name).toLowerCase();for(const [r,i] of ICON_RULES) if(r.test(n)) return i;return fallback||"tshirt";};
 const DCOL=["#D42A2F","#2F4E8C","#5A1E4E","#2E8BA0","#E0457B","#7B6A5E","#EE7D1E","#B8861B","#2A9D5B","#3E3A6E","#8E2C62","#0E8C84"];
 const hashN=s=>{let h=0;for(const ch of String(s))h=(h*31+ch.charCodeAt(0))|0;return Math.abs(h);};
@@ -950,11 +1203,14 @@ function buildData(raw){
   depRows.forEach(r=>{if(r.department) addDept(r.department,r);});
   const vars=[];
   prodRows.forEach(r=>{ if(!r.department||!r.variety) return; const d=addDept(r.department);
-    vars.push({dept:d.id,name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photo:assetPath(r.photo,"images/products/"),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
-  const brands=new Map();
-  brandRows.forEach(r=>{ if(r.brand) brands.set(r.brand.trim(),{name:r.brand.trim(),logo:assetPath(r.logo,"logos/brands/")}); });
-  vars.forEach(v=>v.brands.forEach(b=>{ if(!brands.has(b)) brands.set(b,{name:b,logo:""}); }));
-  depts.forEach(d=>{ d.vars=vars.filter(v=>v.dept===d.id); d.brands=[...new Set(d.vars.flatMap(v=>v.brands))]; d.sizeCount=new Set(d.vars.flatMap(v=>v.sizes)).size; });
+    vars.push({dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photo:assetPath(r.photo,"images/products/"),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
+  const brands=new Map(), canon=new Map();
+  brandRows.forEach(r=>{ if(r.brand){const n=r.brand.trim(); canon.set(n.toLowerCase(),n); brands.set(n,{name:n,logo:assetPath(r.logo,"logos/brands/")});} });
+  vars.forEach(v=>{ v.brands=v.brands.map(b=>{const k=b.toLowerCase(); if(!canon.has(k)){canon.set(k,b); brands.set(b,{name:b,logo:""});} return canon.get(k);}); });
+  depts.forEach(d=>{ d.vars=vars.filter(v=>v.dept===d.id); d.brands=[...new Set(d.vars.flatMap(v=>v.brands))]; d.sizeCount=new Set(d.vars.flatMap(v=>v.sizes)).size;
+    const secs=[]; d.vars.forEach(v=>{let s=secs.find(x=>x.name===v.section); if(!s){s={name:v.section,vars:[]};secs.push(s);} s.vars.push(v);});
+    secs.forEach(s=>{const keys=s.vars.map(v=>v.brands.join("|")); s.shared=keys.every(k=>k===keys[0])&&s.vars.length>1&&s.vars[0].brands.length?s.vars[0].brands:null;});
+    d.sections=secs; });
   return {depts:depts.filter(d=>d.vars.length||d.about), vars, brands};
 }
 async function loadSheet(){
@@ -1006,14 +1262,15 @@ function brandTile(b,lg){
   return `<a class="btile${lg?" lg":""}" href="#brands" title="${esc(B.name)}">${img}${wm}</a>`;
 }
 function mini(d){return `<span class="mini">${garment(d.icon,d.c)}</span>`;}
-function varCard(v){
+function varCard(v,hideBrands){
   const d=deptOf(v.dept);
   const art=v.photo?`<img src="${esc(v.photo)}" alt="${esc(v.name)}" loading="lazy" onerror="this.nextElementSibling.hidden=false;this.remove()"><div class="ph" hidden>${garment(v.icon,v.color)}</div>`:`<div class="ph">${garment(v.icon,v.color)}</div>`;
   const msg=fill(t("wa_variety"),{v:v.name,d:d.name});
   return `<article class="vcard" style="--pbg:color-mix(in srgb, ${d.c} 11%, #FFFCF8)"><div class="vimg">${art}</div>
     <div class="vbody"><h4>${esc(v.name)}</h4>
-    <div class="vlabel">${t("sizes_lbl")}</div><div class="vsizes">${v.sizes.map(s=>`<span>${esc(s)}</span>`).join("")||"—"}</div>
-    ${v.brands.length?`<div class="vbrands">${t("brands_lbl")}: <b>${v.brands.map(esc).join(", ")}</b></div>`:""}
+    ${v.types.length?`<div class="vtypes">${v.types.map(esc).join(" · ")}</div>`:""}
+    ${v.sizes.length?`<div class="vlabel">${t("sizes_lbl")}</div><div class="vsizes">${v.sizes.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
+    ${v.brands.length&&!hideBrands?`<div class="vbrands">${t("brands_lbl")}: <b>${v.brands.map(esc).join(", ")}</b></div>`:""}
     <a class="btn wa sm" href="${waLink(msg)}" target="_blank" rel="noopener">${WAICON}<span>${t("ask")}</span></a></div></article>`;
 }
 let curDept=null, query="";
@@ -1022,10 +1279,10 @@ function renderProducts(){
   $("#dtabs").innerHTML=DATA.depts.map(d=>`<button class="dtab${d.id===curDept&&!query?" on":""}" type="button" role="tab" aria-selected="${d.id===curDept}" style="--d:${d.c}" data-tab="${d.id}">${mini(d)}${esc(d.name)} <small class="num">${d.vars.length}</small></button>`).join("");
   const body=$("#prodBody"); const q=query.trim().toLowerCase();
   if(q){
-    const hits=DATA.vars.filter(v=>[v.name,deptOf(v.dept).name,...v.sizes,...v.brands].join(" ").toLowerCase().includes(q));
+    const hits=DATA.vars.filter(v=>[v.name,v.section,deptOf(v.dept).name,...v.types,...v.sizes,...v.brands].join(" ").toLowerCase().includes(q));
     if(!hits.length){body.innerHTML=`<div class="empty">${t("no_results")}</div>`;return;}
     const groups=DATA.depts.map(d=>({d,list:hits.filter(v=>v.dept===d.id)})).filter(g=>g.list.length);
-    body.innerHTML=`<div class="resultline num">${hits.length} ${t("results_for")} “${esc(query)}”</div>`+groups.map(g=>`<div class="groupt" style="--d:${g.d.c}">${mini(g.d)}${esc(g.d.name)}</div><div class="vgrid">${g.list.map(varCard).join("")}</div>`).join("");
+    body.innerHTML=`<div class="resultline num">${hits.length} ${t("results_for")} “${esc(query)}”</div>`+groups.map(g=>`<div class="groupt" style="--d:${g.d.c}">${mini(g.d)}${esc(g.d.name)}</div><div class="vgrid">${g.list.map(v=>varCard(v)).join("")}</div>`).join("");
     body.querySelectorAll(".vgrid").forEach((g,i)=>{g.id="vg"+i;stagger("#vg"+i,"pop");});
     return;
   }
@@ -1035,12 +1292,12 @@ function renderProducts(){
     <div class="meta"><span><b class="num">${d.vars.length}</b> ${t("varieties")}</span><span><b class="num">${d.sizeCount}</b> ${t("size_opts")}</span><span><b class="num">${d.brands.length||"—"}</b> ${t("brands_lbl")}</span></div>
     ${d.brands.length?`<div class="blabel">${t("brands_in")}</div><div class="logos">${d.brands.map(b=>brandTile(b)).join("")}</div>`:`<div class="muted small">${t("multi_brands")}</div>`}
     <a class="btn wa" style="align-self:flex-start;margin-top:6px" href="${waLink(fill(t("wa_dept"),{d:d.name}))}" target="_blank" rel="noopener">${WAICON}<span>${t("ask_dept")}</span></a></div></div>
-    <div class="vgrid" id="vgrid">${d.vars.map(varCard).join("")}</div>`;
-  stagger("#vgrid","pop");
+    ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)} <small class="num">${s.vars.length}</small></h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
+  d.sections.forEach((s,i)=>stagger("#vg"+i,"pop"));
 }
 function renderBrands(){
   const all=[...DATA.brands.keys()];
-  const loop=all.length?[...all,...all,...all,...all].map(b=>brandTile(b,true)).join(""):"";
+  const loop=all.length?[...all,...all].map(b=>brandTile(b,true)).join(""):"";
   $("#brandsMarquee").innerHTML=loop; $("#homeLogos").innerHTML=loop;
   $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted">${t("brands_lbl")}: ${d.brands.length} · <a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
     + (DATA.depts.some(d=>!d.brands.length)?`<p class="muted small">${t("brands_more")}</p>`:"");

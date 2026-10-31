@@ -10,4 +10,4 @@ Sheet na padh paaye to website `index.html` ke andar ka sample data dikhati hai.
 ## Logos aur photos kahan daalein
 - Brand logos: `logos/brands/` → Sheet ke Brands tab mein Logo = file naam
 - Department photos: `images/departments/` → Departments tab mein Photo = file naam
-- Variety photos (optional): `images/products/` → Products tab mein Photo = file naam
+- Variety photos (optional): `images/products/` → Products tab (Department, Section, Variety, Types, Sizes, Brands, Photo) mein Photo = file naam
