@@ -550,6 +550,107 @@ main{overflow-x:clip}
 .dhero .logos{max-height:180px;overflow:auto}
 @media (max-width:760px){.ssech h4{font-size:21px}.slogos .btile{min-width:0}}
 
+/* ===== one long page ===== */
+[data-view]{display:block!important;scroll-margin-top:60px}
+[data-view].enter{animation:none}
+[data-view] + [data-view]{border-top:0}
+.chapter{margin-top:64px;padding:26px 0 0;position:relative}
+.chapter::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:repeating-linear-gradient(90deg,var(--red) 0 40px,var(--orange) 40px 80px,var(--gold) 80px 120px,var(--plum) 120px 160px)}
+.chapter .wrap{display:flex;align-items:baseline;gap:16px}
+.chapter .cnum{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,72px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--red)}
+.chapter .cname{font-family:var(--display);font-weight:800;font-size:clamp(30px,4.6vw,56px);letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.chapter .crule{flex:1;height:2px;background:var(--line);align-self:center;transform-origin:left;transition:transform 1s .3s cubic-bezier(.2,.7,.2,1)}
+.rv-on .chapter.rv:not(.in) .crule{transform:scaleX(0)}
+[data-view] > .wrap > section.block:first-child{padding-top:28px}
+@media (max-width:760px){.chapter{margin-top:40px;padding-top:20px}}
+#products .ptop .sechead h2,#products .ptop .kicker{display:none}
+
+/* sticky department tabs while scrolling the long products list */
+#products .dtabs{position:sticky;top:68px;z-index:20;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);margin:0;padding:10px 0 12px;border-bottom:1px solid transparent}
+#products .dtabs.stuck{border-bottom-color:var(--line)}
+@media (max-width:760px){#products .dtabs{top:60px}}
+
+/* ===== clothing rack ===== */
+.rackwrap{position:relative;margin:0 0 20px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(120% 90% at 50% 0%,#FFFFFF 0%,#F3EEE8 70%);overflow:hidden;padding:14px 0 10px}
+.rod{position:absolute;left:22px;right:22px;top:31px;height:7px;border-radius:5px;background:linear-gradient(#E3E6EA,#A5ACB4 55%,#7E858D);box-shadow:0 3px 4px rgba(0,0,0,.18);z-index:0}
+.rod::before,.rod::after{content:"";position:absolute;top:-6px;width:9px;height:19px;border-radius:3px;background:linear-gradient(90deg,#8A9098,#B9BFC6,#8A9098)}
+.rod::before{left:-4px}.rod::after{right:-4px}
+ .rack{position:relative;z-index:1;display:flex;justify-content:safe center;align-items:flex-start;overflow-x:auto;overflow-y:visible;padding:12px 44px 18px;min-height:262px;scrollbar-width:thin;scroll-snap-type:x proximity}
+.hang{flex:0 0 auto;width:62px;margin-right:-8px;border:0;background:none;padding:0;cursor:pointer;position:relative;transform-origin:50% 8px;transition:width .5s cubic-bezier(.2,.7,.2,1),margin .5s cubic-bezier(.2,.7,.2,1);scroll-snap-align:center;outline-offset:4px}
+.hang .hg{display:block;width:46px;height:24px;margin:0 auto}
+.hang .gw{display:block;width:150px;margin:-14px 0 0 calc((100% - 150px)/2);transform-origin:50% 0;transform:scaleX(.42);filter:saturate(.85);transition:transform .55s cubic-bezier(.34,1.35,.64,1),filter .3s}
+.hang .gw svg{display:block;width:150px;height:auto}
+.hang:hover,.hang:focus-visible{width:168px;margin-right:4px;z-index:5}
+.hang:hover .gw,.hang:focus-visible .gw{transform:scaleX(1) scale(1.06);filter:none}
+.hang:hover{animation:swing 1.1s ease-out}
+@keyframes swing{20%{transform:rotate(4deg)}45%{transform:rotate(-2.5deg)}70%{transform:rotate(1.2deg)}100%{transform:none}}
+.rack:hover .hang:not(:hover) .gw{filter:saturate(.6) brightness(.98)}
+.rackcap{text-align:center;font-weight:600;font-size:14px;color:var(--muted);min-height:22px;padding:2px 16px 4px;letter-spacing:.02em}
+.vimg[data-v]{cursor:zoom-in}
+
+/* ===== product stage ===== */
+.stage{position:fixed;inset:0;z-index:95;display:grid;place-items:center;background:rgba(248,244,239,.74);-webkit-backdrop-filter:blur(16px) saturate(.75);backdrop-filter:blur(16px) saturate(.75);animation:stFade .35s ease}
+@keyframes stFade{from{opacity:0}}
+.stage-in{width:min(960px,94vw);max-height:92vh;overflow:auto;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;padding:24px}
+.st-visual{display:flex;justify-content:center;align-items:flex-start;gap:6px}
+.st-hang{width:min(360px,62vw);perspective:1200px}
+.st-hang.drop{animation:stDrop .9s cubic-bezier(.34,1.45,.64,1)}
+.st-hang.in-r{animation:stInR .6s cubic-bezier(.2,.7,.2,1)}
+.st-hang.in-l{animation:stInL .6s cubic-bezier(.2,.7,.2,1)}
+@keyframes stDrop{from{transform:translateY(-60px) rotate(-6deg);opacity:0}}
+@keyframes stInR{from{transform:translateX(70px) rotate(4deg);opacity:0}}
+@keyframes stInL{from{transform:translateX(-70px) rotate(-4deg);opacity:0}}
+.st-sway{transform-origin:50% 6px;animation:sway 5s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+.st-sway .hg{display:block;width:44%;height:auto;margin:0 auto -9%;position:relative;z-index:2}
+.flip{position:relative;width:100%;aspect-ratio:1/1;transform-style:preserve-3d;transition:transform .95s cubic-bezier(.45,.05,.2,1)}
+.flip.back{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.face.bk{transform:rotateY(180deg)}
+.lay{position:absolute;inset:0}
+.lay svg{width:100%;height:100%;display:block;filter:drop-shadow(0 22px 22px rgba(37,27,34,.2))}
+.lay.top{clip-path:inset(100% 0 0 0)}
+.lay.top.go{animation:dye 1s cubic-bezier(.65,0,.3,1) forwards}
+@keyframes dye{to{clip-path:inset(0 0 0 0)}}
+.tags{display:grid;grid-template-columns:repeat(2,32px);column-gap:10px;row-gap:6px;align-items:start;justify-items:center;padding-top:10%}
+.tags .vlabel{grid-column:1/-1;margin-bottom:2px}
+.tag{--c:#333;width:30px;height:54px;border:0;padding:0;margin-top:20px;cursor:pointer;position:relative;background:none;transform-origin:50% -18px;transform:rotate(var(--r));transition:transform .35s cubic-bezier(.34,1.5,.64,1)}
+.tag::before{content:"";position:absolute;left:50%;top:-20px;width:1px;height:22px;background:#9B9590}
+.tag i{display:block;width:100%;height:100%;background:var(--c);clip-path:polygon(50% 0,100% 20%,100% 100%,0 100%,0 20%);box-shadow:inset 0 -10px 16px rgba(0,0,0,.18)}
+.tag i::after{content:"";position:absolute;left:50%;top:9px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#F6F1EA}
+.tag:hover{transform:rotate(0deg) translateY(3px)}
+.tag.on{transform:rotate(0deg) translateY(8px) scale(1.12)}
+.tag.on i{outline:2px solid var(--ink);outline-offset:2px}
+.st-info{display:flex;flex-direction:column;gap:10px}
+.st-info h3{font-size:clamp(26px,3vw,36px)}
+.seg{display:inline-flex;align-self:flex-start;border:1.5px solid var(--ink);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:6px 16px;border-radius:999px;font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--ink);transition:background .25s,color .25s}
+.seg button.on{background:var(--ink);color:#fff}
+.st-x{position:fixed;top:16px;right:18px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:26px;line-height:1;cursor:pointer;z-index:2}
+.st-nav{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:30px;line-height:1;cursor:pointer;z-index:2;transition:transform .2s}
+.st-nav:hover{transform:translateY(-50%) scale(1.08)}
+.st-nav.prev{left:18px}.st-nav.next{right:18px}
+@media (max-width:760px){
+  .rack{padding:10px 18px 4px;min-height:206px}
+  .hang{width:52px}.hang .gw{width:132px;margin-left:calc((100% - 132px)/2)}.hang .gw svg{width:132px}
+  .hang:hover,.hang:focus-visible{width:140px}
+  .stage-in{grid-template-columns:1fr;gap:10px;padding:56px 18px 24px;max-height:100vh}
+  .st-hang{width:58vw}
+  .st-nav{top:16px;transform:none;width:44px;height:44px}.st-nav:hover{transform:scale(1.08)}
+  .st-nav.prev{left:16px}.st-nav.next{right:auto;left:68px}
+  .tags{grid-template-columns:repeat(4,30px);column-gap:8px;padding-top:0}
+  .st-visual{flex-direction:column;align-items:center;gap:0}
+}
+@media (prefers-reduced-motion:reduce){.st-sway,.hang:hover{animation:none}.flip{transition:none}}
+
+/* real photos */
+.vimg img{object-fit:contain!important;padding:10px}
+.hang .gw img{display:block;width:150px;height:200px;object-fit:contain;object-position:50% 0;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18))}
+.lay img{width:100%;height:100%;display:block;object-fit:contain;object-position:50% 0;filter:drop-shadow(0 22px 22px rgba(37,27,34,.22))}
+.stage-in.photo .flip{aspect-ratio:4/5}
+@media (max-width:760px){.hang .gw img{width:132px;height:176px}}
+.dept .dview{color:var(--red);font-weight:600;font-size:13.5px}
+
 .hammer em{font-style:normal}
 </style>
 </head>
@@ -578,7 +679,7 @@ main{overflow-x:clip}
 
 <main>
 <!-- HOME -->
-<div data-view="home">
+<div data-view="home" id="home">
   <div class="wrap">
     <div class="hero">
       <div class="hero-copy">
@@ -623,19 +724,6 @@ main{overflow-x:clip}
       <div class="depts" id="homeDepts"></div>
     </section>
 
-    <section class="block">
-      <div class="sechead"><div><h2 data-t="sec_glance">Our range at a glance</h2><p data-t="glance_sub">Tap a department to see how many varieties, sizes and brands it carries.</p></div></div>
-      <div class="glance" id="glance">
-        <div class="donutwrap">
-          <svg viewBox="0 0 220 220" id="donut" role="img" aria-label="Varieties by department"></svg>
-          <div class="dcenter"><b class="num" id="dcPct">0%</b><span id="dcName"></span></div>
-        </div>
-        <div>
-          <div class="gcard" id="gCard"></div>
-          <div class="glegend" id="gLegend"></div>
-        </div>
-      </div>
-    </section>
 
     <section class="block">
       <div class="sechead">
@@ -673,27 +761,6 @@ main{overflow-x:clip}
       </div>
     </div>
 
-    <section class="block">
-      <div class="sechead"><div><h2 data-t="sec_calc">Retailer profit calculator</h2><p data-t="calc_sub">See your margin before you order.</p></div></div>
-      <div class="calc" id="calc">
-        <div class="calcin">
-          <div class="field"><label for="cBuy" data-t="c_buy">Our wholesale rate (₹ / pc)</label><input id="cBuy" type="number" min="1" step="1" value="185" inputmode="decimal"></div>
-          <div class="field"><label for="cSell" data-t="c_sell">Your selling price (₹ / pc)</label>
-            <div class="rangerow"><input id="cSellR" type="range" min="148" max="555" step="1" value="289" aria-label="Selling price slider"><input id="cSell" type="number" min="1" step="1" value="289" inputmode="decimal"></div></div>
-          <div class="field"><label for="cQty" data-t="c_qty">Pieces</label>
-            <div class="rangerow"><input id="cQtyR" type="range" min="1" max="500" step="1" value="60" aria-label="Pieces slider"><input id="cQty" type="number" min="1" step="1" value="60" inputmode="numeric"></div></div>
-        </div>
-        <div class="calcout" aria-live="polite">
-          <div class="bigs">
-            <div><span data-t="c_ppc">Profit per piece</span><b class="num" id="oPpc">₹0</b></div>
-            <div><span data-t="c_margin">Margin</span><b class="num" id="oMargin">0%</b></div>
-            <div class="hi"><span data-t="c_total">Total profit</span><b class="num" id="oTotal">₹0</b></div>
-          </div>
-          <div class="splitbar"><div class="sb-cost" id="sbCost" style="width:64%"><span data-t="c_cost">Cost</span></div><div class="sb-profit" id="sbProfit" style="width:36%"><span data-t="c_profit">Profit</span></div></div>
-          <p class="calcmsg" id="calcMsg" data-t="c_note">Margin is shown on your selling price.</p>
-        </div>
-      </div>
-    </section>
   </div>
 
   <section class="finale">
@@ -710,7 +777,8 @@ main{overflow-x:clip}
 </div>
 
 <!-- PRODUCTS -->
-<div data-view="products">
+<div data-view="products" id="products">
+  <div class="chapter" aria-hidden="true"><div class="wrap"><span class="cnum">02</span><span class="cname" data-t="nav_products">Our Products</span><span class="crule"></span></div></div>
   <div class="wrap">
     <section class="block">
       <div class="ptop">
@@ -719,13 +787,14 @@ main{overflow-x:clip}
       </div>
       <div class="dtabs" id="dtabs" role="tablist" aria-label="Departments"></div>
       <div id="prodBody"></div>
-      <div class="notice" style="margin-top:18px"><span>ℹ︎</span><span data-t="demo_note">Sample list. The full department-wise range will be updated soon.</span></div>
+      <div class="notice" style="margin-top:18px"><span>ℹ︎</span><span data-t="demo_note">Our range keeps changing. Ask on WhatsApp for current stock and rates.</span></div>
     </section>
   </div>
 </div>
 
 <!-- BRANDS -->
-<div data-view="brands">
+<div data-view="brands" id="brands">
+  <div class="chapter" aria-hidden="true"><div class="wrap"><span class="cnum">03</span><span class="cname" data-t="nav_brands">Brands</span><span class="crule"></span></div></div>
   <div class="wrap">
     <section class="block">
       <div class="sechead"><div><h2 data-t="brands_title">Brands we stock</h2><p data-t="brands_sub">Department-wise brands available at our showroom.</p></div></div>
@@ -736,7 +805,8 @@ main{overflow-x:clip}
 </div>
 
 <!-- ABOUT -->
-<div data-view="about">
+<div data-view="about" id="about">
+  <div class="chapter" aria-hidden="true"><div class="wrap"><span class="cnum">04</span><span class="cname" data-t="nav_about">About</span><span class="crule"></span></div></div>
   <div class="wrap">
     <section class="block">
       <div class="two">
@@ -761,7 +831,8 @@ main{overflow-x:clip}
 </div>
 
 <!-- CONTACT -->
-<div data-view="contact">
+<div data-view="contact" id="contact">
+  <div class="chapter" aria-hidden="true"><div class="wrap"><span class="cnum">05</span><span class="cname" data-t="nav_contact">Contact</span><span class="crule"></span></div></div>
   <div class="wrap">
     <section class="block">
       <div class="sechead"><div><h2 data-t="contact_title">Visit us</h2><p data-t="contact_sub">One number for every department.</p></div></div>
@@ -823,7 +894,7 @@ main{overflow-x:clip}
 const SHEET_ID = "128mCJ1BvfbTVX_4d3_BVJGKTEO4NqpCNaxHvEEL_eUI";
 const WA = "919730538971";
 /* Logos already uploaded to logos/brands/ (used when the sheet's Logo cell is empty) */
-const DEFAULT_LOGOS = {"verito":"verito.png","stax":"stax.png","essa":"essa.png","dixcy":"dixcy.png","james & harper":"james-harper.png","jockey":"jockey.png","cucumber":"cucumber.png","zeel":"zeel.png","lyra":"lyra.png","ramraj":"ramraj.png"};
+const DEFAULT_LOGOS = {"verito":"verito.png","stax":"stax.png","essa":"essa.png","dixcy":"dixcy.png","james & harper":"james-harper.png","jockey":"jockey.png","cucumber":"cucumber.png","zeel":"zeel.png","lyra":"lyra.png","ramraj":"ramraj.png","foggy":"foggy.png","lux":"lux.png","blue fisher":"blue-fisher.png"};
 const PALETTE = ["#D42A2F","#EE7D1E","#F2B51C","#5A1E4E","#8E2C62","#B8361F"];
 const RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 const FINE = !!(window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches);
@@ -833,15 +904,15 @@ if(!RM && "IntersectionObserver" in window) document.documentElement.classList.a
 const SAMPLE = {
 departments: `Department,Photo,About
 Hosiery,,"Ladies, gents and kids innerwear, socks, caps and thermals."
-Shirt,,"Casual, formal, white and kids shirts, kurta pyjama and winter wear."
-T-Shirt,,"Men's and kids T-shirts, hoodies, sports wear and Mandal T-shirts."
-Jeans,,"Jeans, Armani pants, formal pants and trousers. All sizes 28 to 44."
-Night Pant,,"Night pants, 3/4ths, shorts and bermudas for men and boys."
-Ladies,,"Kurtis, bottom wear, tops, gowns and night wear."
-Frock,,Kolkata collection of dresses and frocks.
-Handloom,,"Uparne, towels, bedsheets, home goods and traditional wear."
-Kids Jeans,,"Boys jeans, pant shirts, ethnic wear and newborn essentials."
-Baba Suit,,Kids and newborn collection.`,
+Shirt,shirt.webp,"Casual, formal, white and kids shirts, kurta pyjama and winter wear."
+T-Shirt,t-shirt.webp,"Men's and kids T-shirts, hoodies, sports wear and Mandal T-shirts."
+Jeans,jeans.webp,"Jeans, Armani pants, formal pants and trousers. All sizes 28 to 44."
+Night Pant,night-pant.webp,"Night pants, 3/4ths, shorts and bermudas for men and boys."
+Ladies,ladies.webp,"Kurtis, bottom wear, tops, gowns and night wear."
+Frock,frock.webp,Kolkata collection of dresses and frocks.
+Handloom,handloom.webp,"Uparne, towels, bedsheets, home goods and traditional wear."
+Kids Jeans,kids-jeans.webp,"Boys jeans, pant shirts, ethnic wear and newborn essentials."
+Baba Suit,baba-suit.webp,Kids and newborn collection.`,
 products: `Department,Section,Variety,Types,Sizes,Brands,Photo
 Hosiery,Ladies Innerwear,Panty,"Hipster, Bloomer, Boyleg, Plain, Print",Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
 Hosiery,Ladies Innerwear,Bra,"Bra Set, Sports, Padded, Seamless, Tube",Kids / Ladies: all sizes,"Essa, Dixcy, Lyra, James & Harper, Body Tonic, Mansi, Dream, Verito, Stax, Simplex, Pooja Ragini, Lux",
@@ -859,14 +930,14 @@ Hosiery,Gents Innerwear,Pocket Vest,,,"Dixcy, Macho, Essa, James & Harper, Lux, 
 Hosiery,More Products,Patta / Kopri / Sun Caps,All types,,,
 Hosiery,More Products,Socks,"Ankle, Full, Loose",,"Otaya, N.K, Redon, Supersox",
 Hosiery,Winter Collection,Thermal,"Kids, Gents, Ladies",All sizes,,
-Shirt,Shirts,Casual Shirts,"Plain, Print, Checks, Lining, Pattern, White",,"Offer, Hangout, Malabiz, Freedom, My Rules, Studio 83",
+Shirt,Shirts,Casual Shirts,"Plain, Print, Checks, Lining, Pattern, White",,"Offer, Hangout, Malabiz, Freedom, My Rules, Studio 83","shirt-bluecheck.webp, shirt-maroonfloral.webp, shirt-navy.webp, shirt-white.webp"
 Shirt,Shirts,Formal Shirts,Box Packing,,"Goodwill, Mercury, Touch Up",
 Shirt,Shirts,White Shirts,"Structure, Plain, Box Packing",,"Ramraj, Goodwill, Mercury, White King, Touch Up, Civic",
 Shirt,Kids Shirts,Kids Shirts,"White, Lining, Print, Checks, Fancy Patterns","3 to 8, 10 to 14","Civic, Play Goer, Offer, Hangout, Richie Rich, Kalash",
 Shirt,Kurta Pyjama,Kurta Pyjama (Kids & Men's),"Plain White, Plain Colours, Fancy Kurta",,"Diamond, Kingman, Touch Up, Freedom",
 Shirt,Winter Collection,Jerkin,,S – 4XL,"Krishna, Bansal",
 Shirt,Winter Collection,Sweat Shirt,,M – XXL,,
-T-Shirt,Men's,Fancy T-Shirts,,,,
+T-Shirt,Men's,Fancy T-Shirts,,,,"tee-maroon.webp, tee-black.webp, tee-white.webp, tee-greyv.webp"
 T-Shirt,Men's,Sports T-Shirts,,,,
 T-Shirt,Men's,Hoodies,,,,
 T-Shirt,Men's,Sweats,,,,
@@ -876,7 +947,7 @@ T-Shirt,Kids,Kids Sports T-Shirts,,,,
 T-Shirt,Kids,Sports School Uniform,,,,
 T-Shirt,Mandal T-Shirts,Mandal T-Shirts,,,,
 T-Shirt,Winter Collection,Jerkin,,M – 6XL,"Bholashankar, Black Harry, Hiccups",
-Jeans,Jeans & Pants,Jeans,,28 to 44,"LBW, Hidden, Maker's, Redux-S, White Ice, J-Ten, Next-9",
+Jeans,Jeans & Pants,Jeans,,28 to 44,"LBW, Hidden, Maker's, Redux-S, White Ice, J-Ten, Next-9","jean-dark.webp, jean-black.webp"
 Jeans,Jeans & Pants,Scratch & Damage Jeans,,28 to 44,"Mr Wrong, White Devil, Trigger, Apple Club",
 Jeans,Jeans & Pants,Armani Pants,,28 to 44,"Mabel, Pronex, Next-9, Hidden",
 Jeans,Jeans & Pants,Formal Pants,,28 to 44,"I-10, Midon",
@@ -984,12 +1055,12 @@ Handloom,Ramraj,Ramraj Bedsheet,,,Ramraj,
 Handloom,Ramraj,Wedding Set,,,Ramraj,
 Kids Jeans,Boys Jeans,Boys Jeans,"Six Pocket, Plain, Cargo, Jogger, Cotton","16/20, 22/30, 32/40",,
 Kids Jeans,Boys Jeans,Armani,"Plain, Checks, Peanut, Popcorn, Flexi Belt","22/30, 32/40",,
-Kids Jeans,Pant Shirt,Pant Shirt,"Plain, Double Pocket, Digital Print, Checks","2/7, 5/10, 3/8",,
-Kids Jeans,Ethnic Wear,Kurta Payjama,,1/10,,
-Kids Jeans,Ethnic Wear,Three Piece,,1/10,,
+Kids Jeans,Pant Shirt,Pant Shirt,"Plain, Double Pocket, Digital Print, Checks","2/7, 5/10, 3/8",,"kid-blue.webp, kid-redcheck.webp, kid-orange.webp, kid-yellow.webp"
+Kids Jeans,Ethnic Wear,Kurta Payjama,,1/10,,kid-white.webp
+Kids Jeans,Ethnic Wear,Three Piece,,1/10,,kid-waistcoat.webp
 Kids Jeans,Ethnic Wear,Chikan Kurta Payjama,,1/10,,
-Kids Jeans,Jacket,Jacket,"Half Jacket, Full Jacket, Jeans Jacket",22/32,,
-Kids Jeans,Newborn Baby,Baby Dress,"Full, Half",0,,
+Kids Jeans,Jacket,Jacket,"Half Jacket, Full Jacket, Jeans Jacket",22/32,,kid-hoodie.webp
+Kids Jeans,Newborn Baby,Baby Dress,"Full, Half",0,,kid-romper.webp
 Kids Jeans,Newborn Baby,Langot,,0,,
 Kids Jeans,Newborn Baby,Baby Cap & Mittens,"Baby Cap, Mittens",0,,
 Kids Jeans,Newborn Baby,Baby Socks Set,"Hand, Legs",0,,
@@ -1021,7 +1092,7 @@ Baba Suit,New Born Baby,New Born Baby (Mojito),,"M, L, XXL",Mojito,
 Baba Suit,New Born Sweater,New Born Sweater (Love Bird),,14 – 22,Love Bird,
 Baba Suit,New Born Sweater,New Born Sweater (Top Gear),,"14, 16, 18, 20",Top Gear,
 Baba Suit,New Born Sweater,China Sweater,,"14, 16, 18, 20, 22",,
-Baba Suit,Raincoat,Raincoat,,"22 – 26, 27 – 42, 48 – 52, S – M, L – 5XL","Zeel, Kesri, Reliance",
+Baba Suit,Raincoat,Raincoat,,"22 – 26, 27 – 42, 48 – 52, S – M, L – 5XL","Zeel, Kesri, Reliance","rain-navy.webp, rain-black.webp, rain-olive.webp, rain-yellow.webp, rain-red.webp, rain-maroon.webp, rain-grey.webp"
 Baba Suit,Winter Collection,Fur Suit,,14 – 22,,
 Baba Suit,Winter Collection,Boys Sweat Shirt,,18 – 36,,
 Baba Suit,Winter Collection,Jerkin,,18 – 36,,
@@ -1182,7 +1253,13 @@ const SHAPES={
  track:{m:["M30 10 L70 10 L76 90 L58 90 L50 36 L42 90 L24 90 Z"],x:(c,h,s)=>`<path d="M30 17 L70 17" stroke="${s}" stroke-width="2" stroke-opacity=".6"/><path d="M31 20 L26 88 M69 20 L74 88" stroke="#fff" stroke-width="2.6"/>`}
 };
 let GID=0;
-function garmentInner(type,c){
+const TOPS=["tshirt","polo","shirt","vest","kurti","jacket","hoodie","sweater","onesie","frock","nighty","set","babasuit"], BOTTOMS=["jeans","track","pyjama","shorts"];
+function backX(type,c,h,s){
+  if(TOPS.includes(type)) return `<path d="M36 22 Q50 28 64 22" fill="none" stroke="${s}" stroke-opacity=".35" stroke-width="1.4"/><rect x="47" y="15" width="6" height="4" rx=".6" fill="#fff" fill-opacity=".75"/><text x="50" y="${type==="babasuit"||type==="set"?40:62}" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="800" font-size="${type==="babasuit"||type==="set"?13:22}" fill="#fff" fill-opacity=".88" letter-spacing="-.5">95</text>`;
+  if(BOTTOMS.includes(type)) return `<path d="M32 24 L44 24 L44 36 L38 39 L32 36 Z M56 24 L68 24 L68 36 L62 39 L56 36 Z" fill="none" stroke="${h}" stroke-width="1" stroke-dasharray="1.6 1.2"/><path d="M29 18 L71 18" stroke="${s}" stroke-width="2" stroke-opacity=".5"/><rect x="47" y="13" width="6" height="4" rx=".6" fill="#C9A227"/>`;
+  return null;
+}
+function garmentInner(type,c,back){
   const S=SHAPES[type]||SHAPES.tshirt, id="g"+(++GID), base=S.base||c;
   const hi=shade(base,48), lo=shade(base,-42), s=shade(c,-75);
   let o=`<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".5" stop-color="${base}"/><stop offset="1" stop-color="${lo}"/></linearGradient><linearGradient id="${id}h" x1="0" y1="0" x2="1" y2="0"><stop offset=".25" stop-color="#fff" stop-opacity="0"/><stop offset=".42" stop-color="#fff" stop-opacity=".28"/><stop offset=".58" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><ellipse cx="50" cy="95" rx="32" ry="3.2" fill="#000" opacity=".14"/>`;
@@ -1191,9 +1268,11 @@ function garmentInner(type,c){
     o+=`<path d="${d}" fill="url(#${id}h)"/>`;
     o+=`<path d="${d}" fill="none" stroke="${base==="#FFFFFF"||S.base?"#B9AFA8":hi}" stroke-opacity=".75" stroke-width=".65" stroke-dasharray="1.6 1.4" transform="translate(50 52) scale(.92) translate(-50 -52)"/>`;
   }
-  return o+(S.x?S.x(c,hi,s):"");
+  const bx=back?backX(type,c,hi,s):null;
+  return o+(bx!==null?bx:(S.x?S.x(c,hi,s):""));
 }
-const garment=(type,c)=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${garmentInner(type,c)}</svg>`;
+const TOPY={brief:30,langot:32,shorts:26,dhoti:28,sheet:30,towel:22,fabric:16,giftbox:12,babycap:18,mitten:12,socks:8,mandap:2};
+const garment=(type,c,back,hang)=>{const off=hang?Math.max(0,(TOPY[type]||8)-8):0; return `<svg viewBox="0 ${off} 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${garmentInner(type,c,back)}</svg>`;};
 function stackArt(type,cols){
   const t=Array.isArray(type)?type:[type,type,type];
   return `<svg viewBox="0 0 140 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1217,7 +1296,7 @@ function buildData(raw){
   depRows.forEach(r=>{if(r.department) addDept(r.department,r);});
   const vars=[];
   prodRows.forEach(r=>{ if(!r.department||!r.variety) return; const d=addDept(r.department);
-    vars.push({dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photo:assetPath(r.photo,"images/products/"),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
+    vars.push({get photo(){return this.photos[0]||""},dept:d.id,section:(r.section||"").trim(),types:splitList(r.types),name:r.variety,sizes:splitList(r.sizes),brands:splitList(r.brands),photos:splitList(r.photo).map(p=>assetPath(p,"images/products/")),backs:splitList(r["back photo"]).map(p=>assetPath(p,"images/products/")),icon:iconFor(r.variety,d.icon),color:GARMENT_COLORS[hashN(r.variety)%GARMENT_COLORS.length]}); });
   const brands=new Map(), canon=new Map();
   brandRows.forEach(r=>{ if(r.brand){const n=r.brand.trim(); canon.set(n.toLowerCase(),n); brands.set(n,{name:n,logo:assetPath(r.logo||DEFAULT_LOGOS[n.toLowerCase()]||"","logos/brands/")});} });
   vars.forEach(v=>{ v.brands=v.brands.map(b=>{const k=b.toLowerCase(); if(!canon.has(k)){canon.set(k,b); brands.set(b,{name:b,logo:assetPath(DEFAULT_LOGOS[k]||"","logos/brands/")});} return canon.get(k);}); });
@@ -1240,12 +1319,18 @@ async function loadSheet(){
   try{
     const [departments,products,brands]=await Promise.all([get("Departments"),get("Products"),get("Brands")]);
     const d=buildData({departments,products,brands});
-    return d.vars.length?d:null;
+    if(!d.vars.length) return null;
+    /* Sheet me Photo khaali ho to website ki built-in photo use karo */
+    const base=buildData(SAMPLE), key=v=>v.dept+"|"+v.name.trim().toLowerCase();
+    const bd=new Map(base.depts.map(x=>[x.id,x])), bv=new Map(base.vars.map(v=>[key(v),v]));
+    d.depts.forEach(x=>{ if(!x.photo&&bd.get(x.id)) x.photo=bd.get(x.id).photo; });
+    d.vars.forEach(v=>{ const b=bv.get(key(v)); if(b){ if(!v.photos.length) v.photos=b.photos; if(!v.backs.length) v.backs=b.backs; } });
+    return d;
   }catch(e){ return null; }
 }
 
 /* ---------- i18n ---------- */
-const T={"en": {"nav_home": "Home", "nav_products": "Our Products", "nav_products_s": "Products", "nav_brands": "Brands", "nav_about": "About", "nav_about_s": "About", "nav_contact": "Contact", "hero_kicker": "Wholesale readymade garments · Since 1995", "hero_l1": "Everything your shop sells,", "hero_l2": "under one roof.", "hero_sub": "Men's, ladies' and kids' wear across a 40,000 sq ft showroom, for retailers in and around Ahilyanagar. Wholesale rates and one number for every department.", "btn_products": "See our products", "btn_whatsapp": "WhatsApp us", "motto_en": "Honesty & innovation", "stat_years": "years of trust", "stat_area": "sq ft showroom", "stat_depts": "departments", "all_big": "All", "stat_cat": "categories except sarees", "sec_depts": "Shop by department", "see_all": "See all products →", "varieties": "varieties", "sec_glance": "Our range at a glance", "glance_sub": "Tap a department to see how many varieties, sizes and brands it carries.", "of_range": "of our range", "size_opts": "size options", "brands_lbl": "Brands", "view_products": "View products", "sec_brands": "Brands on our shelves", "see_brands": "See brands by department →", "sec_journey": "How to buy from us", "journey_sub": "Five simple steps from our range to your shop.", "j1t": "Explore the range", "j1": "See department-wise varieties and sizes on this website.", "j2t": "Ask on WhatsApp", "j2": "Tap Ask on any variety, or message 97305 38971.", "j3t": "Visit or order", "j3": "Visit our showroom on Link Road, Kedgaon, or place your order with our team.", "j4t": "Confirm & pack", "j4": "Our team confirms stock and rates with you, then packs your parcel.", "j5t": "Dispatch", "j5": "Your parcel is handed over for dispatch.", "why_title": "One visit. <span>Your whole season's stock.</span>", "why_sub": "Retailers come to Deepak Agency so they don't have to visit ten different wholesalers.", "btn_ask": "Ask on WhatsApp", "why1": "Every category, one place", "why1p": "Baba suits to jeans, hosiery to handloom. Everything except sarees.", "why2": "Wholesale rates", "why2p": "Rates set for retailers buying for their shops.", "why3": "One number for everything", "why3p": "Call or WhatsApp 97305 38971 for any department.", "why4": "Trusted since 1995", "why4p": "Three decades of supplying shops around Ahilyanagar.", "sec_calc": "Retailer profit calculator", "calc_sub": "See your margin before you order.", "c_buy": "Our wholesale rate (₹ / pc)", "c_sell": "Your selling price (₹ / pc)", "c_qty": "Pieces", "c_ppc": "Profit per piece", "c_margin": "Margin", "c_total": "Total profit", "c_cost": "Cost", "c_profit": "Profit", "c_note": "Margin is shown on your selling price.", "c_loss": "Selling price is below cost. Raise it to make a profit.", "finale_l1": "Everything your shop sells.", "finale_l2": "Under one roof.", "finale_sub": "Visit the showroom or send us a message. One number for every department.", "btn_visit": "Visit showroom", "prod_kicker": "Department-wise range", "prod_title": "Our Products", "prod_sub": "What we stock in every department, variety by variety, with sizes.", "f_search": "Search", "search_ph": "Search a variety, brand or size", "demo_note": "Sample list. The full department-wise range will be updated soon.", "ask": "Ask", "ask_dept": "Ask about this department", "brands_in": "Brands in this department", "multi_brands": "Multiple brands available. Ask us on WhatsApp.", "no_results": "No variety matches your search.", "results_for": "results for", "sizes_lbl": "Sizes", "brands_title": "Brands we stock", "brands_sub": "Department-wise brands available at our showroom.", "brands_more": "Other departments carry multiple brands. Ask us on WhatsApp.", "about_title": "About Deepak Agency", "about_p1": "Deepak Agency and Readymades is a family-run wholesale garment business of the Kaswa parivar, supplying retailers, shops and organisations in and around Ahilyanagar since 1995.", "about_p2": "We buy readymade garments from manufacturers across India, in every category except sarees, and stock them department by department in our 40,000 sq ft showroom on Link Road, Kedgaon.", "about_p3": "Our motto is सचोटी व नाविन्य: honesty in every bill, and new ideas in how we serve our customers.", "contact_title": "Visit us", "contact_sub": "One number for every department.", "addr_lbl": "Showroom", "open_maps": "Open in Google Maps →", "phone_lbl": "Call / WhatsApp", "time_lbl": "Timings", "timings": "10:00 AM – 8:00 PM", "enq_title": "Send an enquiry", "f_name": "Your name", "f_phone": "Phone number", "enq_msg": "What are you looking for?", "enq_send": "Send on WhatsApp", "enq_open": "Open WhatsApp with your enquiry →", "quick": "Quick links", "wa_variety": "Hello Deepak Agency, I'd like details of {v} ({d}).", "wa_dept": "Hello Deepak Agency, I'd like details of your {d} department.", "rib_a": "EVERYTHING YOUR SHOP SELLS", "rib_b": "UNDER ONE ROOF"}, "hi": {"nav_home": "होम", "nav_products": "हमारे प्रोडक्ट्स", "nav_products_s": "प्रोडक्ट्स", "nav_brands": "ब्रांड", "nav_about": "हमारे बारे में", "nav_about_s": "परिचय", "nav_contact": "संपर्क", "hero_kicker": "होलसेल रेडीमेड गारमेंट्स · 1995 से", "hero_l1": "आपकी दुकान का हर कपड़ा,", "hero_l2": "एक ही छत के नीचे।", "hero_sub": "40,000 sq ft के शोरूम में पुरुष, महिला और बच्चों के कपड़े, अहिल्यानगर और आसपास के रिटेलर्स के लिए। होलसेल रेट, और हर विभाग के लिए एक ही नंबर।", "btn_products": "हमारे प्रोडक्ट्स देखें", "btn_whatsapp": "WhatsApp करें", "motto_en": "ईमानदारी और नयापन", "stat_years": "साल का भरोसा", "stat_area": "sq ft शोरूम", "stat_depts": "विभाग", "all_big": "सभी", "stat_cat": "साड़ी छोड़कर हर कैटेगरी", "sec_depts": "विभाग के अनुसार देखें", "see_all": "सभी प्रोडक्ट्स देखें →", "varieties": "वैरायटी", "sec_glance": "एक नज़र में हमारी रेंज", "glance_sub": "किसी विभाग पर टैप करें: कितनी वैरायटी, साइज़ और ब्रांड हैं, देखें।", "of_range": "हमारी रेंज का", "size_opts": "साइज़ विकल्प", "brands_lbl": "ब्रांड", "view_products": "प्रोडक्ट्स देखें", "sec_brands": "हमारे यहाँ के ब्रांड", "see_brands": "विभाग के अनुसार ब्रांड देखें →", "sec_journey": "हमसे कैसे खरीदें", "journey_sub": "हमारी रेंज से आपकी दुकान तक, पाँच आसान स्टेप।", "j1t": "रेंज देखें", "j1": "इस वेबसाइट पर विभाग के अनुसार वैरायटी और साइज़ देखें।", "j2t": "WhatsApp पर पूछें", "j2": "किसी भी वैरायटी पर 'पूछें' दबाएं, या 97305 38971 पर मैसेज करें।", "j3t": "विज़िट या ऑर्डर", "j3": "लिंक रोड, केडगाँव के शोरूम आएं, या हमारी टीम को ऑर्डर दें।", "j4t": "कन्फर्म और पैक", "j4": "हमारी टीम आपसे स्टॉक और रेट कन्फर्म करती है, फिर पार्सल पैक करती है।", "j5t": "डिस्पैच", "j5": "आपका पार्सल डिस्पैच के लिए रवाना होता है।", "why_title": "एक विज़िट। <span>पूरे सीज़न का माल।</span>", "why_sub": "रिटेलर्स दीपक एजेंसी आते हैं ताकि उन्हें दस अलग होलसेलर्स के पास न जाना पड़े।", "btn_ask": "WhatsApp पर पूछें", "why1": "हर कैटेगरी, एक जगह", "why1p": "बाबा सूट से जींस, होज़री से हैंडलूम। साड़ी छोड़कर सब कुछ।", "why2": "होलसेल रेट", "why2p": "दुकान के लिए खरीदने वाले रिटेलर्स के हिसाब से रेट।", "why3": "हर चीज़ के लिए एक नंबर", "why3p": "किसी भी विभाग के लिए 97305 38971 पर कॉल या WhatsApp करें।", "why4": "1995 से भरोसा", "why4p": "तीन दशकों से अहिल्यानगर की दुकानों को सप्लाई।", "sec_calc": "रिटेलर प्रॉफ़िट कैलकुलेटर", "calc_sub": "ऑर्डर से पहले अपना मार्जिन देखें।", "c_buy": "हमारा होलसेल रेट (₹ / पीस)", "c_sell": "आपका बिक्री मूल्य (₹ / पीस)", "c_qty": "पीस", "c_ppc": "प्रति पीस मुनाफ़ा", "c_margin": "मार्जिन", "c_total": "कुल मुनाफ़ा", "c_cost": "लागत", "c_profit": "मुनाफ़ा", "c_note": "मार्जिन आपके बिक्री मूल्य पर दिखाया गया है।", "c_loss": "बिक्री मूल्य लागत से कम है। मुनाफ़े के लिए इसे बढ़ाएं।", "finale_l1": "आपकी दुकान का हर कपड़ा।", "finale_l2": "एक ही छत के नीचे।", "finale_sub": "शोरूम आएं या हमें मैसेज करें। हर विभाग के लिए एक ही नंबर।", "btn_visit": "शोरूम का पता", "prod_kicker": "विभाग के अनुसार रेंज", "prod_title": "हमारे प्रोडक्ट्स", "prod_sub": "हर विभाग में क्या मिलता है, वैरायटी और साइज़ के साथ।", "f_search": "खोजें", "search_ph": "वैरायटी, ब्रांड या साइज़ खोजें", "demo_note": "नमूना सूची। पूरी विभाग-वार रेंज जल्द अपडेट होगी।", "ask": "पूछें", "ask_dept": "इस विभाग के बारे में पूछें", "brands_in": "इस विभाग के ब्रांड", "multi_brands": "कई ब्रांड उपलब्ध। WhatsApp पर पूछें।", "no_results": "आपकी खोज से कोई वैरायटी नहीं मिली।", "results_for": "नतीजे:", "sizes_lbl": "साइज़", "brands_title": "हमारे पास के ब्रांड", "brands_sub": "हमारे शोरूम में विभाग के अनुसार उपलब्ध ब्रांड।", "brands_more": "बाकी विभागों में कई ब्रांड मिलते हैं। WhatsApp पर पूछें।", "about_title": "दीपक एजेंसी के बारे में", "about_p1": "दीपक एजेंसी एंड रेडीमेड्स कासवा परिवार का होलसेल गारमेंट व्यवसाय है, जो 1995 से अहिल्यानगर और आसपास के रिटेलर्स, दुकानों और संस्थाओं को सप्लाई करता है।", "about_p2": "हम पूरे भारत के निर्माताओं से साड़ी छोड़कर हर कैटेगरी के रेडीमेड कपड़े खरीदते हैं, और उन्हें लिंक रोड, केडगाँव के 40,000 sq ft शोरूम में विभाग के अनुसार रखते हैं।", "about_p3": "हमारा मंत्र है सचोटी व नाविन्य: हर बिल में ईमानदारी, और ग्राहकों की सेवा में नए विचार।", "contact_title": "हमसे मिलें", "contact_sub": "हर विभाग के लिए एक ही नंबर।", "addr_lbl": "शोरूम", "open_maps": "Google Maps में खोलें →", "phone_lbl": "कॉल / WhatsApp", "time_lbl": "समय", "timings": "सुबह 10:00 – रात 8:00", "enq_title": "पूछताछ भेजें", "f_name": "आपका नाम", "f_phone": "फोन नंबर", "enq_msg": "आप क्या ढूंढ रहे हैं?", "enq_send": "WhatsApp पर भेजें", "enq_open": "अपनी पूछताछ के साथ WhatsApp खोलें →", "quick": "लिंक", "wa_variety": "नमस्ते दीपक एजेंसी, मुझे {d} विभाग में {v} की जानकारी चाहिए।", "wa_dept": "नमस्ते दीपक एजेंसी, मुझे आपके {d} विभाग की जानकारी चाहिए।", "rib_a": "आपकी दुकान का हर कपड़ा", "rib_b": "एक ही छत के नीचे"}, "mr": {"nav_home": "होम", "nav_products": "आमची उत्पादने", "nav_products_s": "उत्पादने", "nav_brands": "ब्रँड", "nav_about": "आमच्याबद्दल", "nav_about_s": "परिचय", "nav_contact": "संपर्क", "hero_kicker": "घाऊक रेडिमेड कपडे · 1995 पासून", "hero_l1": "तुमच्या दुकानातील प्रत्येक कपडा,", "hero_l2": "एकाच छताखाली.", "hero_sub": "40,000 sq ft शोरूममध्ये पुरुष, महिला आणि लहान मुलांचे कपडे, अहिल्यानगर आणि परिसरातील किरकोळ विक्रेत्यांसाठी. घाऊक दर, आणि प्रत्येक विभागासाठी एकच नंबर.", "btn_products": "आमची उत्पादने पहा", "btn_whatsapp": "WhatsApp करा", "motto_en": "प्रामाणिकपणा आणि नावीन्य", "stat_years": "वर्षांचा विश्वास", "stat_area": "sq ft शोरूम", "stat_depts": "विभाग", "all_big": "सर्व", "stat_cat": "साडी सोडून सर्व प्रकार", "sec_depts": "विभागानुसार पहा", "see_all": "सर्व उत्पादने पहा →", "varieties": "प्रकार", "sec_glance": "एका नजरेत आमची रेंज", "glance_sub": "विभागावर टॅप करा: किती प्रकार, साईज आणि ब्रँड आहेत ते पहा.", "of_range": "आमच्या रेंजपैकी", "size_opts": "साईज पर्याय", "brands_lbl": "ब्रँड", "view_products": "उत्पादने पहा", "sec_brands": "आमच्याकडील ब्रँड", "see_brands": "विभागानुसार ब्रँड पहा →", "sec_journey": "आमच्याकडून खरेदी कशी करावी", "journey_sub": "आमच्या रेंजपासून तुमच्या दुकानापर्यंत, पाच सोप्या पायऱ्या.", "j1t": "रेंज पहा", "j1": "या वेबसाइटवर विभागानुसार प्रकार आणि साईज पहा.", "j2t": "WhatsApp वर विचारा", "j2": "कोणत्याही प्रकारावर 'विचारा' दाबा, किंवा 97305 38971 वर मेसेज करा.", "j3t": "भेट किंवा ऑर्डर", "j3": "लिंक रोड, केडगाव येथील शोरूमला भेट द्या, किंवा आमच्या टीमकडे ऑर्डर द्या.", "j4t": "खात्री आणि पॅकिंग", "j4": "आमची टीम तुमच्याशी स्टॉक आणि दराची खात्री करते, मग पार्सल पॅक करते.", "j5t": "रवाना", "j5": "तुमचे पार्सल डिस्पॅचसाठी रवाना होते.", "why_title": "एक भेट. <span>संपूर्ण सीझनचा माल.</span>", "why_sub": "दहा वेगवेगळ्या घाऊक विक्रेत्यांकडे जावे लागू नये म्हणून किरकोळ विक्रेते दीपक एजन्सीमध्ये येतात.", "btn_ask": "WhatsApp वर विचारा", "why1": "सर्व प्रकार, एकाच ठिकाणी", "why1p": "बाबा सूटपासून जीन्सपर्यंत, होजिअरीपासून हँडलूमपर्यंत. साडी सोडून सर्व काही.", "why2": "घाऊक दर", "why2p": "दुकानासाठी खरेदी करणाऱ्या विक्रेत्यांसाठी ठरवलेले दर.", "why3": "सर्वांसाठी एकच नंबर", "why3p": "कोणत्याही विभागासाठी 97305 38971 वर कॉल किंवा WhatsApp करा.", "why4": "1995 पासून विश्वास", "why4p": "तीन दशकांपासून अहिल्यानगरमधील दुकानांना पुरवठा.", "sec_calc": "किरकोळ विक्रेता नफा कॅल्क्युलेटर", "calc_sub": "ऑर्डरआधी तुमचा मार्जिन पहा.", "c_buy": "आमचा घाऊक दर (₹ / नग)", "c_sell": "तुमची विक्री किंमत (₹ / नग)", "c_qty": "नग", "c_ppc": "प्रति नग नफा", "c_margin": "मार्जिन", "c_total": "एकूण नफा", "c_cost": "खर्च", "c_profit": "नफा", "c_note": "मार्जिन तुमच्या विक्री किमतीवर दाखवला आहे.", "c_loss": "विक्री किंमत खर्चापेक्षा कमी आहे. नफ्यासाठी ती वाढवा.", "finale_l1": "तुमच्या दुकानातील प्रत्येक कपडा.", "finale_l2": "एकाच छताखाली.", "finale_sub": "शोरूमला भेट द्या किंवा आम्हाला मेसेज करा. प्रत्येक विभागासाठी एकच नंबर.", "btn_visit": "शोरूमचा पत्ता", "prod_kicker": "विभागानुसार रेंज", "prod_title": "आमची उत्पादने", "prod_sub": "प्रत्येक विभागात काय मिळते, प्रकार आणि साईजसह.", "f_search": "शोधा", "search_ph": "प्रकार, ब्रँड किंवा साईज शोधा", "demo_note": "नमुना यादी. संपूर्ण विभागानुसार रेंज लवकरच अपडेट होईल.", "ask": "विचारा", "ask_dept": "या विभागाबद्दल विचारा", "brands_in": "या विभागातील ब्रँड", "multi_brands": "अनेक ब्रँड उपलब्ध. WhatsApp वर विचारा.", "no_results": "तुमच्या शोधाशी जुळणारा प्रकार नाही.", "results_for": "निकाल:", "sizes_lbl": "साईज", "brands_title": "आमच्याकडील ब्रँड", "brands_sub": "आमच्या शोरूममध्ये विभागानुसार उपलब्ध ब्रँड.", "brands_more": "इतर विभागांमध्ये अनेक ब्रँड मिळतात. WhatsApp वर विचारा.", "about_title": "दीपक एजन्सीबद्दल", "about_p1": "दीपक एजन्सी अँड रेडिमेड्स हा कासवा परिवाराचा घाऊक कपड्यांचा व्यवसाय आहे, जो 1995 पासून अहिल्यानगर आणि परिसरातील किरकोळ विक्रेते, दुकाने आणि संस्थांना पुरवठा करतो.", "about_p2": "आम्ही संपूर्ण भारतातील उत्पादकांकडून साडी सोडून सर्व प्रकारचे रेडिमेड कपडे खरेदी करतो, आणि लिंक रोड, केडगाव येथील 40,000 sq ft शोरूममध्ये विभागानुसार ठेवतो.", "about_p3": "आमचे ब्रीदवाक्य आहे सचोटी व नाविन्य: प्रत्येक बिलात प्रामाणिकपणा, आणि ग्राहकसेवेत नव्या कल्पना.", "contact_title": "आम्हाला भेट द्या", "contact_sub": "प्रत्येक विभागासाठी एकच नंबर.", "addr_lbl": "शोरूम", "open_maps": "Google Maps मध्ये उघडा →", "phone_lbl": "कॉल / WhatsApp", "time_lbl": "वेळ", "timings": "सकाळी 10:00 – रात्री 8:00", "enq_title": "चौकशी पाठवा", "f_name": "तुमचे नाव", "f_phone": "फोन नंबर", "enq_msg": "तुम्ही काय शोधत आहात?", "enq_send": "WhatsApp वर पाठवा", "enq_open": "तुमच्या चौकशीसह WhatsApp उघडा →", "quick": "लिंक", "wa_variety": "नमस्कार दीपक एजन्सी, मला {d} विभागातील {v} बद्दल माहिती हवी आहे.", "wa_dept": "नमस्कार दीपक एजन्सी, मला तुमच्या {d} विभागाची माहिती हवी आहे.", "rib_a": "तुमच्या दुकानातील प्रत्येक कपडा", "rib_b": "एकाच छताखाली"}};
+const T={"en": {"nav_home": "Home", "nav_products": "Our Products", "nav_products_s": "Products", "nav_brands": "Brands", "nav_about": "About", "nav_about_s": "About", "nav_contact": "Contact", "hero_kicker": "Wholesale readymade garments · Since 1995", "hero_l1": "Everything your shop sells,", "hero_l2": "under one roof.", "hero_sub": "Men's, ladies' and kids' wear across a 40,000 sq ft showroom, for retailers in and around Ahilyanagar. Wholesale rates and one number for every department.", "btn_products": "See our products", "btn_whatsapp": "WhatsApp us", "motto_en": "Honesty & innovation", "stat_years": "years of trust", "stat_area": "sq ft showroom", "stat_depts": "departments", "all_big": "All", "stat_cat": "categories except sarees", "sec_depts": "Shop by department", "see_all": "See all products →", "varieties": "varieties", "sec_glance": "Our range at a glance", "glance_sub": "Tap a department to see how many varieties, sizes and brands it carries.", "of_range": "of our range", "size_opts": "size options", "brands_lbl": "Brands", "view_products": "View products", "sec_brands": "Brands on our shelves", "see_brands": "See brands by department →", "sec_journey": "How to buy from us", "journey_sub": "Five simple steps from our range to your shop.", "j1t": "Explore the range", "j1": "See department-wise varieties and sizes on this website.", "j2t": "Ask on WhatsApp", "j2": "Tap Ask on any variety, or message 97305 38971.", "j3t": "Visit or order", "j3": "Visit our showroom on Link Road, Kedgaon, or place your order with our team.", "j4t": "Confirm & pack", "j4": "Our team confirms stock and rates with you, then packs your parcel.", "j5t": "Dispatch", "j5": "Your parcel is handed over for dispatch.", "why_title": "One visit. <span>Your whole season's stock.</span>", "why_sub": "Retailers come to Deepak Agency so they don't have to visit ten different wholesalers.", "btn_ask": "Ask on WhatsApp", "why1": "Every category, one place", "why1p": "Baba suits to jeans, hosiery to handloom. Everything except sarees.", "why2": "Wholesale rates", "why2p": "Rates set for retailers buying for their shops.", "why3": "One number for everything", "why3p": "Call or WhatsApp 97305 38971 for any department.", "why4": "Trusted since 1995", "why4p": "Three decades of supplying shops around Ahilyanagar.", "sec_calc": "Retailer profit calculator", "calc_sub": "See your margin before you order.", "c_buy": "Our wholesale rate (₹ / pc)", "c_sell": "Your selling price (₹ / pc)", "c_qty": "Pieces", "c_ppc": "Profit per piece", "c_margin": "Margin", "c_total": "Total profit", "c_cost": "Cost", "c_profit": "Profit", "c_note": "Margin is shown on your selling price.", "c_loss": "Selling price is below cost. Raise it to make a profit.", "finale_l1": "Everything your shop sells.", "finale_l2": "Under one roof.", "finale_sub": "Visit the showroom or send us a message. One number for every department.", "btn_visit": "Visit showroom", "prod_kicker": "Department-wise range", "prod_title": "Our Products", "prod_sub": "What we stock in every department, variety by variety, with sizes.", "f_search": "Search", "search_ph": "Search a variety, brand or size", "demo_note": "Our range keeps changing. Ask on WhatsApp for current stock and rates.", "ask": "Ask", "ask_dept": "Ask about this department", "brands_in": "Brands in this department", "multi_brands": "Multiple brands available. Ask us on WhatsApp.", "no_results": "No variety matches your search.", "results_for": "results for", "sizes_lbl": "Sizes", "brands_title": "Brands we stock", "brands_sub": "Department-wise brands available at our showroom.", "brands_more": "Other departments carry multiple brands. Ask us on WhatsApp.", "about_title": "About Deepak Agency", "about_p1": "Deepak Agency and Readymades is a family-run wholesale garment business of the Kaswa parivar, supplying retailers, shops and organisations in and around Ahilyanagar since 1995.", "about_p2": "We buy readymade garments from manufacturers across India, in every category except sarees, and stock them department by department in our 40,000 sq ft showroom on Link Road, Kedgaon.", "about_p3": "Our motto is सचोटी व नाविन्य: honesty in every bill, and new ideas in how we serve our customers.", "contact_title": "Visit us", "contact_sub": "One number for every department.", "addr_lbl": "Showroom", "open_maps": "Open in Google Maps →", "phone_lbl": "Call / WhatsApp", "time_lbl": "Timings", "timings": "10:00 AM – 8:00 PM", "enq_title": "Send an enquiry", "f_name": "Your name", "f_phone": "Phone number", "enq_msg": "What are you looking for?", "enq_send": "Send on WhatsApp", "enq_open": "Open WhatsApp with your enquiry →", "quick": "Quick links", "wa_variety": "Hello Deepak Agency, I'd like details of {v} ({d}).", "wa_dept": "Hello Deepak Agency, I'd like details of your {d} department.", "rib_a": "EVERYTHING YOUR SHOP SELLS", "rib_b": "UNDER ONE ROOF", "rack_hint": "Hover or tap a piece to take it off the rack", "st_front": "Front", "st_back": "Back", "st_colour": "Colour", "st_note": "Colours here are for illustration. Ask us on WhatsApp for the shades in stock."}, "hi": {"nav_home": "होम", "nav_products": "हमारे प्रोडक्ट्स", "nav_products_s": "प्रोडक्ट्स", "nav_brands": "ब्रांड", "nav_about": "हमारे बारे में", "nav_about_s": "परिचय", "nav_contact": "संपर्क", "hero_kicker": "होलसेल रेडीमेड गारमेंट्स · 1995 से", "hero_l1": "आपकी दुकान का हर कपड़ा,", "hero_l2": "एक ही छत के नीचे।", "hero_sub": "40,000 sq ft के शोरूम में पुरुष, महिला और बच्चों के कपड़े, अहिल्यानगर और आसपास के रिटेलर्स के लिए। होलसेल रेट, और हर विभाग के लिए एक ही नंबर।", "btn_products": "हमारे प्रोडक्ट्स देखें", "btn_whatsapp": "WhatsApp करें", "motto_en": "ईमानदारी और नयापन", "stat_years": "साल का भरोसा", "stat_area": "sq ft शोरूम", "stat_depts": "विभाग", "all_big": "सभी", "stat_cat": "साड़ी छोड़कर हर कैटेगरी", "sec_depts": "विभाग के अनुसार देखें", "see_all": "सभी प्रोडक्ट्स देखें →", "varieties": "वैरायटी", "sec_glance": "एक नज़र में हमारी रेंज", "glance_sub": "किसी विभाग पर टैप करें: कितनी वैरायटी, साइज़ और ब्रांड हैं, देखें।", "of_range": "हमारी रेंज का", "size_opts": "साइज़ विकल्प", "brands_lbl": "ब्रांड", "view_products": "प्रोडक्ट्स देखें", "sec_brands": "हमारे यहाँ के ब्रांड", "see_brands": "विभाग के अनुसार ब्रांड देखें →", "sec_journey": "हमसे कैसे खरीदें", "journey_sub": "हमारी रेंज से आपकी दुकान तक, पाँच आसान स्टेप।", "j1t": "रेंज देखें", "j1": "इस वेबसाइट पर विभाग के अनुसार वैरायटी और साइज़ देखें।", "j2t": "WhatsApp पर पूछें", "j2": "किसी भी वैरायटी पर 'पूछें' दबाएं, या 97305 38971 पर मैसेज करें।", "j3t": "विज़िट या ऑर्डर", "j3": "लिंक रोड, केडगाँव के शोरूम आएं, या हमारी टीम को ऑर्डर दें।", "j4t": "कन्फर्म और पैक", "j4": "हमारी टीम आपसे स्टॉक और रेट कन्फर्म करती है, फिर पार्सल पैक करती है।", "j5t": "डिस्पैच", "j5": "आपका पार्सल डिस्पैच के लिए रवाना होता है।", "why_title": "एक विज़िट। <span>पूरे सीज़न का माल।</span>", "why_sub": "रिटेलर्स दीपक एजेंसी आते हैं ताकि उन्हें दस अलग होलसेलर्स के पास न जाना पड़े।", "btn_ask": "WhatsApp पर पूछें", "why1": "हर कैटेगरी, एक जगह", "why1p": "बाबा सूट से जींस, होज़री से हैंडलूम। साड़ी छोड़कर सब कुछ।", "why2": "होलसेल रेट", "why2p": "दुकान के लिए खरीदने वाले रिटेलर्स के हिसाब से रेट।", "why3": "हर चीज़ के लिए एक नंबर", "why3p": "किसी भी विभाग के लिए 97305 38971 पर कॉल या WhatsApp करें।", "why4": "1995 से भरोसा", "why4p": "तीन दशकों से अहिल्यानगर की दुकानों को सप्लाई।", "sec_calc": "रिटेलर प्रॉफ़िट कैलकुलेटर", "calc_sub": "ऑर्डर से पहले अपना मार्जिन देखें।", "c_buy": "हमारा होलसेल रेट (₹ / पीस)", "c_sell": "आपका बिक्री मूल्य (₹ / पीस)", "c_qty": "पीस", "c_ppc": "प्रति पीस मुनाफ़ा", "c_margin": "मार्जिन", "c_total": "कुल मुनाफ़ा", "c_cost": "लागत", "c_profit": "मुनाफ़ा", "c_note": "मार्जिन आपके बिक्री मूल्य पर दिखाया गया है।", "c_loss": "बिक्री मूल्य लागत से कम है। मुनाफ़े के लिए इसे बढ़ाएं।", "finale_l1": "आपकी दुकान का हर कपड़ा।", "finale_l2": "एक ही छत के नीचे।", "finale_sub": "शोरूम आएं या हमें मैसेज करें। हर विभाग के लिए एक ही नंबर।", "btn_visit": "शोरूम का पता", "prod_kicker": "विभाग के अनुसार रेंज", "prod_title": "हमारे प्रोडक्ट्स", "prod_sub": "हर विभाग में क्या मिलता है, वैरायटी और साइज़ के साथ।", "f_search": "खोजें", "search_ph": "वैरायटी, ब्रांड या साइज़ खोजें", "demo_note": "हमारी रेंज बदलती रहती है। ताज़ा स्टॉक और रेट के लिए WhatsApp पर पूछें।", "ask": "पूछें", "ask_dept": "इस विभाग के बारे में पूछें", "brands_in": "इस विभाग के ब्रांड", "multi_brands": "कई ब्रांड उपलब्ध। WhatsApp पर पूछें।", "no_results": "आपकी खोज से कोई वैरायटी नहीं मिली।", "results_for": "नतीजे:", "sizes_lbl": "साइज़", "brands_title": "हमारे पास के ब्रांड", "brands_sub": "हमारे शोरूम में विभाग के अनुसार उपलब्ध ब्रांड।", "brands_more": "बाकी विभागों में कई ब्रांड मिलते हैं। WhatsApp पर पूछें।", "about_title": "दीपक एजेंसी के बारे में", "about_p1": "दीपक एजेंसी एंड रेडीमेड्स कासवा परिवार का होलसेल गारमेंट व्यवसाय है, जो 1995 से अहिल्यानगर और आसपास के रिटेलर्स, दुकानों और संस्थाओं को सप्लाई करता है।", "about_p2": "हम पूरे भारत के निर्माताओं से साड़ी छोड़कर हर कैटेगरी के रेडीमेड कपड़े खरीदते हैं, और उन्हें लिंक रोड, केडगाँव के 40,000 sq ft शोरूम में विभाग के अनुसार रखते हैं।", "about_p3": "हमारा मंत्र है सचोटी व नाविन्य: हर बिल में ईमानदारी, और ग्राहकों की सेवा में नए विचार।", "contact_title": "हमसे मिलें", "contact_sub": "हर विभाग के लिए एक ही नंबर।", "addr_lbl": "शोरूम", "open_maps": "Google Maps में खोलें →", "phone_lbl": "कॉल / WhatsApp", "time_lbl": "समय", "timings": "सुबह 10:00 – रात 8:00", "enq_title": "पूछताछ भेजें", "f_name": "आपका नाम", "f_phone": "फोन नंबर", "enq_msg": "आप क्या ढूंढ रहे हैं?", "enq_send": "WhatsApp पर भेजें", "enq_open": "अपनी पूछताछ के साथ WhatsApp खोलें →", "quick": "लिंक", "wa_variety": "नमस्ते दीपक एजेंसी, मुझे {d} विभाग में {v} की जानकारी चाहिए।", "wa_dept": "नमस्ते दीपक एजेंसी, मुझे आपके {d} विभाग की जानकारी चाहिए।", "rib_a": "आपकी दुकान का हर कपड़ा", "rib_b": "एक ही छत के नीचे", "rack_hint": "रैक से निकालने के लिए किसी कपड़े पर टैप करें", "st_front": "आगे", "st_back": "पीछे", "st_colour": "रंग", "st_note": "यहाँ दिखाए रंग सिर्फ उदाहरण हैं। स्टॉक में कौन से रंग हैं, WhatsApp पर पूछें।"}, "mr": {"nav_home": "होम", "nav_products": "आमची उत्पादने", "nav_products_s": "उत्पादने", "nav_brands": "ब्रँड", "nav_about": "आमच्याबद्दल", "nav_about_s": "परिचय", "nav_contact": "संपर्क", "hero_kicker": "घाऊक रेडिमेड कपडे · 1995 पासून", "hero_l1": "तुमच्या दुकानातील प्रत्येक कपडा,", "hero_l2": "एकाच छताखाली.", "hero_sub": "40,000 sq ft शोरूममध्ये पुरुष, महिला आणि लहान मुलांचे कपडे, अहिल्यानगर आणि परिसरातील किरकोळ विक्रेत्यांसाठी. घाऊक दर, आणि प्रत्येक विभागासाठी एकच नंबर.", "btn_products": "आमची उत्पादने पहा", "btn_whatsapp": "WhatsApp करा", "motto_en": "प्रामाणिकपणा आणि नावीन्य", "stat_years": "वर्षांचा विश्वास", "stat_area": "sq ft शोरूम", "stat_depts": "विभाग", "all_big": "सर्व", "stat_cat": "साडी सोडून सर्व प्रकार", "sec_depts": "विभागानुसार पहा", "see_all": "सर्व उत्पादने पहा →", "varieties": "प्रकार", "sec_glance": "एका नजरेत आमची रेंज", "glance_sub": "विभागावर टॅप करा: किती प्रकार, साईज आणि ब्रँड आहेत ते पहा.", "of_range": "आमच्या रेंजपैकी", "size_opts": "साईज पर्याय", "brands_lbl": "ब्रँड", "view_products": "उत्पादने पहा", "sec_brands": "आमच्याकडील ब्रँड", "see_brands": "विभागानुसार ब्रँड पहा →", "sec_journey": "आमच्याकडून खरेदी कशी करावी", "journey_sub": "आमच्या रेंजपासून तुमच्या दुकानापर्यंत, पाच सोप्या पायऱ्या.", "j1t": "रेंज पहा", "j1": "या वेबसाइटवर विभागानुसार प्रकार आणि साईज पहा.", "j2t": "WhatsApp वर विचारा", "j2": "कोणत्याही प्रकारावर 'विचारा' दाबा, किंवा 97305 38971 वर मेसेज करा.", "j3t": "भेट किंवा ऑर्डर", "j3": "लिंक रोड, केडगाव येथील शोरूमला भेट द्या, किंवा आमच्या टीमकडे ऑर्डर द्या.", "j4t": "खात्री आणि पॅकिंग", "j4": "आमची टीम तुमच्याशी स्टॉक आणि दराची खात्री करते, मग पार्सल पॅक करते.", "j5t": "रवाना", "j5": "तुमचे पार्सल डिस्पॅचसाठी रवाना होते.", "why_title": "एक भेट. <span>संपूर्ण सीझनचा माल.</span>", "why_sub": "दहा वेगवेगळ्या घाऊक विक्रेत्यांकडे जावे लागू नये म्हणून किरकोळ विक्रेते दीपक एजन्सीमध्ये येतात.", "btn_ask": "WhatsApp वर विचारा", "why1": "सर्व प्रकार, एकाच ठिकाणी", "why1p": "बाबा सूटपासून जीन्सपर्यंत, होजिअरीपासून हँडलूमपर्यंत. साडी सोडून सर्व काही.", "why2": "घाऊक दर", "why2p": "दुकानासाठी खरेदी करणाऱ्या विक्रेत्यांसाठी ठरवलेले दर.", "why3": "सर्वांसाठी एकच नंबर", "why3p": "कोणत्याही विभागासाठी 97305 38971 वर कॉल किंवा WhatsApp करा.", "why4": "1995 पासून विश्वास", "why4p": "तीन दशकांपासून अहिल्यानगरमधील दुकानांना पुरवठा.", "sec_calc": "किरकोळ विक्रेता नफा कॅल्क्युलेटर", "calc_sub": "ऑर्डरआधी तुमचा मार्जिन पहा.", "c_buy": "आमचा घाऊक दर (₹ / नग)", "c_sell": "तुमची विक्री किंमत (₹ / नग)", "c_qty": "नग", "c_ppc": "प्रति नग नफा", "c_margin": "मार्जिन", "c_total": "एकूण नफा", "c_cost": "खर्च", "c_profit": "नफा", "c_note": "मार्जिन तुमच्या विक्री किमतीवर दाखवला आहे.", "c_loss": "विक्री किंमत खर्चापेक्षा कमी आहे. नफ्यासाठी ती वाढवा.", "finale_l1": "तुमच्या दुकानातील प्रत्येक कपडा.", "finale_l2": "एकाच छताखाली.", "finale_sub": "शोरूमला भेट द्या किंवा आम्हाला मेसेज करा. प्रत्येक विभागासाठी एकच नंबर.", "btn_visit": "शोरूमचा पत्ता", "prod_kicker": "विभागानुसार रेंज", "prod_title": "आमची उत्पादने", "prod_sub": "प्रत्येक विभागात काय मिळते, प्रकार आणि साईजसह.", "f_search": "शोधा", "search_ph": "प्रकार, ब्रँड किंवा साईज शोधा", "demo_note": "आमची रेंज बदलत असते. सध्याचा स्टॉक आणि दरासाठी WhatsApp वर विचारा.", "ask": "विचारा", "ask_dept": "या विभागाबद्दल विचारा", "brands_in": "या विभागातील ब्रँड", "multi_brands": "अनेक ब्रँड उपलब्ध. WhatsApp वर विचारा.", "no_results": "तुमच्या शोधाशी जुळणारा प्रकार नाही.", "results_for": "निकाल:", "sizes_lbl": "साईज", "brands_title": "आमच्याकडील ब्रँड", "brands_sub": "आमच्या शोरूममध्ये विभागानुसार उपलब्ध ब्रँड.", "brands_more": "इतर विभागांमध्ये अनेक ब्रँड मिळतात. WhatsApp वर विचारा.", "about_title": "दीपक एजन्सीबद्दल", "about_p1": "दीपक एजन्सी अँड रेडिमेड्स हा कासवा परिवाराचा घाऊक कपड्यांचा व्यवसाय आहे, जो 1995 पासून अहिल्यानगर आणि परिसरातील किरकोळ विक्रेते, दुकाने आणि संस्थांना पुरवठा करतो.", "about_p2": "आम्ही संपूर्ण भारतातील उत्पादकांकडून साडी सोडून सर्व प्रकारचे रेडिमेड कपडे खरेदी करतो, आणि लिंक रोड, केडगाव येथील 40,000 sq ft शोरूममध्ये विभागानुसार ठेवतो.", "about_p3": "आमचे ब्रीदवाक्य आहे सचोटी व नाविन्य: प्रत्येक बिलात प्रामाणिकपणा, आणि ग्राहकसेवेत नव्या कल्पना.", "contact_title": "आम्हाला भेट द्या", "contact_sub": "प्रत्येक विभागासाठी एकच नंबर.", "addr_lbl": "शोरूम", "open_maps": "Google Maps मध्ये उघडा →", "phone_lbl": "कॉल / WhatsApp", "time_lbl": "वेळ", "timings": "सकाळी 10:00 – रात्री 8:00", "enq_title": "चौकशी पाठवा", "f_name": "तुमचे नाव", "f_phone": "फोन नंबर", "enq_msg": "तुम्ही काय शोधत आहात?", "enq_send": "WhatsApp वर पाठवा", "enq_open": "तुमच्या चौकशीसह WhatsApp उघडा →", "quick": "लिंक", "wa_variety": "नमस्कार दीपक एजन्सी, मला {d} विभागातील {v} बद्दल माहिती हवी आहे.", "wa_dept": "नमस्कार दीपक एजन्सी, मला तुमच्या {d} विभागाची माहिती हवी आहे.", "rib_a": "तुमच्या दुकानातील प्रत्येक कपडा", "rib_b": "एकाच छताखाली", "rack_hint": "रॅकवरून काढण्यासाठी कपड्यावर टॅप करा", "st_front": "पुढे", "st_back": "मागे", "st_colour": "रंग", "st_note": "येथे दाखवलेले रंग फक्त उदाहरण आहेत. स्टॉकमधील रंग WhatsApp वर विचारा."}};
 let lang=store.get("da_lang","en"); if(!T[lang]) lang="en";
 const t=k=>(T[lang][k]??T.en[k]??k);
 const fill=(s,o)=>s.replace(/\{(\w+)\}/g,(_,k)=>o[k]??"");
@@ -1268,7 +1353,7 @@ function deptArt(d){
   return d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.nextElementSibling.hidden=false;this.remove()"><div class="ph" hidden>${stackArt(ic,d.cols)}</div>` : `<div class="ph">${stackArt(ic,d.cols)}</div>`;
 }
 function deptCard(d){
-  return `<button class="dept" type="button" style="--d:${d.c}" data-dept="${d.id}"><div class="ico">${deptArt(d)}</div><b>${esc(d.name)}</b><span class="num">${d.vars.length} ${t("varieties")}</span></button>`;
+  return `<button class="dept" type="button" style="--d:${d.c}" data-dept="${d.id}"><div class="ico">${deptArt(d)}</div><b>${esc(d.name)}</b><span class="dview">${t("view_products")} →</span></button>`;
 }
 function brandTile(b,lg){
   const B=DATA.brands.get(b)||{name:b,logo:""};
@@ -1281,7 +1366,7 @@ function varCard(v,hideBrands){
   const d=deptOf(v.dept);
   const art=v.photo?`<img src="${esc(v.photo)}" alt="${esc(v.name)}" loading="lazy" onerror="this.nextElementSibling.hidden=false;this.remove()"><div class="ph" hidden>${garment(v.icon,v.color)}</div>`:`<div class="ph">${garment(v.icon,v.color)}</div>`;
   const msg=fill(t("wa_variety"),{v:v.name,d:d.name});
-  return `<article class="vcard" style="--pbg:color-mix(in srgb, ${d.c} 11%, #FFFCF8)"><div class="vimg">${art}</div>
+  return `<article class="vcard" style="--pbg:color-mix(in srgb, ${d.c} 11%, #FFFCF8)"><div class="vimg" data-v="${DATA.vars.indexOf(v)}" role="button" tabindex="0" aria-label="${esc(v.name)}">${art}</div>
     <div class="vbody"><h4>${esc(v.name)}</h4>
     ${v.types.length?`<div class="vtypes">${v.types.map(esc).join(" · ")}</div>`:""}
     ${v.sizes.length?`<div class="vlabel">${t("sizes_lbl")}</div><div class="vsizes">${v.sizes.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
@@ -1291,7 +1376,7 @@ function varCard(v,hideBrands){
 let curDept=null, query="";
 function renderProducts(){
   if(!curDept||!deptOf(curDept)) curDept=DATA.depts[0]?.id;
-  $("#dtabs").innerHTML=DATA.depts.map(d=>`<button class="dtab${d.id===curDept&&!query?" on":""}" type="button" role="tab" aria-selected="${d.id===curDept}" style="--d:${d.c}" data-tab="${d.id}">${mini(d)}${esc(d.name)} <small class="num">${d.vars.length}</small></button>`).join("");
+  $("#dtabs").innerHTML=DATA.depts.map(d=>`<button class="dtab${d.id===curDept&&!query?" on":""}" type="button" role="tab" aria-selected="${d.id===curDept}" style="--d:${d.c}" data-tab="${d.id}">${mini(d)}${esc(d.name)}</button>`).join("");
   const body=$("#prodBody"); const q=query.trim().toLowerCase();
   if(q){
     const hits=DATA.vars.filter(v=>[v.name,v.section,deptOf(v.dept).name,...v.types,...v.sizes,...v.brands].join(" ").toLowerCase().includes(q));
@@ -1304,19 +1389,89 @@ function renderProducts(){
   const d=deptOf(curDept); if(!d){body.innerHTML="";return;}
   body.innerHTML=`<div class="dhero" style="--d:${d.c}"><div class="art">${deptArt(d)}</div>
     <div class="info"><span class="kicker">${t("nav_products")}</span><h3>${esc(d.name)}</h3>${d.about?`<p class="muted" style="margin:0">${esc(d.about)}</p>`:""}
-    <div class="meta"><span><b class="num">${d.vars.length}</b> ${t("varieties")}</span><span><b class="num">${d.sizeCount}</b> ${t("size_opts")}</span><span><b class="num">${d.brands.length||"—"}</b> ${t("brands_lbl")}</span></div>
     ${d.brands.length?`<div class="blabel">${t("brands_in")}</div><div class="logos">${d.brands.map(b=>brandTile(b)).join("")}</div>`:`<div class="muted small">${t("multi_brands")}</div>`}
     <a class="btn wa" style="align-self:flex-start;margin-top:6px" href="${waLink(fill(t("wa_dept"),{d:d.name}))}" target="_blank" rel="noopener">${WAICON}<span>${t("ask_dept")}</span></a></div></div>
-    ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)} <small class="num">${s.vars.length}</small></h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
+    <div class="rackwrap" style="--d:${d.c}"><div class="rod" aria-hidden="true"></div><div class="rack" id="rack">${d.vars.map(v=>`<button class="hang" type="button" data-v="${DATA.vars.indexOf(v)}" aria-label="${esc(v.name)}">${hangerSVG()}<span class="gw">${v.photo?`<img src="${esc(v.photo)}" alt="" loading="lazy">`:garment(v.icon,v.color,false,true)}</span></button>`).join("")}</div><div class="rackcap" id="rackCap">${t("rack_hint")}</div></div>
+    ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)}</h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
   d.sections.forEach((s,i)=>stagger("#vg"+i,"pop"));
 }
+/* ---------- clothing rack + product stage ---------- */
+function hangerSVG(){return `<svg class="hg" viewBox="0 0 60 30" aria-hidden="true"><path d="M30 14 L30 9 Q30 3 35 3 Q39 3 39 7" fill="none" stroke="#8A9098" stroke-width="1.8" stroke-linecap="round"/><path d="M5 27 Q30 9 55 27" fill="none" stroke="#7A4A22" stroke-width="4.2" stroke-linecap="round"/><path d="M8 26 Q30 11 52 26" fill="none" stroke="#A86A36" stroke-width="1.4" stroke-linecap="round"/></svg>`;}
+function swatchesFor(v){const pool=GARMENT_COLORS.filter(c=>c!==v.color),h=hashN(v.name);return [...new Set([v.color,pool[h%pool.length],pool[(h+4)%pool.length],pool[(h+9)%pool.length]])];}
+const ST={list:[],i:0,cols:[],ci:0,back:false,busy:false};
+function stageEl(){
+  let s=$("#stage"); if(s) return s;
+  s=document.createElement("div"); s.id="stage"; s.className="stage"; s.hidden=true; s.setAttribute("role","dialog"); s.setAttribute("aria-modal","true");
+  s.innerHTML=`<button class="st-x" type="button" data-st="close" aria-label="Close">×</button>
+   <button class="st-nav prev" type="button" data-st="prev" aria-label="Previous">‹</button><button class="st-nav next" type="button" data-st="next" aria-label="Next">›</button>
+   <div class="stage-in"><div class="st-visual"><div class="st-hang" id="stHang"><div class="st-sway">${hangerSVG()}<div class="flip" id="stFlip"><div class="face fr"><div class="lay base"></div><div class="lay top"></div></div><div class="face bk"><div class="lay base"></div><div class="lay top"></div></div></div></div></div><div class="tags" id="stTags"></div></div>
+   <div class="st-info"><span class="kicker" id="stDept"></span><h3 id="stName"></h3><div class="vtypes" id="stTypes"></div>
+   <div class="seg" role="group"><button type="button" data-st="front" class="on" data-t="st_front">Front</button><button type="button" data-st="back" data-t="st_back">Back</button></div>
+   <div id="stSizes"></div><div class="vbrands" id="stBrands"></div><p class="small muted" data-t="st_note"></p><a class="btn wa" id="stAsk" target="_blank" rel="noopener" href="#">${WAICON}<span data-t="btn_ask">Ask on WhatsApp</span></a></div></div>`;
+  document.body.appendChild(s);
+  s.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+  return s;
+}
+function paintLayers(sel,ci){const v=ST.list[ST.i];
+  const fr=ST.photo?`<img src="${esc(v.photos[ci])}" alt="${esc(v.name)}">`:garment(v.icon,ST.cols[ci],false,true);
+  const bk=ST.photo?(v.backs[ci]?`<img src="${esc(v.backs[ci])}" alt="">`:fr):garment(v.icon,ST.cols[ci],true,true);
+  document.querySelectorAll(`#stFlip .fr ${sel}`).forEach(e=>e.innerHTML=fr); document.querySelectorAll(`#stFlip .bk ${sel}`).forEach(e=>e.innerHTML=bk);}
+const TONES={};
+function photoTone(src){ if(TONES[src]) return TONES[src]; TONES[src]=new Promise(res=>{const im=new Image(); im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=32;const g=c.getContext("2d");g.drawImage(im,0,0,32,32);const d=g.getImageData(0,0,32,32).data;let r=0,gg=0,b=0,n=0;for(let i=0;i<d.length;i+=4){if(d[i+3]>200){r+=d[i];gg+=d[i+1];b+=d[i+2];n++;}} res(n?`rgb(${Math.round(r/n)},${Math.round(gg/n)},${Math.round(b/n)})`:"#999");}catch(e){res("#999");}}; im.onerror=()=>res("#999"); im.src=src;}); return TONES[src]; }
+function renderStage(dir){
+  const v=ST.list[ST.i], d=deptOf(v.dept); ST.photo=v.photos.length>0; ST.cols=ST.photo?v.photos.slice():swatchesFor(v); ST.ci=0;
+  $("#stDept").textContent=d.name+(v.section?" · "+v.section:""); $("#stName").textContent=v.name;
+  $("#stTypes").textContent=v.types.join(" · ");
+  $("#stSizes").innerHTML=v.sizes.length?`<div class="vlabel">${t("sizes_lbl")}</div><div class="vsizes">${v.sizes.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:"";
+  $("#stBrands").innerHTML=v.brands.length?`${t("brands_lbl")}: <b>${v.brands.map(esc).join(", ")}</b>`:"";
+  $("#stAsk").href=waLink(fill(t("wa_variety"),{v:v.name,d:d.name}));
+  $("#stTags").innerHTML=ST.cols.length>1||!ST.photo?`<span class="vlabel" data-t="st_colour">${t("st_colour")}</span>`+ST.cols.map((c,i)=>`<button class="tag${i===0?" on":""}" type="button" data-col="${i}" style="--c:${ST.photo?"#C9C2BA":c};--r:${(i%2?4:-4)}deg" aria-label="Colour ${i+1}"><i></i></button>`).join(""):"";
+  if(ST.photo) ST.cols.forEach((src,i)=>photoTone(src).then(col=>{const tg=document.querySelector(`#stTags .tag[data-col="${i}"]`); if(tg) tg.style.setProperty("--c",col);}));
+  $("#stage .seg").hidden=ST.photo&&!v.backs.length; $("#stage [data-t=st_note]").hidden=ST.photo;
+  $("#stage .stage-in").classList.toggle("photo",ST.photo);
+  paintLayers(".base",0); document.querySelectorAll("#stFlip .top").forEach(e=>{e.innerHTML="";e.classList.remove("go");});
+  ST.back=false; $("#stFlip").classList.remove("back"); document.querySelectorAll('#stage .seg button').forEach(b=>b.classList.toggle("on",b.dataset.st==="front"));
+  const hg=$("#stHang"); hg.classList.remove("in-l","in-r","drop"); void hg.offsetWidth; if(!RM) hg.classList.add(dir>0?"in-r":dir<0?"in-l":"drop");
+  const n=ST.list.length>1; document.querySelectorAll("#stage .st-nav").forEach(b=>b.hidden=!n);
+}
+function openStage(idx){
+  const v=DATA.vars[idx]; if(!v) return; ST.list=DATA.vars.filter(x=>x.dept===v.dept); ST.i=ST.list.indexOf(v);
+  const s=stageEl(); s.hidden=false; document.body.style.overflow="hidden"; renderStage(0); setTimeout(()=>s.querySelector(".st-x").focus(),50);
+}
+function closeStage(){const s=$("#stage"); if(s){s.hidden=true; document.body.style.overflow="";}}
+function stepStage(k){ST.i=(ST.i+k+ST.list.length)%ST.list.length; renderStage(k);}
+function setColour(ci){
+  if(ci===ST.ci||ST.busy) return; ST.ci=ci;
+  document.querySelectorAll("#stTags .tag").forEach((b,i)=>b.classList.toggle("on",i===ci));
+  if(RM){paintLayers(".base",ci);return;}
+  ST.busy=true; paintLayers(".top",ci); const tops=document.querySelectorAll("#stFlip .top"); tops.forEach(e=>{e.classList.remove("go");void e.offsetWidth;e.classList.add("go");});
+  setTimeout(()=>{paintLayers(".base",ci); tops.forEach(e=>{e.classList.remove("go");e.innerHTML="";}); ST.busy=false;},1050);
+}
+document.addEventListener("click",e=>{
+  const h=e.target.closest("[data-v]"); if(h){openStage(+h.dataset.v);return;}
+  if(!$("#stage")||$("#stage").hidden) return;
+  const c=e.target.closest("[data-col]"); if(c){setColour(+c.dataset.col);return;}
+  const a=e.target.closest("[data-st]"); if(a){const k=a.dataset.st;
+    if(k==="close") closeStage(); else if(k==="prev") stepStage(-1); else if(k==="next") stepStage(1);
+    else if(k==="front"||k==="back"){ST.back=k==="back"; $("#stFlip").classList.toggle("back",ST.back); document.querySelectorAll('#stage .seg button').forEach(b=>b.classList.toggle("on",b.dataset.st===k));}
+    return;}
+  if(e.target.id==="stage") closeStage();
+});
+document.addEventListener("keydown",e=>{
+  const s=$("#stage");
+  if(s&&!s.hidden){ if(e.key==="Escape") closeStage(); if(e.key==="ArrowRight") stepStage(1); if(e.key==="ArrowLeft") stepStage(-1); return; }
+  const h=e.target.closest&&e.target.closest(".vimg[data-v]"); if(h&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openStage(+h.dataset.v);}
+});
+document.addEventListener("pointerover",e=>{const h=e.target.closest(".hang"); const cap=$("#rackCap"); if(h&&cap) cap.textContent=h.getAttribute("aria-label");});
+document.addEventListener("pointerout",e=>{const r=e.target.closest(".rack"); if(r&&!(e.relatedTarget&&r.contains(e.relatedTarget))){const cap=$("#rackCap"); if(cap) cap.textContent=t("rack_hint");}});
+
 function renderBrands(){
   const withLogo=[...DATA.brands.values()].filter(b=>b.logo).map(b=>b.name);
   const half=Math.max(1,Math.ceil(8/Math.max(1,withLogo.length)));
   const loopList=[]; for(let i=0;i<half*2;i++) loopList.push(...withLogo);
   const loop=withLogo.length?loopList.map(b=>brandTile(b,true)).join(""):"";
   ["#brandsMarquee","#homeLogos"].forEach(sel=>{const tr=$(sel); tr.innerHTML=loop; tr.style.setProperty("--dur",(withLogo.length*half*4.5)+"s"); tr.parentElement.hidden=!withLogo.length;});
-  $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted">${t("brands_lbl")}: ${d.brands.length} · <a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
+  $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted"><a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
     + (DATA.depts.some(d=>!d.brands.length)?`<p class="muted small">${t("brands_more")}</p>`:"");
 }
 function renderRibbons(){
@@ -1331,7 +1486,7 @@ function renderHome(){
   stagger("#homeDepts","rv");
   const dn=$("#deptN"); dn.dataset.count=String(DATA.depts.length); dn.dataset.suffix=DATA.depts.length>=10?"+":""; if(dn._done) dn.textContent=DATA.depts.length+dn.dataset.suffix;
 }
-function renderAll(){renderHome();renderProducts();renderBrands();renderGlance();calcUpdate();watchReveal();}
+function renderAll(){renderHome();renderProducts();renderBrands();watchReveal();}
 
 /* ---------- hammer headline ---------- */
 function setupHammer(h,play){
@@ -1381,7 +1536,7 @@ function markStatic(){
   if(RM) return;
   const add=(sel,cls="rv")=>document.querySelectorAll(sel).forEach(el=>el.classList.add(...cls.split(" ")));
   add("[data-view] .sechead","rv rv-l"); add(".stats"); add(".glance","rv rv-s"); add(".journey"); add(".calc","rv rv-s");
-  add(".band","rv rv-s"); add(".lmarquee"); add(".dtabs"); add(".finale");
+  add(".band","rv rv-s"); add(".chapter","rv rv-l"); add(".lmarquee"); add(".dtabs"); add(".finale");
   document.querySelectorAll(".why > div, .facts .fact").forEach((el,i)=>{el.classList.add("rv");el.style.setProperty("--i",i%4);});
   add(".prose","rv rv-l"); add("[data-view=about] .mosaic","rv rv-r"); add("#enqForm","rv rv-r");
 }
@@ -1425,6 +1580,7 @@ function onScroll(){
   });
 }
 addEventListener("scroll",onScroll,{passive:true});
+addEventListener("scroll",()=>{const t=$("#dtabs"); if(t) t.classList.toggle("stuck",t.getBoundingClientRect().top<=70);},{passive:true});
 
 /* ---------- glance donut (varieties per department) ---------- */
 let gSel=null, glanceShown=false;
@@ -1512,18 +1668,28 @@ function drawAllMosaics(){const a=$("#mosaic"); if(a&&a.offsetParent) drawMosaic
 /* ---------- routing & events ---------- */
 const VIEWS=["home","products","brands","about","contact"], ALIAS={catalogue:"products",departments:"products",order:"home",account:"home"};
 function route(){
-  let h=(location.hash||"#home").slice(1); if(ALIAS[h]) h=ALIAS[h]; const v=VIEWS.includes(h)?h:"home";
-  document.querySelectorAll("[data-view]").forEach(el=>{const on=el.dataset.view===v,was=el.classList.contains("show"); el.classList.toggle("show",on); if(on&&!was&&!RM){el.classList.remove("enter");void el.offsetWidth;el.classList.add("enter");}});
-  document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===v));
-  document.querySelector(".fab").style.display=v==="contact"?"none":"";
-  if(VIEWS.includes(h)||ALIAS[(location.hash||"").slice(1)]) window.scrollTo(0,0);
+  let h=(location.hash||"").slice(1);
+  if(ALIAS[h]){ h=ALIAS[h]; history.replaceState(null,"","#"+h); goTo(h); }
+  if(VIEWS.includes(h)) setActive(h);
   setTimeout(()=>{drawAllMosaics();onScroll();watchReveal();layoutRoof($("#heroTitle"));layoutRoof($("#finaleTitle"));},30);
 }
+function goTo(v){ const el=document.getElementById(v); if(el) el.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"}); }
+function setActive(v){ document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===v)); }
+/* one long page: highlight the menu item of the section on screen */
+if("IntersectionObserver" in window){
+  const secIO=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const v=e.target.dataset.view; setActive(v); if((location.hash||"#home").slice(1)!==v) history.replaceState(null,"","#"+v); } }),{rootMargin:"-45% 0px -50% 0px"});
+  document.querySelectorAll("[data-view]").forEach(s=>secIO.observe(s));
+}
+/* clicking a menu link for the section already in the hash still scrolls there */
+document.addEventListener("click",e=>{ const a=e.target.closest('a[href^="#"]'); if(!a) return; const v=a.getAttribute("href").slice(1); if(VIEWS.includes(v)&&location.hash==="#"+v){ e.preventDefault(); goTo(v); } });
 document.addEventListener("click",e=>{
   const L=e.target.closest("[data-lang]"); if(L){lang=L.dataset.lang;store.set("da_lang",lang);applyLang();return;}
   const g=e.target.closest("#donut [data-g], #gLegend [data-g]"); if(g){glanceSelect(g.dataset.g);return;}
-  const d=e.target.closest("[data-dept]"); if(d){e.preventDefault(); curDept=d.dataset.dept; query=""; $("#q").value=""; renderProducts(); if(location.hash==="#products") route(); else location.hash="products"; return;}
-  const tb=e.target.closest("[data-tab]"); if(tb){curDept=tb.dataset.tab; query=""; $("#q").value=""; renderProducts(); tb.scrollIntoView({inline:"center",block:"nearest",behavior:RM?"auto":"smooth"}); return;}
+  const d=e.target.closest("[data-dept]"); if(d){e.preventDefault(); curDept=d.dataset.dept; query=""; $("#q").value=""; renderProducts(); goTo("products"); setTimeout(()=>{const tb=document.querySelector(`[data-tab="${curDept}"]`); if(tb) tb.scrollIntoView({inline:"center",block:"nearest"});},600); return;}
+  const tb=e.target.closest("[data-tab]"); if(tb){curDept=tb.dataset.tab; query=""; $("#q").value=""; renderProducts();
+    const nt=document.querySelector(`[data-tab="${curDept}"]`); if(nt) nt.scrollIntoView({inline:"center",block:"nearest",behavior:RM?"auto":"smooth"});
+    const tabs=$("#dtabs"), pb=$("#prodBody"); const top=pb.getBoundingClientRect().top, need=tabs.getBoundingClientRect().bottom+8;
+    if(top<need) window.scrollBy({top:top-need,behavior:RM?"auto":"smooth"}); return;}
 });
 document.addEventListener("submit",e=>{
   if(e.target.id!=="enqForm") return; e.preventDefault();
