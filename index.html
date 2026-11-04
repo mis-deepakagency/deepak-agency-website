@@ -649,6 +649,7 @@ main{overflow-x:clip}
 .lay img{width:100%;height:100%;display:block;object-fit:contain;object-position:50% 0;filter:drop-shadow(0 22px 22px rgba(37,27,34,.22))}
 .stage-in.photo .flip{aspect-ratio:4/5}
 @media (max-width:760px){.hang .gw img{width:132px;height:176px}}
+.dept .dview{color:var(--red);font-weight:600;font-size:13.5px}
 
 .hammer em{font-style:normal}
 </style>
@@ -723,19 +724,6 @@ main{overflow-x:clip}
       <div class="depts" id="homeDepts"></div>
     </section>
 
-    <section class="block">
-      <div class="sechead"><div><h2 data-t="sec_glance">Our range at a glance</h2><p data-t="glance_sub">Tap a department to see how many varieties, sizes and brands it carries.</p></div></div>
-      <div class="glance" id="glance">
-        <div class="donutwrap">
-          <svg viewBox="0 0 220 220" id="donut" role="img" aria-label="Varieties by department"></svg>
-          <div class="dcenter"><b class="num" id="dcPct">0%</b><span id="dcName"></span></div>
-        </div>
-        <div>
-          <div class="gcard" id="gCard"></div>
-          <div class="glegend" id="gLegend"></div>
-        </div>
-      </div>
-    </section>
 
     <section class="block">
       <div class="sechead">
@@ -773,27 +761,6 @@ main{overflow-x:clip}
       </div>
     </div>
 
-    <section class="block">
-      <div class="sechead"><div><h2 data-t="sec_calc">Retailer profit calculator</h2><p data-t="calc_sub">See your margin before you order.</p></div></div>
-      <div class="calc" id="calc">
-        <div class="calcin">
-          <div class="field"><label for="cBuy" data-t="c_buy">Our wholesale rate (₹ / pc)</label><input id="cBuy" type="number" min="1" step="1" value="185" inputmode="decimal"></div>
-          <div class="field"><label for="cSell" data-t="c_sell">Your selling price (₹ / pc)</label>
-            <div class="rangerow"><input id="cSellR" type="range" min="148" max="555" step="1" value="289" aria-label="Selling price slider"><input id="cSell" type="number" min="1" step="1" value="289" inputmode="decimal"></div></div>
-          <div class="field"><label for="cQty" data-t="c_qty">Pieces</label>
-            <div class="rangerow"><input id="cQtyR" type="range" min="1" max="500" step="1" value="60" aria-label="Pieces slider"><input id="cQty" type="number" min="1" step="1" value="60" inputmode="numeric"></div></div>
-        </div>
-        <div class="calcout" aria-live="polite">
-          <div class="bigs">
-            <div><span data-t="c_ppc">Profit per piece</span><b class="num" id="oPpc">₹0</b></div>
-            <div><span data-t="c_margin">Margin</span><b class="num" id="oMargin">0%</b></div>
-            <div class="hi"><span data-t="c_total">Total profit</span><b class="num" id="oTotal">₹0</b></div>
-          </div>
-          <div class="splitbar"><div class="sb-cost" id="sbCost" style="width:64%"><span data-t="c_cost">Cost</span></div><div class="sb-profit" id="sbProfit" style="width:36%"><span data-t="c_profit">Profit</span></div></div>
-          <p class="calcmsg" id="calcMsg" data-t="c_note">Margin is shown on your selling price.</p>
-        </div>
-      </div>
-    </section>
   </div>
 
   <section class="finale">
@@ -1386,7 +1353,7 @@ function deptArt(d){
   return d.photo ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.nextElementSibling.hidden=false;this.remove()"><div class="ph" hidden>${stackArt(ic,d.cols)}</div>` : `<div class="ph">${stackArt(ic,d.cols)}</div>`;
 }
 function deptCard(d){
-  return `<button class="dept" type="button" style="--d:${d.c}" data-dept="${d.id}"><div class="ico">${deptArt(d)}</div><b>${esc(d.name)}</b><span class="num">${d.vars.length} ${t("varieties")}</span></button>`;
+  return `<button class="dept" type="button" style="--d:${d.c}" data-dept="${d.id}"><div class="ico">${deptArt(d)}</div><b>${esc(d.name)}</b><span class="dview">${t("view_products")} →</span></button>`;
 }
 function brandTile(b,lg){
   const B=DATA.brands.get(b)||{name:b,logo:""};
@@ -1409,7 +1376,7 @@ function varCard(v,hideBrands){
 let curDept=null, query="";
 function renderProducts(){
   if(!curDept||!deptOf(curDept)) curDept=DATA.depts[0]?.id;
-  $("#dtabs").innerHTML=DATA.depts.map(d=>`<button class="dtab${d.id===curDept&&!query?" on":""}" type="button" role="tab" aria-selected="${d.id===curDept}" style="--d:${d.c}" data-tab="${d.id}">${mini(d)}${esc(d.name)} <small class="num">${d.vars.length}</small></button>`).join("");
+  $("#dtabs").innerHTML=DATA.depts.map(d=>`<button class="dtab${d.id===curDept&&!query?" on":""}" type="button" role="tab" aria-selected="${d.id===curDept}" style="--d:${d.c}" data-tab="${d.id}">${mini(d)}${esc(d.name)}</button>`).join("");
   const body=$("#prodBody"); const q=query.trim().toLowerCase();
   if(q){
     const hits=DATA.vars.filter(v=>[v.name,v.section,deptOf(v.dept).name,...v.types,...v.sizes,...v.brands].join(" ").toLowerCase().includes(q));
@@ -1422,11 +1389,10 @@ function renderProducts(){
   const d=deptOf(curDept); if(!d){body.innerHTML="";return;}
   body.innerHTML=`<div class="dhero" style="--d:${d.c}"><div class="art">${deptArt(d)}</div>
     <div class="info"><span class="kicker">${t("nav_products")}</span><h3>${esc(d.name)}</h3>${d.about?`<p class="muted" style="margin:0">${esc(d.about)}</p>`:""}
-    <div class="meta"><span><b class="num">${d.vars.length}</b> ${t("varieties")}</span><span><b class="num">${d.sizeCount}</b> ${t("size_opts")}</span><span><b class="num">${d.brands.length||"—"}</b> ${t("brands_lbl")}</span></div>
     ${d.brands.length?`<div class="blabel">${t("brands_in")}</div><div class="logos">${d.brands.map(b=>brandTile(b)).join("")}</div>`:`<div class="muted small">${t("multi_brands")}</div>`}
     <a class="btn wa" style="align-self:flex-start;margin-top:6px" href="${waLink(fill(t("wa_dept"),{d:d.name}))}" target="_blank" rel="noopener">${WAICON}<span>${t("ask_dept")}</span></a></div></div>
     <div class="rackwrap" style="--d:${d.c}"><div class="rod" aria-hidden="true"></div><div class="rack" id="rack">${d.vars.map(v=>`<button class="hang" type="button" data-v="${DATA.vars.indexOf(v)}" aria-label="${esc(v.name)}">${hangerSVG()}<span class="gw">${v.photo?`<img src="${esc(v.photo)}" alt="" loading="lazy">`:garment(v.icon,v.color,false,true)}</span></button>`).join("")}</div><div class="rackcap" id="rackCap">${t("rack_hint")}</div></div>
-    ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)} <small class="num">${s.vars.length}</small></h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
+    ${d.sections.map((s,i)=>`<section class="ssec${/winter/i.test(s.name)?" winter":""}">${s.name?`<div class="ssech"><h4>${esc(s.name)}</h4>${s.shared?`<div class="slogos"><span class="blabel">${t("brands_lbl")}</span><div class="logos">${s.shared.map(b=>brandTile(b)).join("")}</div></div>`:""}</div>`:""}<div class="vgrid" id="vg${i}">${s.vars.map(v=>varCard(v,!!s.shared)).join("")}</div></section>`).join("")}`;
   d.sections.forEach((s,i)=>stagger("#vg"+i,"pop"));
 }
 /* ---------- clothing rack + product stage ---------- */
@@ -1505,7 +1471,7 @@ function renderBrands(){
   const loopList=[]; for(let i=0;i<half*2;i++) loopList.push(...withLogo);
   const loop=withLogo.length?loopList.map(b=>brandTile(b,true)).join(""):"";
   ["#brandsMarquee","#homeLogos"].forEach(sel=>{const tr=$(sel); tr.innerHTML=loop; tr.style.setProperty("--dur",(withLogo.length*half*4.5)+"s"); tr.parentElement.hidden=!withLogo.length;});
-  $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted">${t("brands_lbl")}: ${d.brands.length} · <a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
+  $("#brandSecs").innerHTML=DATA.depts.filter(d=>d.brands.length).map((d,i)=>`<div class="bsec rv" style="--d:${d.c};--i:${i%4}"><div><h3>${mini(d)}${esc(d.name)}</h3><div class="muted"><a class="link" href="#products" data-dept="${d.id}">${t("view_products")} →</a></div></div><div class="logos">${d.brands.map(b=>brandTile(b,true)).join("")}</div></div>`).join("")
     + (DATA.depts.some(d=>!d.brands.length)?`<p class="muted small">${t("brands_more")}</p>`:"");
 }
 function renderRibbons(){
@@ -1520,7 +1486,7 @@ function renderHome(){
   stagger("#homeDepts","rv");
   const dn=$("#deptN"); dn.dataset.count=String(DATA.depts.length); dn.dataset.suffix=DATA.depts.length>=10?"+":""; if(dn._done) dn.textContent=DATA.depts.length+dn.dataset.suffix;
 }
-function renderAll(){renderHome();renderProducts();renderBrands();renderGlance();calcUpdate();watchReveal();}
+function renderAll(){renderHome();renderProducts();renderBrands();watchReveal();}
 
 /* ---------- hammer headline ---------- */
 function setupHammer(h,play){
